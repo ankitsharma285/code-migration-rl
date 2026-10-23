@@ -2,7 +2,7 @@
 
 reward = 1.0 only if the completion
   - contains a ```python code block that parses,
-  - passes the AST check (Stage 3; a hook here until then),
+  - passes the AST check (env/ast_check.py),
   - defines the task's entry function and runs in the MODERN runtime,
   - raises no deprecation-type warning (DeprecationWarning / FutureWarning) at definition or call time,
   - and matches the legacy reference output on every hidden input (env/compare.py rules).
@@ -13,6 +13,7 @@ import ast
 import re
 from dataclasses import dataclass, field
 
+from env import ast_check as _ast
 from env.compare import matches
 from env.runner import Limits, run_job
 
@@ -40,8 +41,9 @@ def extract_code(completion):
 
 
 def ast_check(code):
-    """Stage 3 fills this in. Returns '' if allowed, else a short violation description."""
-    return ""
+    """'' if allowed, else the first violation (env/ast_check.py lists the rules and why)."""
+    violations = _ast.check(code)
+    return violations[0] if violations else ""
 
 
 def compute_references(task, inputs, limits=None):
@@ -55,7 +57,8 @@ def compute_references(task, inputs, limits=None):
     return [c["result"] for c in res.calls]
 
 
-def score(task, completion, inputs, references, limits=None):
+def score(task, completion, inputs, references, limits=None, check_ast=True):
+    """check_ast=False exists only to test the sandbox and to measure what the AST check prevents."""
     code = extract_code(completion)
     if code is None:
         return Reward(MALFORMED_PENALTY, "no_code")
@@ -63,7 +66,7 @@ def score(task, completion, inputs, references, limits=None):
         ast.parse(code)
     except SyntaxError as e:
         return Reward(0.0, "syntax", f"line {e.lineno}: {e.msg}")
-    violation = ast_check(code)
+    violation = ast_check(code) if check_ast else ""
     if violation:
         return Reward(0.0, "ast", violation)
 

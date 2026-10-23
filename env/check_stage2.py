@@ -64,7 +64,9 @@ def main():
 
     t0 = time.monotonic()
     with ThreadPoolExecutor(8) as pool:
-        results = list(pool.map(lambda c: score(c[1], c[2], inputs[c[1]["id"]], refs[c[1]["id"]]), cases))
+        # check_ast=False: this check tests the SANDBOX alone; Stage 3 tests the AST check on top
+        results = list(pool.map(lambda c: score(c[1], c[2], inputs[c[1]["id"]], refs[c[1]["id"]],
+                                                check_ast=False), cases))
     elapsed = time.monotonic() - t0
 
     failures = 0

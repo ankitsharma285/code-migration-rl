@@ -6,6 +6,8 @@ Isolation per job:
   - wall-clock timeout; on expiry the whole process group is killed
   - no network: a user+network namespace (`unshare -rn`) when the machine allows it,
     otherwise a socket block inside the child (weaker; the AST check covers the gap)
+  - in MODERN runs, the legacy env is hidden behind an empty tmpfs (mount namespace), so code
+    cannot load the old pandas from disk even if it slips past the AST check
   - single-threaded math libraries (multithreaded BLAS in many parallel children exceeds
     per-user process limits and slows everything through contention)
 """
@@ -53,29 +55,59 @@ class JobResult:
     network_isolation: str = ""
 
 
+def envs_dir():
+    """CMRL_ENVS overrides where the pinned runtimes live (used when reproducing from a git worktree,
+    which has the code at an old commit but no envs/ folder, since envs/ is not in git)."""
+    return Path(os.environ.get("CMRL_ENVS", REPO / "envs"))
+
+
 def python_for(runtime):
-    return str(REPO / "envs" / runtime / "bin" / "python")
+    return str(envs_dir() / runtime / "bin" / "python")
+
+
+_HIDE = 'mount -t tmpfs tmpfs "$1" && shift && exec "$@"'
+
+
+def _works(cmd):
+    try:
+        return subprocess.run(cmd, capture_output=True, timeout=10).returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
 
 
 @lru_cache(maxsize=1)
-def network_mode():
-    """'namespace' if `unshare -rn` works for this user, else 'socket-block'."""
-    if shutil.which("unshare"):
-        try:
-            ok = subprocess.run(["unshare", "-rn", "true"], capture_output=True, timeout=10).returncode == 0
-            if ok:
-                return "namespace"
-        except (OSError, subprocess.TimeoutExpired):
-            pass
-    return "socket-block"
+def isolation_mode():
+    """Strongest isolation this machine allows, checked once:
+      'namespace+hide-legacy'  no network, and the legacy env is invisible inside MODERN runs
+                               (blocks loading the old pandas from disk, independent of the AST check)
+      'namespace'              no network only
+      'socket-block'           socket calls blocked inside the child (weakest; the AST check covers it)
+    """
+    if not shutil.which("unshare"):
+        return "socket-block"
+    probe_dir = tempfile.mkdtemp(prefix="sbx_probe_")
+    try:
+        if _works(["unshare", "-rmn", "sh", "-c", _HIDE, "sh", probe_dir, "true"]):
+            return "namespace+hide-legacy"
+    finally:
+        shutil.rmtree(probe_dir, ignore_errors=True)
+    return "namespace" if _works(["unshare", "-rn", "true"]) else "socket-block"
+
+
+def network_mode():                     # kept for older callers
+    return isolation_mode()
 
 
 def run_job(runtime, code, entry, inputs, limits=None):
     """Run `code` in `runtime` ('legacy' or 'modern'), call `entry(**kw)` for each kw in `inputs`."""
     limits = limits or Limits()
-    mode = network_mode()
-    cmd = [python_for(runtime), "-I", str(CHILD), "--mem-mb", str(limits.mem_mb), "--cpu-s", str(limits.cpu_s), "--exec-s", str(limits.exec_s)]
-    if mode == "namespace":
+    mode = isolation_mode()
+    cmd = [python_for(runtime), "-I", str(CHILD), "--mem-mb", str(limits.mem_mb), "--cpu-s", str(limits.cpu_s),
+           "--exec-s", str(limits.exec_s)]
+    if mode == "namespace+hide-legacy" and runtime == "modern":
+        legacy_dir = str((envs_dir() / "legacy").resolve())
+        cmd = ["unshare", "-rmn", "sh", "-c", _HIDE, "sh", legacy_dir] + cmd
+    elif mode.startswith("namespace"):
         cmd = ["unshare", "-rn"] + cmd
     else:
         cmd.append("--block-socket")
