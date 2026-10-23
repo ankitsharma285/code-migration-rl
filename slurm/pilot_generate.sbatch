@@ -37,7 +37,7 @@ RUN="${SPLIT}_s${SEED}_n${N}_${SLURM_JOB_ID}"
 #    bf16 weights (~62 GB) would leave almost none. Text only: skip multimodal profiling.
 envs/train/bin/vllm serve google/gemma-4-31B-it \
   --served-model-name gemma4 \
-  --quantization fp8 \
+  --quantization fp8_per_tensor \
   --max-model-len 16384 \
   --gpu-memory-utilization 0.90 \
   --limit-mm-per-prompt '{"image": 0, "audio": 0}' \

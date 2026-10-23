@@ -1,0 +1,22 @@
+{"request_id": "train-0-00003", "reason": "legacy: fails on an input: KeyError: -1", "requested_types": ["np_type_aliases", "series_positional_getitem", "str_replace_regex"]}
+{"request_id": "train-0-00004", "reason": "gen: produced a non-JSON value of type df", "requested_types": ["groupby_observed"]}
+{"request_id": "train-0-00005", "reason": "gen: produced NaN/inf; use None for missing values", "requested_types": ["level_reduction", "np_nan_inf_aliases", "series_append"]}
+{"request_id": "train-0-00007", "reason": "legacy: fails on an input: ValueError: Length mismatch: Expected axis has 3 elements, new values have 6 elements", "requested_types": ["groupby_numeric_only", "level_reduction", "str_replace_regex"]}
+{"request_id": "train-0-00013", "reason": "gen: failed in sandbox: TypeError: Random.choice() got an unexpected keyword argument 'p'", "requested_types": ["fillna_method", "np_nan_inf_aliases"]}
+{"request_id": "train-0-00014", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["find_common_type", "np_nan_inf_aliases"]}
+{"request_id": "train-0-00015", "reason": "legacy: fails on an input: KeyError: -1", "requested_types": ["np_nan_inf_aliases", "series_positional_getitem"]}
+{"request_id": "train-0-00016", "reason": "legacy: fails on an input: ValueError: Length of values (9) does not match length of index (10)", "requested_types": ["level_reduction", "read_csv_squeeze"]}
+{"request_id": "train-0-00017", "reason": "gen: not deterministic for a given seed", "requested_types": ["int64index"]}
+{"request_id": "train-0-00018", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction", "str_replace_regex"]}
+{"request_id": "train-0-00019", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "np_product_family"]}
+{"request_id": "train-0-00020", "reason": "gen: not deterministic for a given seed", "requested_types": ["np_trapz"]}
+{"request_id": "train-0-00021", "reason": "gen: produced a non-JSON value of type df", "requested_types": ["groupby_observed"]}
+{"request_id": "train-0-00026", "reason": "gen: produced a non-JSON value of type df", "requested_types": ["applymap", "level_reduction", "series_append"]}
+{"request_id": "train-0-00028", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "np_product_family", "series_append"]}
+{"request_id": "train-0-00029", "reason": "legacy: fails on an input: KeyError: 'qty_y'", "requested_types": ["df_append_loop"]}
+{"request_id": "train-0-00031", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction"]}
+{"request_id": "train-0-00037", "reason": "gen: produced a non-JSON value of type df", "requested_types": ["np_type_aliases", "series_positional_getitem"]}
+{"request_id": "train-0-00040", "reason": "gen: produced a non-JSON value of type df", "requested_types": ["level_reduction", "np_row_stack", "series_append"]}
+{"request_id": "train-0-00041", "reason": "legacy: fails on an input: KeyError: -1", "requested_types": ["find_common_type", "series_positional_getitem"]}
+{"request_id": "train-0-00043", "reason": "coverage: old code path exercised on only 0% of inputs", "requested_types": ["array_copy_false", "groupby_observed"]}
+{"request_id": "train-0-00046", "reason": "gen: not deterministic for a given seed", "requested_types": ["applymap", "level_reduction", "read_csv_squeeze"]}

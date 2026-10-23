@@ -57,7 +57,9 @@ The input generator `gen(rng)` receives `rng = random.Random(seed)` and returns 
 - a DataFrame is written as {{"__df__": {{"col": [values...], ...}}}}
 - a Series is written as {{"__series__": {{"values": [...], "index": [...], "name": "..."}}}} (index optional; a list of lists makes a MultiIndex)
 - use None for missing values (never float('nan'))
-- 2 to 15 rows; only Python's `random` module (via rng) and built-ins
+- 2 to 15 rows
+- use ONLY the `rng` argument for randomness (rng.random(), rng.randint(a, b), rng.choice(seq), rng.choices(seq, weights=w, k=n), rng.sample(seq, k)). Never call the `random` module directly, and never use pd or np inside gen.
+- if the legacy code indexes a Series by position with [] (e.g. s[0], s[-1]), that Series must have a STRING index; positional [] does not work on an integer index
 - MOST inputs must exercise the deprecated code path (e.g. always include at least one missing value if the code fills them).
 
 Use exactly this format:
