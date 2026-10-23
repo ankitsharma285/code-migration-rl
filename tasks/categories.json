@@ -1,0 +1,44 @@
+{
+  "frozen": "2026-10-22",
+  "note": "Held-out types must never appear in any training task, seed task, few-shot example, or generation prompt. Verified by tasks/verify_types.py.",
+  "held_out": ["mad", "dt_weekofyear", "lookup"],
+  "train": {
+    "behavior": [
+      "df_append_loop",
+      "groupby_numeric_only",
+      "level_reduction",
+      "read_csv_squeeze",
+      "str_replace_regex",
+      "groupby_observed",
+      "series_positional_getitem",
+      "groupby_apply_groups",
+      "chained_inplace",
+      "find_common_type",
+      "array_copy_false"
+    ],
+    "rename": [
+      "series_append",
+      "iteritems",
+      "applymap",
+      "int64index",
+      "to_csv_line_terminator",
+      "fillna_method",
+      "np_type_aliases",
+      "np_product_family",
+      "np_trapz",
+      "np_nan_inf_aliases",
+      "np_in1d",
+      "np_row_stack",
+      "ndarray_ptp"
+    ]
+  },
+  "families": {
+    "note": "Types in one family move between splits together.",
+    "append": ["df_append_loop", "series_append"]
+  },
+  "comparator_traps": {
+    "trap_nep50_scalar": "accept: float width differences match",
+    "trap_append_empty_dtype": "filter out tasks where legacy yields object columns holding numbers",
+    "trap_value_counts_names": "names count as behavior; rewrite must restore legacy names"
+  }
+}
