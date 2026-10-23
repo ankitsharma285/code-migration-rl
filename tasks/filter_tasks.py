@@ -2,7 +2,8 @@
 
 Checks, cheapest first (the first failure is the rejection reason):
   parse         the response had all four sections and a valid entry name
-  ast           legacy and migration pass the AST check; the generator uses only random/math/builtins
+  ast           comments and docstrings are stripped (they tend to name the deprecated API); legacy and
+                migration then pass the AST check; the generator uses only random/math/builtins
   gen           the generator runs in the sandbox, is deterministic, and emits valid JSON inputs
   legacy        the legacy code runs on all 12 inputs (2 visible + 10 hidden) in the legacy runtime,
                 deterministically, with outputs under the size cap
@@ -46,8 +47,11 @@ SEEDS = VISIBLE_SEEDS + TRAIN_HIDDEN_SEEDS
 MIN_COVERAGE = 0.8
 MAX_OUTPUT_CHARS = 20_000
 
-# Static patterns in the LEGACY code: unambiguous signatures of a migration type.
+# Static patterns in the LEGACY code: unambiguous signatures of a migration type. These also catch
+# types whose runtime error/warning never fires because an earlier crash stops the function.
 STATIC = {
+    "chained_inplace": r"\]\s*\.(fillna|replace|clip|where|mask|interpolate|ffill|bfill|update)\([^)]*\binplace\s*=\s*True",
+    "groupby_apply_groups": r"\.groupby\([^()]*(\([^()]*\)[^()]*)*\)\s*\.apply\(",
     "iteritems": r"\.iteritems\(",
     "applymap": r"\.applymap\(",
     "level_reduction": r"\.(sum|mean|max|min|count|std|var|prod|median|any|all|sem|skew)\([^)]*\blevel\s*=",
@@ -153,6 +157,19 @@ def normalized_hash(code):
     return hashlib.sha256(ast.dump(tree).encode()).hexdigest()
 
 
+def strip_comments(code):
+    """Remove comments and docstrings. Generated code tends to annotate the deprecated line
+    ("# uses the deprecated level argument"), which would hand the policy the answer in its prompt."""
+    tree = ast.parse(code)
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Module)):
+            body = node.body
+            if body and isinstance(body[0], ast.Expr) and isinstance(getattr(body[0], "value", None), ast.Constant) \
+                    and isinstance(body[0].value.value, str):
+                node.body = body[1:] or [ast.Pass()]
+    return ast.unparse(tree) + "\n"
+
+
 def detect_types(legacy, messages):
     found = {t for t, pat in STATIC.items() if re.search(pat, legacy)}
     unknown = []
@@ -171,7 +188,7 @@ def verify(rec, split):
     task = {**task, "id": rec["request_id"]}
     for name in ("legacy", "modern"):
         try:
-            ast.parse(task[name])
+            task[name] = strip_comments(task[name])    # everything below verifies the stripped code
         except SyntaxError as e:
             raise Reject(f"ast: {name} syntax error line {e.lineno}")
         v = ast_violations(task[name])
@@ -211,24 +228,23 @@ def verify(rec, split):
     messages, broken = [], 0
     if mod.status != "ok":
         raise Reject(f"coverage: legacy in modern {mod.status}: {mod.detail}"[:200])
+    messages += mod.define.get("warnings", [])          # every warning, including ones before a crash
     if mod.define.get("status") == "FAIL":
         messages.append(mod.define["detail"])
         broken = len(inputs)
     else:
-        if mod.define.get("status") == "WARN":
-            messages.append(mod.define["warning"])
         for c, ref in zip(mod.calls, refs):
+            messages += c.get("warnings", [])
             if c["status"] == "FAIL":
                 messages.append(c["detail"])
                 broken += 1
             elif c["status"] == "WARN":
-                messages.append(c["warning"])
                 broken += 1
             elif not matches(ref, c["result"]):
                 messages.append("SILENT_CHANGE")
                 broken += 1
     silent = "SILENT_CHANGE" in messages
-    messages = [m for m in messages if m != "SILENT_CHANGE"]
+    messages = list(dict.fromkeys(m for m in messages if m != "SILENT_CHANGE"))
     types, unknown = detect_types(task["legacy"], messages)
     if silent and "str_replace_regex" not in types:   # the only verified silent-change type
         raise Reject("types: output changes silently in modern and no known type explains it")

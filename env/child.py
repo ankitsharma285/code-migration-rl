@@ -5,8 +5,9 @@ Reads one job as JSON on stdin:
     {"code": str, "entry": str, "inputs": [kwargs, ...], "nonce": str}
 Writes one JSON object on stdout:
     {"nonce": str (echoed from the job; a candidate forging output cannot know it),
-     "define": {"status", "detail", "warning"},
-     "calls": [{"status", "detail", "warning", "result"}, ...]}
+     "define": {"status", "detail", "warning", "warnings"},
+     "calls": [{"status", "detail", "warning", "warnings", "result"}, ...]}
+("warning" is the first deprecation warning; "warnings" lists every distinct one, even before a crash.)
 Status values: OK, WARN (a deprecation-type warning was raised), FAIL (exception).
 Warnings are recorded, not raised, so candidate control flow is identical in both runtimes;
 the reward decides what a warning means (legacy: allowed; modern: reward 0).
@@ -118,6 +119,17 @@ def materialize(v):
     return v
 
 
+def all_deprecations(caught, limit=10):
+    """Every distinct deprecation-type warning, in order (type detection needs all of them, not just one)."""
+    seen = []
+    for w in caught:
+        if issubclass(w.category, DEPRECATIONS):
+            msg = f"{w.category.__name__}: {w.message}"[:MAX_DETAIL]
+            if msg not in seen:
+                seen.append(msg)
+    return seen[:limit]
+
+
 def first_deprecation(caught):
     for w in caught:
         if issubclass(w.category, DEPRECATIONS):
@@ -155,9 +167,11 @@ def main():
         try:
             exec(compile(job["code"], "<candidate>", "exec"), ns)
             dep = first_deprecation(caught)
-            out["define"] = {"status": "WARN" if dep else "OK", "detail": "", "warning": dep}
+            out["define"] = {"status": "WARN" if dep else "OK", "detail": "", "warning": dep,
+                             "warnings": all_deprecations(caught)}
         except BaseException as e:      # includes SystemExit from exit()
-            out["define"] = {"status": "FAIL", "detail": describe(e), "warning": ""}
+            out["define"] = {"status": "FAIL", "detail": describe(e), "warning": "",
+                             "warnings": all_deprecations(caught)}
 
     fn = ns.get(job["entry"])
     if out["define"]["status"] != "FAIL" and not callable(fn):
@@ -173,9 +187,11 @@ def main():
                     result = ser(fn(**kwargs))
                     dep = first_deprecation(caught)
                     out["calls"].append({"status": "WARN" if dep else "OK", "detail": "",
-                                         "warning": dep, "result": result})
+                                         "warning": dep, "warnings": all_deprecations(caught),
+                                         "result": result})
                 except BaseException as e:
                     out["calls"].append({"status": "FAIL", "detail": describe(e), "warning": "",
+                                         "warnings": all_deprecations(caught),
                                          "result": None})
 
     protocol_out.write(json.dumps(out))

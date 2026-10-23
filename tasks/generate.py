@@ -48,6 +48,7 @@ Requirements:
 - Pure function: same arguments -> same result. No randomness, printing, files, network, or global state.
 - `pd`, `np`, and `io` are pre-imported; do not import anything else.
 - 5 to 25 lines. Realistic names. Return a DataFrame, Series, ndarray, scalar, list, or dict.
+- No comments or docstrings in either function (in particular, never mention deprecations or versions).
 - The migrated function behaves IDENTICALLY on every input: same values, dtypes, index, and names,
   and raises no DeprecationWarning or FutureWarning on pandas 2.2 / NumPy 2.x.
 - Do not use: DataFrame.mad, Series.dt.weekofyear / .dt.week, DataFrame.lookup, private attributes (names starting with _), warnings, try/except.
