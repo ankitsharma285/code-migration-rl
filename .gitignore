@@ -6,3 +6,5 @@ __pycache__/
 *.pyc
 logs/
 tasks/generated/raw_*.jsonl
+envs/py312/
+envs/train/

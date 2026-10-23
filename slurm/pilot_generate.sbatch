@@ -5,8 +5,7 @@
 #
 # EDIT the two lines marked CLUSTER for your GPU partition and GPU type.
 #SBATCH --job-name=gemma-gen
-#SBATCH --partition=gpu                 # CLUSTER: your GPU partition name
-#SBATCH --gres=gpu:1                    # CLUSTER: e.g. gpu:h100:1 if types must be named
+#SBATCH --gres=gpu:nvidia_h100_pcie:1   # CLUSTER: e.g. gpu:h100:1 if types must be named
 #SBATCH --cpus-per-task=16              # the filter's sandboxes run on these cores
 #SBATCH --mem=96G
 #SBATCH --time=03:00:00

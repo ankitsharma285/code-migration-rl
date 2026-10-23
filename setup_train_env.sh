@@ -20,7 +20,10 @@ envs/train/bin/python -m pip install -q --upgrade pip
 # 2. vLLM FIRST: it pins the torch version it was built against; installing torch separately
 #    first usually ends in a version vLLM rejects.
 envs/train/bin/python -m pip install -U vllm
-envs/train/bin/python -m pip install -U transformers accelerate huggingface_hub
+# No -U here: vLLM already installed the transformers version it supports, and upgrading it
+# past vLLM's pin breaks vLLM. Plain install only adds what is missing.
+envs/train/bin/python -m pip install accelerate huggingface_hub
+envs/train/bin/python -m pip check   # fails loudly if any installed package conflicts
 
 # 3. Record what we got
 envs/train/bin/python -m pip freeze > envs/train.lock
