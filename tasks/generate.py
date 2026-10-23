@@ -105,11 +105,24 @@ Here is a complete example of the format (different APIs and domain):
 ```"""
 
 
+# Per-type requirements, shown on that type's own line (general rules were ignored in the pilots).
+TYPE_HINTS = {
+    "series_positional_getitem": "the Series indexed with s[0] / s[-1] MUST have a string index "
+                                 "(e.g. set_index on a text column); on an integer index s[-1] raises KeyError",
+    "groupby_observed": "group by a pd.Categorical built INSIDE the function, e.g. "
+                        "pd.Categorical(df['size'], categories=[...]) whose categories include at least one "
+                        "value absent from the data; gen supplies the column as plain strings",
+    "chained_inplace": "call the inplace method on a single column: df['col'].fillna(..., inplace=True)",
+    "groupby_numeric_only": "the DataFrame must contain at least one text column that is not the group key",
+}
+
+
 def type_line(type_id):
     p = PROBE[type_id]
     legacy = p["legacy"].replace("result = ", "").strip()
     modern = p["modern"].replace("result = ", "").strip()
-    return (f"- {type_id} ({p['history']})\n    old: {legacy}\n    new: {modern}")
+    hint = f"\n    REQUIRED: {TYPE_HINTS[type_id]}" if type_id in TYPE_HINTS else ""
+    return (f"- {type_id} ({p['history']})\n    old: {legacy}\n    new: {modern}{hint}")
 
 
 def pick_types(rng, split):

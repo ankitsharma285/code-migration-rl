@@ -123,6 +123,8 @@ def check_gen_source(src):
             raise Reject("gen: private attribute")
         if isinstance(node, ast.Name) and node.id in {"open", "exec", "eval", "__import__", "getattr", "compile"}:
             raise Reject(f"gen: uses {node.id}")
+        if isinstance(node, ast.Name) and node.id in {"pd", "np", "pandas", "numpy"}:
+            raise Reject(f"gen: uses {node.id} (inputs must be plain JSON data)")
     if not any(isinstance(n, ast.FunctionDef) and n.name == "gen" for n in tree.body):
         raise Reject("gen: no function named gen")
 
@@ -205,7 +207,10 @@ def verify(rec, split):
     sandbox_inputs = [unser(c["result"]) for c in res.calls]
     if not all(isinstance(i, dict) and i for i in sandbox_inputs):
         raise Reject("gen: must return a non-empty dict of keyword arguments")
-    inputs = [make_inputs(task, s) for s in SEEDS]
+    try:
+        inputs = [make_inputs(task, s) for s in SEEDS]
+    except Exception as e:                           # gen depends on something only the sandbox had
+        raise Reject(f"gen: fails outside the sandbox: {type(e).__name__}: {e}"[:200])
     if inputs != sandbox_inputs:
         raise Reject("gen: not deterministic for a given seed")
 

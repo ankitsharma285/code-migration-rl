@@ -8,7 +8,7 @@
 #SBATCH --gres=gpu:nvidia_h100_pcie:1
 #SBATCH --cpus-per-task=16              # the filter's sandboxes run on these cores
 #SBATCH --mem=96G
-#SBATCH --time=03:00:00
+#SBATCH --time=04:00:00
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"

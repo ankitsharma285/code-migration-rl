@@ -1,0 +1,44 @@
+{
+ "requests": 300,
+ "accepted": 192,
+ "yield": 0.64,
+ "rejected_by_stage": {
+  "legacy": 47,
+  "migration": 22,
+  "gen": 19,
+  "types": 13,
+  "coverage": 3,
+  "internal": 3,
+  "ast": 1
+ },
+ "behavior_share_of_accepted": 0.786,
+ "requested_types_honored": 0.852,
+ "accepted_per_type": {
+  "applymap": 17,
+  "array_copy_false": 24,
+  "chained_inplace": 20,
+  "df_append_loop": 16,
+  "fillna_method": 12,
+  "find_common_type": 17,
+  "groupby_apply_groups": 23,
+  "groupby_numeric_only": 22,
+  "int64index": 8,
+  "iteritems": 8,
+  "level_reduction": 7,
+  "ndarray_ptp": 22,
+  "np_in1d": 9,
+  "np_nan_inf_aliases": 5,
+  "np_product_family": 9,
+  "np_row_stack": 9,
+  "np_trapz": 12,
+  "np_type_aliases": 19,
+  "read_csv_squeeze": 22,
+  "series_append": 5,
+  "series_positional_getitem": 9,
+  "str_replace_regex": 20,
+  "to_csv_line_terminator": 8
+ },
+ "types_never_accepted": [
+  "groupby_observed"
+ ]
+}
