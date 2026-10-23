@@ -1,0 +1,64 @@
+{"request_id": "train-2-00000", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "level_reduction"]}
+{"request_id": "train-2-00003", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "series_append"]}
+{"request_id": "train-2-00010", "reason": "legacy: fails on an input: ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().", "requested_types": ["read_csv_squeeze"]}
+{"request_id": "train-2-00021", "reason": "gen: failed in sandbox: TypeError: sequence item 0: expected str instance, NoneType found", "requested_types": ["read_csv_squeeze"]}
+{"request_id": "train-2-00023", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction", "np_in1d"]}
+{"request_id": "train-2-00024", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["chained_inplace", "df_append_loop", "level_reduction"]}
+{"request_id": "train-2-00027", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop"]}
+{"request_id": "train-2-00028", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["str_replace_regex"]}
+{"request_id": "train-2-00030", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "str_replace_regex"]}
+{"request_id": "train-2-00031", "reason": "types: unknown breakage: FutureWarning: SeriesGroupBy.fillna is deprecated and will be removed in a future version. Use obj.ffill() or obj.bfill() for forward or backward fill", "requested_types": ["fillna_method", "groupby_apply_groups"]}
+{"request_id": "train-2-00032", "reason": "coverage: old code path exercised on only 8% of inputs", "requested_types": ["np_nan_inf_aliases"]}
+{"request_id": "train-2-00035", "reason": "gen: not deterministic for a given seed", "requested_types": ["int64index", "series_append"]}
+{"request_id": "train-2-00036", "reason": "legacy: fails on an input: ValueError: array length 1 does not match index length 5", "requested_types": ["array_copy_false", "groupby_observed", "str_replace_regex"]}
+{"request_id": "train-2-00038", "reason": "gen: produced NaN/inf; use None for missing values", "requested_types": ["np_nan_inf_aliases", "np_product_family"]}
+{"request_id": "train-2-00039", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["chained_inplace", "find_common_type", "np_nan_inf_aliases"]}
+{"request_id": "train-2-00040", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction"]}
+{"request_id": "train-2-00041", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["iteritems", "level_reduction"]}
+{"request_id": "train-2-00045", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["series_positional_getitem"]}
+{"request_id": "train-2-00048", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction", "np_in1d"]}
+{"request_id": "train-2-00053", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction", "ndarray_ptp", "np_nan_inf_aliases"]}
+{"request_id": "train-2-00055", "reason": "legacy: fails on an input: TypeError: can only concatenate str (not \"int\") to str", "requested_types": ["df_append_loop", "read_csv_squeeze"]}
+{"request_id": "train-2-00056", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "np_product_family"]}
+{"request_id": "train-2-00058", "reason": "legacy: fails on an input: ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().", "requested_types": ["groupby_apply_groups", "read_csv_squeeze"]}
+{"request_id": "train-2-00060", "reason": "coverage: old code path exercised on only 0% of inputs", "requested_types": ["array_copy_false"]}
+{"request_id": "train-2-00063", "reason": "migration: generator's migration scores 0 (warning: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain ", "requested_types": ["groupby_observed", "level_reduction", "np_type_aliases"]}
+{"request_id": "train-2-00065", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["groupby_observed", "np_product_family"]}
+{"request_id": "train-2-00066", "reason": "legacy: fails on an input: KeyError: 'asset'", "requested_types": ["int64index", "level_reduction", "np_product_family"]}
+{"request_id": "train-2-00069", "reason": "gen: uses np (inputs must be plain JSON data)", "requested_types": ["chained_inplace", "find_common_type"]}
+{"request_id": "train-2-00070", "reason": "legacy: fails on an input: ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 4 and the array at index 1 has", "requested_types": ["groupby_numeric_only", "np_row_stack", "np_type_aliases"]}
+{"request_id": "train-2-00077", "reason": "legacy: fails on an input: IndexError: invalid index to scalar variable.", "requested_types": ["series_positional_getitem"]}
+{"request_id": "train-2-00078", "reason": "types: unknown breakage: AttributeError: `np.alltrue` was removed in the NumPy 2.0 release. Use `np.all` instead.", "requested_types": ["np_in1d", "np_product_family"]}
+{"request_id": "train-2-00082", "reason": "legacy: fails on an input: ValueError: zero-size array to reduction operation maximum which has no identity", "requested_types": ["array_copy_false"]}
+{"request_id": "train-2-00085", "reason": "legacy: fails on an input: ValueError: could not convert string to float: 'GOOG'", "requested_types": ["find_common_type", "groupby_numeric_only", "level_reduction"]}
+{"request_id": "train-2-00090", "reason": "legacy: fails on an input: ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 5 and the array at index 1 has", "requested_types": ["np_row_stack", "read_csv_squeeze", "series_append"]}
+{"request_id": "train-2-00095", "reason": "legacy: fails on an input: ValueError: array length 12 does not match index length 11", "requested_types": ["applymap", "series_positional_getitem"]}
+{"request_id": "train-2-00096", "reason": "legacy: fails on an input: TypeError: ufunc 'isnan' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''", "requested_types": ["np_nan_inf_aliases", "read_csv_squeeze"]}
+{"request_id": "train-2-00100", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["groupby_apply_groups", "level_reduction"]}
+{"request_id": "train-2-00112", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "level_reduction"]}
+{"request_id": "train-2-00114", "reason": "legacy: fails on an input: ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().", "requested_types": ["read_csv_squeeze"]}
+{"request_id": "train-2-00116", "reason": "gen: failed in sandbox: ValueError: Sample larger than population or is negative", "requested_types": ["fillna_method", "to_csv_line_terminator"]}
+{"request_id": "train-2-00117", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction", "str_replace_regex"]}
+{"request_id": "train-2-00122", "reason": "legacy: fails on an input: ValueError: Length mismatch: Expected axis has 8 elements, new values have 11 elements", "requested_types": ["chained_inplace", "int64index", "read_csv_squeeze"]}
+{"request_id": "train-2-00123", "reason": "legacy: fails on an input: ValueError: columns overlap but no suffix specified: Index(['clicks'], dtype='object')", "requested_types": ["groupby_observed", "level_reduction"]}
+{"request_id": "train-2-00125", "reason": "types: unknown breakage: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects", "requested_types": ["chained_inplace"]}
+{"request_id": "train-2-00126", "reason": "legacy: fails on an input: ValueError: index must be a MultiIndex to unstack, <class 'pandas.core.indexes.category.CategoricalIndex'> was passed", "requested_types": ["groupby_observed", "level_reduction"]}
+{"request_id": "train-2-00127", "reason": "types: output changes silently in modern and no known type explains it", "requested_types": ["str_replace_regex"]}
+{"request_id": "train-2-00142", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["level_reduction"]}
+{"request_id": "train-2-00143", "reason": "legacy: fails on an input: IndexError: invalid index to scalar variable.", "requested_types": ["level_reduction", "series_positional_getitem"]}
+{"request_id": "train-2-00144", "reason": "legacy: fails on an input: TypeError: unsupported operand type(s) for -: 'str' and 'str'", "requested_types": ["chained_inplace"]}
+{"request_id": "train-2-00146", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["find_common_type", "level_reduction"]}
+{"request_id": "train-2-00150", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop"]}
+{"request_id": "train-2-00151", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "fillna_method"]}
+{"request_id": "train-2-00153", "reason": "legacy: fails on an input: ValueError: Shape of passed values is (2, 3), indices imply (3, 2)", "requested_types": ["groupby_observed", "np_row_stack"]}
+{"request_id": "train-2-00161", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["np_type_aliases"]}
+{"request_id": "train-2-00164", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["df_append_loop", "np_in1d"]}
+{"request_id": "train-2-00173", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["df_append_loop"]}
+{"request_id": "train-2-00177", "reason": "legacy: fails on an input: ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 2 and the array at index 1 has", "requested_types": ["np_row_stack", "series_positional_getitem"]}
+{"request_id": "train-2-00178", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["groupby_numeric_only", "str_replace_regex"]}
+{"request_id": "train-2-00183", "reason": "legacy: fails on an input: AttributeError: 'Series' object has no attribute 'applymap'", "requested_types": ["applymap", "np_product_family"]}
+{"request_id": "train-2-00187", "reason": "legacy: fails on an input: ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 7 and the array at index 1 has", "requested_types": ["df_append_loop", "np_row_stack"]}
+{"request_id": "train-2-00191", "reason": "legacy: fails on an input: AttributeError: 'DataFrame' object has no attribute 'to_frame'", "requested_types": ["chained_inplace", "read_csv_squeeze"]}
+{"request_id": "train-2-00195", "reason": "migration: generator's migration scores 0 (warning: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain ", "requested_types": ["groupby_apply_groups", "groupby_observed"]}
+{"request_id": "train-2-00197", "reason": "legacy: fails on an input: ValueError: could not convert string to float: 'T0'", "requested_types": ["applymap", "find_common_type"]}
+{"request_id": "train-2-00198", "reason": "legacy: fails on an input: InvalidIndexError: Reindexing only valid with uniquely valued Index objects", "requested_types": ["df_append_loop"]}

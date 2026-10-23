@@ -51,7 +51,7 @@ Requirements:
 - No comments or docstrings in either function (in particular, never mention deprecations or versions).
 - The migrated function behaves IDENTICALLY on every input: same values, dtypes, index, and names,
   and raises no DeprecationWarning or FutureWarning on pandas 2.2 / NumPy 2.x.
-- Do not use: DataFrame.mad, Series.dt.weekofyear / .dt.week, DataFrame.lookup, private attributes (names starting with _), warnings, try/except.
+- Do not use: {forbidden}private attributes (names starting with _), warnings, try/except.
 - Avoid building DataFrames by appending to an EMPTY DataFrame (it creates object dtype columns).
 
 The input generator `gen(rng)` receives `rng = random.Random(seed)` and returns the keyword arguments as plain JSON data:
@@ -137,8 +137,13 @@ def pick_types(rng, split):
     return sorted(types)
 
 
+HELD_OUT_APIS = "DataFrame.mad, Series.dt.weekofyear / .dt.week, DataFrame.lookup, "
+
+
 def build_messages(types, domain, example):
-    user = TEMPLATE.format(domain=domain, type_block="\n".join(type_line(t) for t in types),
+    # Training requests forbid the held-out APIs; held-out requests ask for exactly one of them.
+    forbidden = "" if set(types) & set(HELD_OUT) else HELD_OUT_APIS
+    user = TEMPLATE.format(domain=domain, forbidden=forbidden, type_block="\n".join(type_line(t) for t in types),
                            ex_entry=example["entry"], ex_legacy=example["legacy"].strip(),
                            ex_modern=example["modern"].strip(), ex_gen=example["gen"].strip())
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
