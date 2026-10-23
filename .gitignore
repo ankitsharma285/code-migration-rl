@@ -4,3 +4,5 @@ envs/modern/
 results/
 __pycache__/
 *.pyc
+logs/
+tasks/generated/raw_*.jsonl
