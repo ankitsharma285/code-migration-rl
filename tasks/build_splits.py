@@ -114,6 +114,8 @@ def main():
     ap.add_argument("--heldout-id", type=int, default=200)
     ap.add_argument("--threshold", type=float, default=0.7, help="Jaccard similarity for near-duplicates")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--max-train-per-cluster", type=int, default=5,
+                    help="keep at most this many near-duplicates of one pattern in train")
     ap.add_argument("--max-test-cluster", type=int, default=5,
                     help="clusters larger than this stay in train (one pattern must not dominate the test split)")
     args = ap.parse_args()
@@ -153,7 +155,15 @@ def main():
         test_idx.update(c)
         filled += len(c)
     heldout_id = [trainable[i] for i in sorted(test_idx)]
-    train = [trainable[i] for i in range(len(trainable)) if i not in test_idx]
+    # Cap near-duplicate clusters in train: one pattern repeated dozens of times would be sampled over
+    # and over by GRPO and reward memorizing that shape. Keep a random --max-train-per-cluster per cluster.
+    train, capped = [], 0
+    for c in clusters:
+        rest = [i for i in c if i not in test_idx]
+        rng.shuffle(rest)
+        keep = rest[: args.max_train_per_cluster]
+        capped += len(rest) - len(keep)
+        train += [trainable[i] for i in keep]
 
     cat_clusters, _ = cluster(cat, args.threshold) if cat else ([], None)
     # one task per near-duplicate cluster in heldout_cat: repeated near-twins would overweight a pattern
@@ -179,6 +189,7 @@ def main():
         "tasks_in_multi_task_clusters": sum(len(c) for c in clusters if len(c) > 1),
         "largest_cluster": max(sizes) if sizes else 0,
         "heldout_cat_dropped_near_twins": len(cat) - len(heldout_cat),
+    "train_dropped_by_cluster_cap": capped,
     "cluster_sizes": dict(sorted(sizes.items())),
         "sizes": {k: len(v) for k, v in splits.items()},
         "sha256": {k: sha256_lines(v) for k, v in splits.items()},

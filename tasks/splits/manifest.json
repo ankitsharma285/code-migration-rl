@@ -1,0 +1,104 @@
+{
+ "built_from": [
+  "tasks/generated/all_train/accepted.jsonl",
+  "tasks/generated/all_heldout/accepted.jsonl"
+ ],
+ "threshold": 0.7,
+ "seed": 0,
+ "pool": 2289,
+ "dropped_seed_copies": 0,
+ "near_duplicate_clusters": 1739,
+ "tasks_in_multi_task_clusters": 462,
+ "largest_cluster": 63,
+ "heldout_cat_dropped_near_twins": 84,
+ "cluster_sizes": {
+  "1": 1611,
+  "2": 77,
+  "3": 25,
+  "4": 8,
+  "5": 6,
+  "6": 3,
+  "7": 1,
+  "8": 1,
+  "9": 3,
+  "10": 1,
+  "11": 1,
+  "27": 1,
+  "63": 1
+ },
+ "sizes": {
+  "train": 1873,
+  "heldout_id": 200,
+  "heldout_cat": 132
+ },
+ "sha256": {
+  "train": "0b3e7a675b77b6ac9b1558e67b3e96384349e9249934c38cb435b1e4f5e304d1",
+  "heldout_id": "d99c8976aeb8d48033acb2b659bcc5c97764dbc1ca9cacbb31763a7bad70c7eb",
+  "heldout_cat": "8eaf07bb3fb47b58d3f2e0f1ea53a89a80ebf9ddfef75b81c8e34297ddfc11d6"
+ },
+ "behavior_share": {
+  "train": 0.834,
+  "heldout_id": 0.85,
+  "heldout_cat": 1.0
+ },
+ "types_missing_from_heldout_id": [],
+ "per_type": {
+  "train": {
+   "applymap": 116,
+   "array_copy_false": 209,
+   "chained_inplace": 211,
+   "df_append_loop": 168,
+   "fillna_method": 93,
+   "find_common_type": 209,
+   "groupby_apply_groups": 225,
+   "groupby_numeric_only": 189,
+   "groupby_observed": 217,
+   "int64index": 103,
+   "iteritems": 111,
+   "level_reduction": 98,
+   "ndarray_ptp": 129,
+   "np_in1d": 129,
+   "np_nan_inf_aliases": 80,
+   "np_product_family": 101,
+   "np_row_stack": 90,
+   "np_trapz": 132,
+   "np_type_aliases": 135,
+   "read_csv_squeeze": 167,
+   "series_append": 67,
+   "series_positional_getitem": 137,
+   "str_replace_regex": 190,
+   "to_csv_line_terminator": 117
+  },
+  "heldout_id": {
+   "applymap": 12,
+   "array_copy_false": 25,
+   "chained_inplace": 22,
+   "df_append_loop": 15,
+   "fillna_method": 18,
+   "find_common_type": 29,
+   "groupby_apply_groups": 20,
+   "groupby_numeric_only": 21,
+   "groupby_observed": 18,
+   "int64index": 13,
+   "iteritems": 11,
+   "level_reduction": 8,
+   "ndarray_ptp": 19,
+   "np_in1d": 12,
+   "np_nan_inf_aliases": 8,
+   "np_product_family": 11,
+   "np_row_stack": 9,
+   "np_trapz": 10,
+   "np_type_aliases": 21,
+   "read_csv_squeeze": 24,
+   "series_append": 5,
+   "series_positional_getitem": 12,
+   "str_replace_regex": 27,
+   "to_csv_line_terminator": 11
+  },
+  "heldout_cat": {
+   "dt_weekofyear": 20,
+   "lookup": 52,
+   "mad": 60
+  }
+ }
+}

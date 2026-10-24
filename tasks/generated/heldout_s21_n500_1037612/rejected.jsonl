@@ -1,0 +1,385 @@
+{"request_id": "heldout-21-00000", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00003", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00004", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00011", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00012", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00013", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00014", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00016", "reason": "legacy: fails on an input: TypeError: analyze_listing_timing() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00017", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-03-34", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00020", "reason": "legacy: fails on an input: KeyError: 'DVD'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00021", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00022", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00023", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00025", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00026", "reason": "legacy: fails on an input: TypeError: extract_visit_timing() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00028", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00029", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00030", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00032", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00034", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00038", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00040", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00041", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00042", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00043", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00044", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00045", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00047", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00048", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00049", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00050", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00051", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00052", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00054", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00055", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00056", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00057", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00058", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00060", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00061", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00062", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00065", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00066", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00067", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00068", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00069", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00072", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00073", "reason": "migration: generator's migration scores 0 (warning: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '[187.2 446.4 194.4 ", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00075", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00076", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00077", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00079", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00080", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00081", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00083", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00085", "reason": "legacy: fails on an input: KeyError: 'Silver'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00086", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00087", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00088", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00090", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00093", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00094", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00096", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00097", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00099", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00100", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00101", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00103", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00104", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00105", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00106", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00107", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00108", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00109", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00110", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00111", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00112", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00113", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00115", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00119", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00120", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-30", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00121", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00123", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00124", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00125", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00128", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00129", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00131", "reason": "legacy: fails on an input: TypeError: aggregate_weekly_fare() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00133", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00134", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-04-33", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00135", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00136", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00137", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00140", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00141", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00142", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00144", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00145", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00146", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00147", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00148", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00149", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00150", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00151", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00153", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00154", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00157", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00159", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00160", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00161", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00162", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00163", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00164", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00166", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00167", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00168", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00170", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00171", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00172", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00175", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00176", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00180", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00181", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00182", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00183", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00185", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00186", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00187", "reason": "legacy: fails on an input: ParserError: month must be in 1..12: 2021-13-18", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00188", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00192", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00193", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00194", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00195", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00196", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00197", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00198", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00199", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00200", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00201", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00203", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00205", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00207", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00208", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00209", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00210", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00211", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00213", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00215", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00216", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00218", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00219", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00220", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00221", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00222", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00223", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00224", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00225", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00226", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00227", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00228", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00229", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00230", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00231", "reason": "legacy: fails on an input: TypeError: analyze_listing_trends() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00233", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00234", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00236", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00237", "reason": "legacy: fails on an input: TypeError: aggregate_weekly_sales() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00238", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00239", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00240", "reason": "legacy: fails on an input: AxisError: axis 1 is out of bounds for array of dimension 1", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00241", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00242", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00243", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00244", "reason": "legacy: fails on an input: TypeError: unsupported operand type(s) for -: 'Timestamp' and 'str'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00245", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00247", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00248", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00249", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00250", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00251", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00253", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00255", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00256", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00257", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-03-51", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00258", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00259", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00260", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00261", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00262", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00263", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00264", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00265", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00266", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00267", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00268", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00269", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00270", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00271", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00272", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00273", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00275", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00276", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00277", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00278", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00280", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00281", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00282", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00283", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00284", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00286", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00287", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-03-33", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00288", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00289", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00291", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00292", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00293", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00295", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00296", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00297", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00298", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00299", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00300", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00301", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00302", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00303", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00304", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00305", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00306", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00307", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00308", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00309", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00310", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00311", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00312", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00313", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00316", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00318", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00319", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00321", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00322", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00323", "reason": "migration: generator's migration scores 0 (warning: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '13.285714285714286'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00324", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00325", "reason": "legacy: fails on an input: TypeError: aggregate_weekly_load() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00326", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00328", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00329", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00330", "reason": "legacy: fails on an input: TypeError: get_weekly_energy_summary() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00331", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00334", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00335", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00336", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00337", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00338", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00340", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00342", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00343", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00344", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00345", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00347", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00348", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00349", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00350", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00351", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00352", "reason": "legacy: fails on an input: TypeError: calculate_weekly_energy() got an unexpected keyword argument 'timestamp'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00353", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00354", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00355", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00357", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00358", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00359", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00360", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00361", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00362", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00363", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00364", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00365", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00368", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00369", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00370", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00371", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00372", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00374", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00375", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00377", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00378", "reason": "legacy: fails on an input: AxisError: axis 1 is out of bounds for array of dimension 1", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00379", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00380", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00382", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00383", "reason": "legacy: fails on an input: KeyError: 'One or more column labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00384", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00385", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00386", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00387", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00388", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00389", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00390", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00391", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00392", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00393", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00395", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00396", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00397", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00398", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00399", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00400", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00401", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00403", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00404", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-01-39", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00405", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00406", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00407", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00408", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00410", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00411", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00412", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00413", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00414", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00415", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00416", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00417", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00418", "reason": "legacy: fails on an input: KeyError: 'SFO-SEA'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00419", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00421", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00422", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00424", "reason": "gen: failed in sandbox: ValueError: Sample larger than population or is negative", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00425", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00427", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00428", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00429", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00431", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00432", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00433", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00434", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00436", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00437", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00438", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00439", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00440", "reason": "legacy: fails on an input: TypeError: calculate_weekly_scores() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00442", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00443", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00444", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00445", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00447", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00448", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00449", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00450", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00451", "reason": "gen: import not allowed: ['pandas']", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00452", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00455", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00457", "reason": "gen: import not allowed: ['pandas']", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00458", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00459", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00460", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00461", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00462", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00463", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00464", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00465", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00466", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00467", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00468", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00469", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00471", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00472", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00473", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00474", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00475", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00476", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00477", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00478", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00479", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00480", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00481", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00482", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00484", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00485", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-29", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00488", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00489", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-21-00490", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00491", "reason": "legacy: fails on an input: ValueError: cannot reindex from a duplicate axis", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00493", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00495", "reason": "gen: failed in sandbox: NameError: name 'j' is not defined", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00497", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00498", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-21-00499", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
