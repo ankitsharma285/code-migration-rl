@@ -1,18 +1,18 @@
 {
- "requests": 900,
- "accepted": 216,
- "yield": 0.24,
+ "requests": 1300,
+ "accepted": 274,
+ "yield": 0.211,
  "rejected_by_stage": {
-  "duplicate": 234,
-  "legacy": 221,
-  "gen": 212,
-  "migration": 16,
+  "duplicate": 546,
+  "legacy": 240,
+  "gen": 214,
+  "migration": 25,
   "types": 1
  },
  "behavior_share_of_accepted": 1.0,
  "requested_types_honored": 1.0,
  "accepted_per_type": {
-  "dt_weekofyear": 75,
+  "dt_weekofyear": 133,
   "lookup": 66,
   "mad": 75
  },

@@ -1,0 +1,305 @@
+{"request_id": "heldout-22-00008", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00012", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00015", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00016", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00019", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00020", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00021", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00025", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00026", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00029", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00030", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00031", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00032", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00033", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00034", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00036", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00037", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00038", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-04-31", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00044", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00045", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00046", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00047", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00048", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00049", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00051", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00052", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00053", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00055", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00056", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00060", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00061", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00063", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00064", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00065", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00067", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00068", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00069", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00070", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00071", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00072", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00073", "reason": "legacy: fails on an input: TypeError: summarize_weekly_energy() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00074", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00075", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00076", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00077", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00078", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00079", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00080", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00081", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00082", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00083", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00084", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00086", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00087", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00088", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00089", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00090", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00093", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00094", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00095", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00096", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00097", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00098", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00099", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00100", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00102", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00103", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00104", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00105", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00106", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00110", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00111", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00112", "reason": "legacy: fails on an input: TypeError: summarize_weekly_sensor() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00114", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00115", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00116", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00117", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00118", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00122", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00123", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00124", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00126", "reason": "legacy: fails on an input: TypeError: get_weekly_energy_metrics() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00128", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00129", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00130", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00131", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00132", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00133", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00134", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00136", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-30", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00137", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00138", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00139", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00141", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00142", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00143", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00144", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00145", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00146", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00147", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00148", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00149", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00150", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00152", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00155", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00157", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00158", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00159", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00160", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00161", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00162", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00163", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00164", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00166", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00167", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00168", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00169", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00170", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00173", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00174", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00175", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00176", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-00", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00177", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00178", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00180", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00181", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00182", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00183", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00185", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00186", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00187", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00189", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00191", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00192", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00193", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00194", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00195", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00196", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00197", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00198", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00199", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00200", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00201", "reason": "migration: generator's migration scores 0 (crash: ValueError: cannot convert NA to integer)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00202", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00204", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00205", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00206", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00208", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00209", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00210", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00211", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00213", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00214", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00215", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00216", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00217", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00218", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00219", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00220", "reason": "legacy: fails on an input: TypeError: analyze_listing_weeks() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00221", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00222", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00223", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00225", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00226", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00227", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00228", "reason": "legacy: fails on an input: TypeError: calculate_visit_weeks() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00229", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00231", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00232", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00233", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00234", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00235", "reason": "migration: generator's migration scores 0 (crash: ValueError: cannot convert NA to integer)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00236", "reason": "legacy: fails on an input: TypeError: get_weekly_ticket_summary() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00237", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00238", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00239", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00240", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00241", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00242", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00243", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00244", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00245", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00246", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00249", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00250", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00251", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00252", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00254", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-29", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00255", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00256", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00259", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00260", "reason": "legacy: fails on an input: TypeError: calculate_weekly_consumption() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00261", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00262", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00263", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00266", "reason": "legacy: fails on an input: TypeError: calculate_weekly_conversion() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00270", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00271", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00273", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00274", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00275", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00277", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00278", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00280", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00281", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00282", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00283", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00284", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00286", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00287", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00288", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00289", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00290", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-29", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00291", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00292", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00293", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00295", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00296", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00297", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-35", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00298", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00300", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00301", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00302", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00303", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00304", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00306", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00308", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00309", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00310", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00311", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00312", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00313", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00315", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00317", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00318", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00320", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00321", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00322", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00323", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00324", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00325", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00326", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00327", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00328", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00329", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00330", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00332", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00334", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00335", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00336", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00337", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00338", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00339", "reason": "legacy: fails on an input: ParserError: month must be in 1..12: 2022-13-15", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00340", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00341", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00342", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00343", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00344", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00345", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00346", "reason": "migration: generator's migration scores 0 (crash: TypeError: datetime64 type does not support sum operations)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00347", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00348", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00349", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00350", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00351", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00352", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00353", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00354", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00355", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00356", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00357", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00358", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00360", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00362", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00363", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00364", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00365", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00366", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00367", "reason": "legacy: fails on an input: TypeError: analyze_listing_timing() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00368", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00369", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00370", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00371", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00372", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00373", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00374", "reason": "migration: generator's migration scores 0 (warning: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grou", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00375", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00376", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00377", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00378", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00380", "reason": "legacy: fails on an input: TypeError: calculate_visit_weeks() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00381", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00382", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00383", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00385", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00387", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00388", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00389", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00390", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00391", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00392", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00395", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00396", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00397", "reason": "legacy: fails on an input: TypeError: calculate_weekly_visits() got an unexpected keyword argument '__df__'", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-22-00399", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2021-02-29", "requested_types": ["dt_weekofyear"]}

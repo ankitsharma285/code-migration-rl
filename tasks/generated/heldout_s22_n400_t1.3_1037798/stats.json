@@ -1,0 +1,20 @@
+{
+ "requests": 400,
+ "accepted": 95,
+ "yield": 0.237,
+ "rejected_by_stage": {
+  "duplicate": 275,
+  "legacy": 19,
+  "migration": 9,
+  "gen": 2
+ },
+ "behavior_share_of_accepted": 1.0,
+ "requested_types_honored": 1.0,
+ "accepted_per_type": {
+  "dt_weekofyear": 95
+ },
+ "types_never_accepted": [
+  "lookup",
+  "mad"
+ ]
+}
