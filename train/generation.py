@@ -9,8 +9,27 @@ and is verified by verify_sync(): after a sync, vLLM's log-probs for a fixed com
 the trainer's (the plan's day-6 gate).
 """
 import os
+import shutil
+import sys
+from pathlib import Path
 
 import torch
+
+
+def prepare_vllm_env():
+    """FlashInfer JIT-compiles its sampling kernel on first use and needs both `nvcc` (found via CUDA_HOME)
+    and `ninja` (found via PATH). Running envs/train/bin/python without activating the env leaves its bin/
+    (where pip put ninja) off PATH, and `module load cuda` puts nvcc on PATH without setting CUDA_HOME.
+    Fix both; if no nvcc at all, fall back to vLLM's PyTorch sampler, which needs no compiler."""
+    env_bin = str(Path(sys.executable).parent)
+    if env_bin not in os.environ.get("PATH", "").split(os.pathsep):
+        os.environ["PATH"] = env_bin + os.pathsep + os.environ.get("PATH", "")
+    nvcc = shutil.which("nvcc")
+    if nvcc and not os.environ.get("CUDA_HOME"):
+        os.environ["CUDA_HOME"] = str(Path(nvcc).resolve().parent.parent)
+    if not nvcc or not shutil.which("ninja"):
+        os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
+    os.environ.setdefault("VLLM_ENABLE_V1_MULTIPROCESSING", "0")
 
 
 class HFGenerator:
@@ -48,8 +67,8 @@ class HFGenerator:
 class VLLMGenerator:
     def __init__(self, model_path, max_model_len=4096, max_new_tokens=1024, gpu_memory_utilization=0.35,
                  seed=0, enforce_eager=False):
-        os.environ.setdefault("VLLM_ENABLE_V1_MULTIPROCESSING", "0")   # engine in this process: needed
-        from vllm import LLM                                           # to reach its model for weight sync
+        prepare_vllm_env()                     # also keeps the engine in this process (needed for weight sync)
+        from vllm import LLM
         self.llm = LLM(model=model_path, dtype="bfloat16", max_model_len=max_model_len, seed=seed,
                        gpu_memory_utilization=gpu_memory_utilization, enforce_eager=enforce_eager,
                        enable_prefix_caching=True)

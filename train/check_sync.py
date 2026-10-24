@@ -6,6 +6,8 @@ On one GPU (default: Qwen2.5-0.5B-Instruct, small and fast):
      can detect a stale vLLM)
   3. sync: the log-probs must agree again (proves the sync took effect)
 A sync that silently does nothing fails step 3, so this cannot pass by accident.
+Pass: steps 1 and 3 within --tol, and the stale gap (step 2) at least 5x the larger of them.
+After sync the gap is slightly above step 1's: perturbed fp32 weights round when cast to bf16 for vLLM.
 
 Run on a GPU node:  envs/train/bin/python -m train.check_sync [--model Qwen/Qwen2.5-0.5B-Instruct]
 """
@@ -53,7 +55,7 @@ def main():
 
     with torch.no_grad():                                   # a large, deliberate change
         for p in policy.parameters():
-            p.add_(torch.randn_like(p) * p.abs().mean() * 0.05)
+            p.add_(torch.randn_like(p) * p.abs().mean() * 0.2)
     t_new = trainer_logprobs(policy, prompts, comps, pad, "cuda")
     g_stale = gap(t_new, gen.logprobs_of(prompts, comps))
 
@@ -62,12 +64,14 @@ def main():
 
     print(f"mean |logprob gap| (nats): initial {g_initial:.4f}   after perturbation, no sync {g_stale:.4f}   "
           f"after sync {g_synced:.4f}")
-    ok = g_initial <= args.tol and g_synced <= args.tol and g_stale > 5 * args.tol
+    # relative test: after sync the gap must be back at noise level, and far below the stale gap
+    noise = max(g_initial, g_synced)
+    ok = g_initial <= args.tol and g_synced <= args.tol and g_stale > 5 * noise
     print("SYNC CHECK: PASS" if ok else "SYNC CHECK: FAIL")
     if not ok:
         if g_initial > args.tol:
             print("  trainer and vLLM disagree even before any change: check dtype/positions, or raise --tol")
-        elif g_stale <= 5 * args.tol:
+        elif g_stale <= 5 * noise:
             print("  the perturbation did not change log-probs enough for a meaningful test")
         else:
             print("  vLLM still shows the OLD weights after sync: sync_weights() did not take effect")
