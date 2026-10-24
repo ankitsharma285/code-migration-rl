@@ -6,8 +6,9 @@ On one GPU (default: Qwen2.5-0.5B-Instruct, small and fast):
      can detect a stale vLLM)
   3. sync: the log-probs must agree again (proves the sync took effect)
 A sync that silently does nothing fails step 3, so this cannot pass by accident.
-Pass: steps 1 and 3 within --tol, and the stale gap (step 2) at least 5x the larger of them.
-After sync the gap is slightly above step 1's: perturbed fp32 weights round when cast to bf16 for vLLM.
+The perturbed weights are rounded to bf16, so after a complete sync the trainer and vLLM hold identical
+numbers and the gap must return to step 1's noise level. A partial sync stays clearly above it.
+Pass: step 3 <= max(2x step 1, 0.02 nats), and step 2 at least 5x the larger of steps 1 and 3.
 
 Run on a GPU node:  envs/train/bin/python -m train.check_sync [--model Qwen/Qwen2.5-0.5B-Instruct]
 """
@@ -53,9 +54,10 @@ def main():
     v0 = gen.logprobs_of(prompts, comps)
     g_initial = gap(trainer_logprobs(policy, prompts, comps, pad, "cuda"), v0)
 
-    with torch.no_grad():                                   # a large, deliberate change
-        for p in policy.parameters():
-            p.add_(torch.randn_like(p) * p.abs().mean() * 0.2)
+    with torch.no_grad():                                   # a deliberate change, then round to bf16:
+        for p in policy.parameters():                       # vLLM stores bf16, so rounding here makes the
+            p.add_(torch.randn_like(p) * p.abs().mean() * 0.05)   # trainer and vLLM hold IDENTICAL numbers
+            p.copy_(p.to(torch.bfloat16).float())           # after a complete sync (gap back to step 1's level)
     t_new = trainer_logprobs(policy, prompts, comps, pad, "cuda")
     g_stale = gap(t_new, gen.logprobs_of(prompts, comps))
 
@@ -64,15 +66,17 @@ def main():
 
     print(f"mean |logprob gap| (nats): initial {g_initial:.4f}   after perturbation, no sync {g_stale:.4f}   "
           f"after sync {g_synced:.4f}")
-    # relative test: after sync the gap must be back at noise level, and far below the stale gap
-    noise = max(g_initial, g_synced)
-    ok = g_initial <= args.tol and g_synced <= args.tol and g_stale > 5 * noise
+    # Weights are identical after a complete sync, so the synced gap must return to the initial noise level;
+    # a partial sync (some tensors not copied) leaves it clearly above. The stale gap proves the test is live.
+    ok = g_initial <= args.tol and g_synced <= max(2 * g_initial, 0.02) and g_stale > 5 * max(g_initial, g_synced)
     print("SYNC CHECK: PASS" if ok else "SYNC CHECK: FAIL")
     if not ok:
         if g_initial > args.tol:
             print("  trainer and vLLM disagree even before any change: check dtype/positions, or raise --tol")
-        elif g_stale <= 5 * noise:
+        elif g_stale <= 5 * max(g_initial, g_synced):
             print("  the perturbation did not change log-probs enough for a meaningful test")
+        elif g_synced < g_stale / 3:
+            print("  the sync took effect but is INCOMPLETE: some tensors were not copied (check name mapping)")
         else:
             print("  vLLM still shows the OLD weights after sync: sync_weights() did not take effect")
     raise SystemExit(0 if ok else 1)
