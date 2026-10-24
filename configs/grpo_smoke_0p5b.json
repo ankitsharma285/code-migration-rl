@@ -1,0 +1,12 @@
+{
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "seed": 1,
+ "prompts_per_step": 8,
+ "group_size": 4,
+ "max_steps": 5,
+ "eval_tasks": 16,
+ "eval_every": 5,
+ "ckpt_every": 5,
+ "max_new_tokens": 512,
+ "score_workers": 30
+}
