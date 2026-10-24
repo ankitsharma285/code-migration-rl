@@ -33,10 +33,14 @@ from harness.trajectory import Episode, Step, read_jsonl, write_jsonl
 
 
 def load_tasks(name):
+    """'seed' (hand-written), a frozen split name (train | heldout_id | heldout_cat), or a .jsonl path."""
     if name == "seed":
         from tasks.seed_tasks import SEED_TASKS
         return SEED_TASKS
-    raise SystemExit(f"unknown task set {name!r} (generated sets arrive in Stage 4)")
+    path = Path(name) if name.endswith(".jsonl") else Path(__file__).resolve().parent.parent / "tasks" / "splits" / f"{name}.jsonl"
+    if not path.exists():
+        raise SystemExit(f"unknown task set {name!r}: no {path}")
+    return [json.loads(line) for line in open(path)]
 
 
 def make_policy(args):
@@ -83,7 +87,7 @@ def summarize(episodes, tasks):
 
 def run(args):
     out = Path(args.out)
-    tasks = load_tasks(args.tasks)
+    tasks = load_tasks(args.tasks)[: args.limit] if args.limit else load_tasks(args.tasks)
     seeds = hidden_seeds(args.seeds)
     config = {k: v for k, v in vars(args).items() if k != "out"}
     record = manifest.build(config, tasks)
@@ -151,7 +155,8 @@ def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--policy", default="oracle", help="oracle | legacy | cheater:<name> | openai")
     p.add_argument("--rescore", help="trajectories.jsonl whose completions to re-score instead of sampling")
-    p.add_argument("--tasks", default="seed")
+    p.add_argument("--tasks", default="seed", help="seed | train | heldout_id | heldout_cat | path/to/tasks.jsonl")
+    p.add_argument("--limit", type=int, help="evaluate only the first N tasks (quick checks)")
     p.add_argument("--seeds", default="train", help="train | eval:<round>")
     p.add_argument("--samples", type=int, default=1)
     p.add_argument("--model")

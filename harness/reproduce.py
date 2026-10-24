@@ -21,7 +21,7 @@ from pathlib import Path
 from env.runner import REPO, envs_dir
 from harness.manifest import env_freeze
 
-CONFIG_FLAGS = ["policy", "tasks", "seeds", "samples", "model", "base_url", "api_key_env",
+CONFIG_FLAGS = ["policy", "tasks", "limit", "seeds", "samples", "model", "base_url", "api_key_env",
                 "temperature", "max_tokens", "workers", "gen_workers"]
 
 
