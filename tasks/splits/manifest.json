@@ -5,12 +5,13 @@
  ],
  "threshold": 0.7,
  "seed": 0,
- "pool": 2289,
+ "pool": 2347,
  "dropped_seed_copies": 0,
  "near_duplicate_clusters": 1739,
  "tasks_in_multi_task_clusters": 462,
  "largest_cluster": 63,
- "heldout_cat_dropped_near_twins": 84,
+ "heldout_cat_dropped_near_twins": 136,
+ "train_dropped_by_cluster_cap": 111,
  "cluster_sizes": {
   "1": 1611,
   "2": 77,
@@ -27,17 +28,17 @@
   "63": 1
  },
  "sizes": {
-  "train": 1873,
+  "train": 1762,
   "heldout_id": 200,
-  "heldout_cat": 132
+  "heldout_cat": 138
  },
  "sha256": {
-  "train": "0b3e7a675b77b6ac9b1558e67b3e96384349e9249934c38cb435b1e4f5e304d1",
+  "train": "ac4693a4b9a300025b817c6af4c6a23f178688367f771060d24a5ab6c3b5153b",
   "heldout_id": "d99c8976aeb8d48033acb2b659bcc5c97764dbc1ca9cacbb31763a7bad70c7eb",
-  "heldout_cat": "8eaf07bb3fb47b58d3f2e0f1ea53a89a80ebf9ddfef75b81c8e34297ddfc11d6"
+  "heldout_cat": "cadf7ca9a099c6a801256ed2b220cb8fa0b7013f1272846c92cb881848900128"
  },
  "behavior_share": {
-  "train": 0.834,
+  "train": 0.828,
   "heldout_id": 0.85,
   "heldout_cat": 1.0
  },
@@ -45,29 +46,29 @@
  "per_type": {
   "train": {
    "applymap": 116,
-   "array_copy_false": 209,
-   "chained_inplace": 211,
+   "array_copy_false": 198,
+   "chained_inplace": 192,
    "df_append_loop": 168,
-   "fillna_method": 93,
-   "find_common_type": 209,
-   "groupby_apply_groups": 225,
-   "groupby_numeric_only": 189,
-   "groupby_observed": 217,
-   "int64index": 103,
+   "fillna_method": 86,
+   "find_common_type": 203,
+   "groupby_apply_groups": 223,
+   "groupby_numeric_only": 183,
+   "groupby_observed": 149,
+   "int64index": 101,
    "iteritems": 111,
    "level_reduction": 98,
-   "ndarray_ptp": 129,
-   "np_in1d": 129,
-   "np_nan_inf_aliases": 80,
+   "ndarray_ptp": 125,
+   "np_in1d": 124,
+   "np_nan_inf_aliases": 79,
    "np_product_family": 101,
    "np_row_stack": 90,
-   "np_trapz": 132,
-   "np_type_aliases": 135,
+   "np_trapz": 130,
+   "np_type_aliases": 133,
    "read_csv_squeeze": 167,
-   "series_append": 67,
-   "series_positional_getitem": 137,
-   "str_replace_regex": 190,
-   "to_csv_line_terminator": 117
+   "series_append": 66,
+   "series_positional_getitem": 136,
+   "str_replace_regex": 156,
+   "to_csv_line_terminator": 114
   },
   "heldout_id": {
    "applymap": 12,
@@ -96,7 +97,7 @@
    "to_csv_line_terminator": 11
   },
   "heldout_cat": {
-   "dt_weekofyear": 20,
+   "dt_weekofyear": 26,
    "lookup": 52,
    "mad": 60
   }
