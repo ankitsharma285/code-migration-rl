@@ -120,12 +120,13 @@ def region_totals(s):
 ''',
         modern='''
 def region_totals(s):
-    g = s.groupby(level=0)
+    g = s.groupby(level=0, sort=False)
     return pd.DataFrame({'total': g.sum(), 'peak': g.max()})
 ''',
         gen='''
 def gen(rng):
     pairs = sorted({(rng.choice(["east", "west", "north"]), rng.randint(1, 9)) for _ in range(rng.randint(4, 10))})
+    rng.shuffle(pairs)   # unsorted on purpose: groupby(level=0) without sort=False would reorder
     return {"s": {"__series__": {"values": [rng.randint(0, 100) for _ in pairs],
                                  "index": [list(p) for p in pairs], "name": "sales"}}}
 ''',

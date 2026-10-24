@@ -68,10 +68,12 @@ PROBES = [
          modern="result = (df - df.mean()).abs().mean()"),
     dict(id="level_reduction", kind="behavior", lib="pandas",
          history="level= in reductions: deprecated 1.3, removed 2.0",
+         # UNSORTED index on purpose: sum(level=) keeps first-appearance order, groupby sorts by default,
+         # so the textbook groupby(level=0).sum() is only equivalent on already-sorted input.
          setup=PD + "s = pd.Series([1, 2, 3, 4], index=pd.MultiIndex.from_tuples("
-                    "[('a', 1), ('a', 2), ('b', 1), ('b', 2)]))\n",
+                    "[('b', 1), ('b', 2), ('a', 1), ('a', 2)]))\n",
          legacy="result = s.sum(level=0)",
-         modern="result = s.groupby(level=0).sum()"),
+         modern="result = s.groupby(level=0, sort=False).sum()"),
     dict(id="int64index", kind="rename", lib="pandas",
          history="Int64Index/Float64Index: deprecated 1.4, removed 2.0",
          setup=PD,

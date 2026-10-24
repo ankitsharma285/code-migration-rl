@@ -1,0 +1,375 @@
+273 'migration: mismatch' rejections found; re-running them ...
+
+Category counts over ALL mismatch rejections:
+  mixed            171
+  dtype             46   <- possible comparator false negatives: review these
+  values            44
+  names              6   <- possible comparator false negatives: review these
+  index              3   <- possible comparator false negatives: review these
+  shape              2
+  type               1   <- possible comparator false negatives: review these
+
+Showing 15 examples (suspect categories first). For each: was the migration correct?
+
+====================================================================================================
+train-2-00027  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_stock_replenishment(inventory, orders):
+    summary = pd.DataFrame({'sku': [], 'total_needed': []})
+    skus = inventory['sku'].unique()
+    for sku in skus:
+        demand = orders[orders['sku'] == sku]['qty'].sum()
+        current = inventory[inventory['sku'] == sku]['stock'].values[0]
+        needed = max(0, demand - current)
+        summary = summary.append({'sku': sku, 'total_needed': needed}, ignore_index=True)
+    return summary
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_stock_replenishment(inventory, orders):
+    summary_data = []
+    skus = inventory['sku'].unique()
+    for sku in skus:
+        demand = orders[orders['sku'] == sku]['qty'].sum()
+        current = inventory[inventory['sku'] == sku]['stock'].values[0]
+        needed = max(0, demand - current)
+        summary_data.append({'sku': sku, 'total_needed': needed})
+    return pd.DataFrame(summary_data)
+---------------------------------------- first differing input -------------------------------------
+{"inventory": {"__df__": {"sku": ["SKU_0", "SKU_1", "SKU_2", "SKU_3", "SKU_4", "SKU_5"], "stock": [13, 1, 8, 16, 15, 12]}}, "orders": {"__df__": {"sku": ["SKU_3", "SKU_2", "SKU_4", "SKU_1", "SKU_4", "SKU_1", "SKU_2", "SKU_1", "SKU_0"], "qty": [10, 5, 9, 10, 3, 5, 2, 2, 6]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64"]  ->  ["object", "int64"]
+====================================================================================================
+train-10-02524  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def process_sensor_batches(df, threshold):
+    summary = pd.DataFrame({'sensor_id': [0], 'avg_val': [0.0]})
+    sensors = df['sensor_id'].unique()
+    for sid in sensors:
+        subset = df[df['sensor_id'] == sid]
+        avg = subset['reading'].mean()
+        if avg > threshold:
+            summary = summary.append({'sensor_id': sid, 'avg_val': avg}, ignore_index=True)
+    return summary
+-------------------------------------------- MIGRATION ---------------------------------------------
+def process_sensor_batches(df, threshold):
+    rows = [{'sensor_id': 0, 'avg_val': 0.0}]
+    sensors = df['sensor_id'].unique()
+    for sid in sensors:
+        subset = df[df['sensor_id'] == sid]
+        avg = subset['reading'].mean()
+        if avg > threshold:
+            rows.append({'sensor_id': sid, 'avg_val': avg})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"sensor_id": [103, 100, 102, 104, 103, 103, 102, 103, 102, 104, 101, 104], "reading": [15.57, 15.59, 13.79, 41.98, 49.49, 31.3, 38.21, 34.08, 15.88, 13.95, 12.95, 44.02]}}, "threshold": 26.60394437195997}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["float64", "float64"]  ->  ["int64", "float64"]
+====================================================================================================
+train-2-00164  category=dtype  differs on 12/12 inputs  requested=['df_append_loop', 'np_in1d']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_team_performance(df, priority_teams):
+    mask = np.in1d(df['team'].values, priority_teams)
+    filtered = df[mask]
+    summary = pd.DataFrame({'team': [], 'score_sum': []})
+    for team in priority_teams:
+        team_data = filtered[filtered['team'] == team]
+        total = team_data['score'].sum()
+        summary = summary.append({'team': team, 'score_sum': total}, ignore_index=True)
+    return summary
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_team_performance(df, priority_teams):
+    mask = np.isin(df['team'].values, priority_teams)
+    filtered = df[mask]
+    rows = []
+    for team in priority_teams:
+        team_data = filtered[filtered['team'] == team]
+        total = team_data['score'].sum()
+        rows.append({'team': team, 'score_sum': total})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"team": ["Eagles", "Tigers", "Bears", "Eagles", "Eagles", "Bears", "Eagles", "Bears", "Lions", "Lions", "Bears"], "score": [17, 96, 12, 79, 32, 68, 90, 77, 18, 39, 12]}}, "priority_teams": ["Bears", "Lions"]}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64"]  ->  ["object", "int64"]
+====================================================================================================
+train-10-00242  category=dtype  differs on 2/12 inputs  requested=['series_append']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_patient_visit_sums(df):
+    patient_ids = df['patient_id'].unique()
+    final_sums = pd.Series(dtype='float64')
+    for pid in patient_ids:
+        patient_data = df[df['patient_id'] == pid]
+        visit_total = patient_data['value'].sum()
+        s = pd.Series([visit_total], index=[str(pid)])
+        final_sums = final_sums.append(s)
+    return final_sums
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_patient_visit_sums(df):
+    patient_ids = df['patient_id'].unique()
+    sums_list = []
+    for pid in patient_ids:
+        patient_data = df[df['patient_id'] == pid]
+        visit_total = patient_data['value'].sum()
+        s = pd.Series([visit_total], index=[str(pid)])
+        sums_list.append(s)
+    return pd.concat(sums_list).astype('float64') if sums_list else pd.Series(dtype='float64')
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"patient_id": [105, 104, 102, 101, 104, 105, 105], "value": [59, 64, 15, 79, 76, 33, 58]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtype: "int64"  ->  "float64"
+====================================================================================================
+train-10-02620  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def process_booking_adjustments(bookings, adjustments):
+    summary = pd.DataFrame({'booking_id': [], 'extra_fee': []}, dtype=float)
+    for adj in adjustments:
+        row = {'booking_id': adj['id'], 'extra_fee': adj['amount']}
+        summary = summary.append(row, ignore_index=True)
+    bookings = bookings.set_index('booking_id')
+    merged = bookings.join(summary.set_index('booking_id'), how='left')
+    merged['total_cost'] = merged['price'] + merged['extra_fee'].fillna(0)
+    return merged.reset_index()
+-------------------------------------------- MIGRATION ---------------------------------------------
+def process_booking_adjustments(bookings, adjustments):
+    rows = [{'booking_id': adj['id'], 'extra_fee': adj['amount']} for adj in adjustments]
+    summary = pd.DataFrame(rows, columns=['booking_id', 'extra_fee']).astype(float)
+    if summary.empty:
+        summary = pd.DataFrame({'booking_id': [], 'extra_fee': []}, dtype=float)
+    bookings = bookings.set_index('booking_id')
+    merged = bookings.join(summary.set_index('booking_id'), how='left')
+    merged['total_cost'] = merged['price'] + merged['extra_fee'].fillna(0)
+    return merged.reset_index()
+---------------------------------------- first differing input -------------------------------------
+{"bookings": {"__df__": {"booking_id": [7890, 1663, 5242, 9376, 8961, 7634, 5969, 8808, 6866, 4578, 9268], "price": [171, 244, 171, 486, 148, 416, 228, 372, 461, 408, 175]}}, "adjustments": [{"id": 1663, "amount": 16}, {"id": 9268, "amount": 32}, {"id": 7634, "amount": 37}, {"id": 8808, "amount": 30}, {"id": 8961, "amount": 49}]}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["int64", "int64", "float64", "float64"]  ->  ["float64", "int64", "float64", "float64"]
+====================================================================================================
+train-1-00118  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_team_streaks(df):
+    streaks = pd.DataFrame({'team': [], 'streak': []})
+    teams = df['team'].unique()
+    for team in teams:
+        games = df[df['team'] == team].sort_values('game_id')
+        current_streak = 0
+        for (_, row) in games.iterrows():
+            if row['result'] == 'W':
+                current_streak += 1
+            else:
+                current_streak = 0
+        streaks = streaks.append({'team': team, 'streak': current_streak}, ignore_index=True)
+    return streaks
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_team_streaks(df):
+    rows = []
+    teams = df['team'].unique()
+    for team in teams:
+        games = df[df['team'] == team].sort_values('game_id')
+        current_streak = 0
+        for (_, row) in games.iterrows():
+            if row['result'] == 'W':
+                current_streak += 1
+            else:
+                current_streak = 0
+        rows.append({'team': team, 'streak': current_streak})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"game_id": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "team": ["Eagles", "Tigers", "Bears", "Eagles", "Eagles", "Bears", "Eagles", "Bears", "Lions", "Lions", "Bears", "Lions"], "result": ["W", "D", "L", "D", "D", "D", "W", "L", "W", "D", "W", "D"]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64"]  ->  ["object", "int64"]
+====================================================================================================
+train-10-01906  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def reconcile_stock_adjustments(inventory, adjustments):
+    reconciled = pd.DataFrame({'sku': [], 'qty': []})
+    for (sku, adj_qty) in adjustments.items():
+        current_qty = inventory.loc[inventory['sku'] == sku, 'stock'].values[0]
+        new_qty = current_qty + adj_qty
+        reconciled = reconciled.append({'sku': sku, 'qty': new_qty}, ignore_index=True)
+    return reconciled
+-------------------------------------------- MIGRATION ---------------------------------------------
+def reconcile_stock_adjustments(inventory, adjustments):
+    rows = []
+    for (sku, adj_qty) in adjustments.items():
+        current_qty = inventory.loc[inventory['sku'] == sku, 'stock'].values[0]
+        new_qty = current_qty + adj_qty
+        rows.append({'sku': sku, 'qty': new_qty})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"inventory": {"__df__": {"sku": ["SKU_0", "SKU_1", "SKU_2", "SKU_3", "SKU_4", "SKU_5"], "stock": [63, 15, 43, 75, 72, 61]}}, "adjustments": {"SKU_3": -3, "SKU_2": -1, "SKU_1": -3, "SKU_4": -4}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64"]  ->  ["object", "int64"]
+====================================================================================================
+train-10-00284  category=dtype  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_session_summaries(events_df):
+    sessions = events_df['session_id'].unique()
+    summary_list = pd.DataFrame({'session_id': [], 'total_time': [], 'event_count': []})
+    for sid in sessions:
+        sess = events_df[events_df['session_id'] == sid]
+        duration = sess['timestamp'].max() - sess['timestamp'].min()
+        row = {'session_id': sid, 'total_time': duration, 'event_count': len(sess)}
+        summary_list = summary_list.append(row, ignore_index=True)
+    return summary_list
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_session_summaries(events_df):
+    sessions = events_df['session_id'].unique()
+    rows = []
+    for sid in sessions:
+        sess = events_df[events_df['session_id'] == sid]
+        duration = sess['timestamp'].max() - sess['timestamp'].min()
+        rows.append({'session_id': sid, 'total_time': duration, 'event_count': len(sess)})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"events_df": {"__df__": {"session_id": ["S2", "S1", "S2", "S3", "S2", "S2", "S2", "S2", "S2", "S3", "S1"], "timestamp": [1600002067, 1600000570, 1600001154, 1600000572, 1600003095, 1600000388, 1600002532, 1600003274, 1600001026, 1600002181, 1600002888]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64", "float64"]  ->  ["object", "int64", "int64"]
+====================================================================================================
+train-10-00123  category=mixed  differs on 11/12 inputs  requested=['level_reduction', 'np_type_aliases']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_warehouse_stock(df):
+    df = df.set_index(['region', 'category'])
+    stock_totals = df['quantity'].sum(level=0)
+    adjustment_factor = np.array([1.05, 0.95], dtype=np.float).mean()
+    final_stock = stock_totals * adjustment_factor + np.int(10)
+    return final_stock
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_warehouse_stock(df):
+    df = df.set_index(['region', 'category'])
+    stock_totals = df['quantity'].groupby(level=0).sum()
+    adjustment_factor = np.array([1.05, 0.95], dtype=float).mean()
+    final_stock = stock_totals * adjustment_factor + int(10)
+    return final_stock
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"region": ["West", "North", "East", "West", "West", "East", "West", "East", "South", "South", "East"], "category": ["Electronics", "Electronics", "Apparel", "Furniture", "Apparel", "Apparel", "Apparel", "Electronics", "Furniture", "Electronics", "Apparel"], "quantity": [10, 88, 43, 61, 72, 13, 46, 56, 41, 79, 82]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [index] index: ["West", "North", "East", "South"]  ->  ["East", "North", "South", "West"]
+  [values] values[0]: 199.0  ->  204.0
+  [values] values[2]: 204.0  ->  130.0
+  [values] values[3]: 130.0  ->  199.0
+====================================================================================================
+train-10-01892  category=mixed  differs on 8/12 inputs  requested=['chained_inplace', 'level_reduction', 'np_in1d']
+---------------------------------------------- LEGACY ----------------------------------------------
+def process_property_metrics(df, target_zones):
+    df['sqft_price'] = df['price'] / df['sqft']
+    df['sqft_price'].fillna(0, inplace=True)
+    mask = np.in1d(df['zone'].values, target_zones)
+    filtered = df[mask]
+    indexed = filtered.set_index(['city', 'zone'])['sqft_price']
+    return indexed.sum(level=0)
+-------------------------------------------- MIGRATION ---------------------------------------------
+def process_property_metrics(df, target_zones):
+    df = df.copy()
+    df['sqft_price'] = df['price'] / df['sqft']
+    df['sqft_price'] = df['sqft_price'].fillna(0)
+    mask = np.isin(df['zone'].values, target_zones)
+    filtered = df[mask]
+    indexed = filtered.set_index(['city', 'zone'])['sqft_price']
+    return indexed.groupby(level=0).sum()
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"city": ["Seattle", "Seattle", "Austin", "Seattle", "Denver", "Seattle", "Seattle", "Seattle", "Seattle", "Seattle", "Denver", "Austin"], "zone": ["B", "C", "B", "A", "C", "B", "C", "A", "A", "C", "D", "A"], "price": [570977, 655262, 531556, 414410, 779363, 700181, 664197, 746678, 473145, 265304, 775352, 214723], "sqft": [1182, 804, null, null, null, null, null, 1129, 2880, 1246, null, null]}}, "target_zones": ["D", "A", "B"]}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [index] index: ["Seattle", "Austin", "Denver"]  ->  ["Austin", "Denver", "Seattle"]
+  [values] values[0]: 1308.7087935085854  ->  0.0
+  [values] values[2]: 0.0  ->  1308.7087935085854
+====================================================================================================
+train-10-01391  category=mixed  differs on 12/12 inputs  requested=['df_append_loop', 'np_product_family']
+---------------------------------------------- LEGACY ----------------------------------------------
+def analyze_property_metrics(df):
+    summary = pd.DataFrame({'metric': [], 'value': []})
+    metrics = {'avg_price': df['price'].mean(), 'price_prod': np.product(df['price'].values), 'all_available': np.alltrue(df['available'].values), 'any_luxury': np.sometrue(df['luxury'].values)}
+    for (name, val) in metrics.items():
+        summary = summary.append({'metric': name, 'value': val}, ignore_index=True)
+    return summary
+-------------------------------------------- MIGRATION ---------------------------------------------
+def analyze_property_metrics(df):
+    metrics = {'avg_price': df['price'].mean(), 'price_prod': np.prod(df['price'].values), 'all_available': np.all(df['available'].values), 'any_luxury': np.any(df['luxury'].values)}
+    rows = [{'metric': name, 'value': val} for (name, val) in metrics.items()]
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"price": [894772, 541001, 142450, 371493, 636110, 609532, 524604, 418046, 599748, 475441, 711720], "available": [true, true, false, true, true, false, true, false, true, true, false], "luxury": [false, true, false, false, false, true, false, false, false, true, true]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [dtype] dtypes: ["object", "float64"]  ->  ["object", "object"]
+  [values] values[2][1]: 0.0  ->  false
+  [values] values[3][1]: 1.0  ->  true
+====================================================================================================
+train-10-01475  category=values  differs on 10/12 inputs  requested=['level_reduction', 'series_positional_getitem']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_stock_metrics(df):
+    stock = df.set_index(['warehouse', 'category'])['quantity']
+    totals = stock.sum(level=0)
+    summary = [totals[0], totals[-1]]
+    return pd.Series(summary, index=['first_wh', 'last_wh'])
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_stock_metrics(df):
+    stock = df.set_index(['warehouse', 'category'])['quantity']
+    totals = stock.groupby(level=0).sum()
+    summary = [totals.iloc[0], totals.iloc[-1]]
+    return pd.Series(summary, index=['first_wh', 'last_wh'])
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"warehouse": ["West", "North", "East", "Central", "West", "West", "East", "West", "East", "Central", "South"], "category": ["Furniture", "Textiles", "Furniture", "Electronics", "Textiles", "Furniture", "Textiles", "Electronics", "Electronics", "Textiles", "Toys"], "quantity": [574, 104, 363, 445, 324, 626, 656, 935, 210, 990, 566]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [values] values[0]: 2459  ->  1435
+  [values] values[1]: 566  ->  2459
+====================================================================================================
+train-10-01608  category=values  differs on 12/12 inputs  requested=['int64index', 'level_reduction']
+---------------------------------------------- LEGACY ----------------------------------------------
+def summarize_neighborhood_pricing(df):
+    df = df.set_index(['neighborhood', 'property_type'])
+    prices = df['price']
+    total_vals = prices.sum(level=0)
+    idx = pd.Int64Index(range(len(total_vals)))
+    return pd.DataFrame({'total_value': total_vals.values}, index=idx)
+-------------------------------------------- MIGRATION ---------------------------------------------
+def summarize_neighborhood_pricing(df):
+    df = df.set_index(['neighborhood', 'property_type'])
+    prices = df['price']
+    total_vals = prices.groupby(level=0).sum()
+    idx = pd.Index(range(len(total_vals)), dtype='int64')
+    return pd.DataFrame({'total_value': total_vals.values}, index=idx)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"neighborhood": ["East Side", "Downtown", "West End", "East Side", "East Side", "West End", "East Side", "West End", "Suburbia", "Suburbia", "West End"], "property_type": ["Condo", "Condo", "Townhome", "House", "Townhome", "Townhome", "Townhome", "Condo", "House", "Condo", "Townhome"], "price": [177324, 817209, 446236, 595077, 687007, 205592, 470977, 555262, 431556, 740561, 771532]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [values] values[0][0]: 1930385  ->  817209
+  [values] values[1][0]: 817209  ->  1930385
+  [values] values[2][0]: 1978622  ->  1172117
+  [values] values[3][0]: 1172117  ->  1978622
+====================================================================================================
+train-0-00031  category=mixed  differs on 11/12 inputs  requested=['level_reduction']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_branch_loan_totals(df):
+    grouped = df.set_index(['branch', 'category'])['loan_count']
+    branch_totals = grouped.sum(level=0)
+    return branch_totals
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_branch_loan_totals(df):
+    grouped = df.set_index(['branch', 'category'])['loan_count']
+    branch_totals = grouped.groupby(level=0).sum()
+    return branch_totals
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"branch": ["West", "North", "East", "West", "West", "East", "West", "East", "South", "South", "East"], "category": ["Fiction", "Fiction", "Reference", "Non-Fiction", "Reference", "Reference", "Reference", "Fiction", "Non-Fiction", "Fiction", "Reference"], "loan_count": [10, 88, 43, 61, 72, 13, 46, 56, 41, 79, 82]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [index] index: ["West", "North", "East", "South"]  ->  ["East", "North", "South", "West"]
+  [values] values[0]: 189  ->  194
+  [values] values[2]: 194  ->  120
+  [values] values[3]: 120  ->  189
+====================================================================================================
+train-10-01504  category=values  differs on 12/12 inputs  requested=['df_append_loop']
+---------------------------------------------- LEGACY ----------------------------------------------
+def calculate_bonus_tiers(df):
+    results = pd.DataFrame({'employee_id': [df.iloc[0]['employee_id']], 'bonus': [0.0]})
+    for i in range(1, len(df)):
+        row = df.iloc[i]
+        bonus = row['salary'] * 0.1 if row['performance'] > 8 else row['salary'] * 0.02
+        results = results.append({'employee_id': row['employee_id'], 'bonus': bonus}, ignore_index=True)
+    return results
+-------------------------------------------- MIGRATION ---------------------------------------------
+def calculate_bonus_tiers(df):
+    rows = []
+    for i in range(len(df)):
+        row = df.iloc[i]
+        bonus = row['salary'] * 0.1 if row['performance'] > 8 else row['salary'] * 0.02
+        rows.append({'employee_id': row['employee_id'], 'bonus': bonus})
+    return pd.DataFrame(rows)
+---------------------------------------- first differing input -------------------------------------
+{"df": {"__df__": {"employee_id": ["EMP100", "EMP101", "EMP102", "EMP103", "EMP104", "EMP105", "EMP106", "EMP107", "EMP108", "EMP109", "EMP110"], "salary": [89673.0, 67562.0, 42653.0, 56968.0, 73506.0, 71845.0, 66537.0, 59877.0, 71234.0, 63465.0, 78232.0], "performance": [4, 9, 3, 5, 3, 2, 10, 5, 9, 10, 3]}}}
+---------------------------------------------- DIFFERENCES (path: legacy -> migration) -------------
+  [values] values[0][1]: 0.0  ->  1793.46
