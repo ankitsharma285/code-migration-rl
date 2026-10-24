@@ -114,6 +114,11 @@ TYPE_HINTS = {
                         "value absent from the data; gen supplies the column as plain strings",
     "chained_inplace": "call the inplace method on a single column: df['col'].fillna(..., inplace=True)",
     "groupby_numeric_only": "the DataFrame must contain at least one text column that is not the group key",
+    "dt_weekofyear": "gen supplies dates as ISO strings like '2021-03-14'; the function MUST convert them first "
+                     "with pd.to_datetime(...) before using .dt (the .dt accessor fails on strings)",
+    "lookup": "df.lookup(row_labels, col_labels) needs two lists of EQUAL length whose labels all EXIST in the "
+              "DataFrame (row labels from df.index, column labels from df.columns), e.g. pick one column per row",
+    "mad": "call .mad() on numeric data only (a numeric DataFrame, Series, or a groupby on numeric columns)",
 }
 
 
@@ -125,9 +130,9 @@ def type_line(type_id):
     return (f"- {type_id} ({p['history']})\n    old: {legacy}\n    new: {modern}{hint}")
 
 
-def pick_types(rng, split):
+def pick_types(rng, split, only=None):
     if split == "heldout":
-        return [rng.choice(HELD_OUT)]
+        return [rng.choice(only or HELD_OUT)]
     k = rng.choice([1, 2, 2, 3])
     types = set()
     if rng.random() < 0.65:                      # target >= 60% of tasks with a behavior-change type
@@ -178,17 +183,21 @@ def main():
     ap.add_argument("--n", type=int, default=50)
     ap.add_argument("--split", choices=["train", "heldout"], default="train")
     ap.add_argument("--seed", type=int, default=0, help="controls which types/domains are requested")
+    ap.add_argument("--types", help="held-out split only: comma-separated subset of held-out types to request")
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--max-tokens", type=int, default=4096)
     ap.add_argument("--workers", type=int, default=16, help="parallel requests to the server")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
+    only = [t.strip() for t in args.types.split(",")] if args.types else None
+    if only and (args.split != "heldout" or not set(only) <= set(HELD_OUT)):
+        raise SystemExit(f"--types must be held-out types with --split heldout: {HELD_OUT}")
     rng = random.Random(f"{args.split}-{args.seed}")
     examples = [t for t in SEED_TASKS]                      # seed tasks use training types only
     requests = []
     for i in range(args.n):
-        types = pick_types(rng, args.split)
+        types = pick_types(rng, args.split, only)
         domain = rng.choice(DOMAINS)
         # format example: a seed task sharing no type with the request, so the answer isn't copied
         ex = rng.choice([e for e in examples if not set(e["types"]) & set(types)] or examples)

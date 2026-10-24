@@ -1,0 +1,288 @@
+{"request_id": "heldout-20-00003", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00007", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00008", "reason": "legacy: fails on an input: KeyError: 0", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00009", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00010", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00011", "reason": "legacy: fails on an input: IndexError: invalid index to scalar variable.", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00013", "reason": "gen: failed in sandbox: ValueError: Sample larger than population or is negative", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00015", "reason": "legacy: fails on an input: ParserError: Unknown string format: 2023-01-01 + 216 days", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00016", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00019", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00020", "reason": "legacy: fails on an input: KeyError: 'East'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00022", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00023", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00025", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00026", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00027", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00030", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00031", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00033", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00034", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00035", "reason": "legacy: fails on an input: KeyError: 'South_US'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00036", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00037", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00038", "reason": "migration: generator's migration scores 0 (crash: TypeError: Could not convert ['2023-01-012023-01-022023-01-032023-01-042023-01-05'] to numeric)", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00039", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00042", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00043", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00044", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00049", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00050", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00051", "reason": "legacy: fails on an input: ValueError: Shape of passed values is (2, 1), indices imply (2, 2)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00054", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00055", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00056", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00058", "reason": "legacy: fails on an input: AxisError: axis 1 is out of bounds for array of dimension 1", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00060", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00061", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00063", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00064", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00065", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00066", "reason": "legacy: fails on an input: AttributeError: 'numpy.ndarray' object has no attribute 'values'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00067", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00068", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00070", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00071", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00072", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00073", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00075", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00076", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00077", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00079", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00081", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00082", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00083", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00085", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00087", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00089", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00090", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00091", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00092", "reason": "gen: import not allowed: ['pandas']", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00095", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00096", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00097", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00098", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00101", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00102", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00103", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00106", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00107", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00108", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00109", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00110", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00111", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00114", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00115", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00116", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00117", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00118", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00119", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00120", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2023-02-75", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00121", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00122", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00123", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00124", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00125", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00127", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00129", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00130", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00131", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00132", "reason": "legacy: fails on an input: KeyError: 'Premium'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00133", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00134", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00135", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00137", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00138", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00139", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00140", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00141", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00142", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00143", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2023-01-71", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00144", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00146", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00148", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00149", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00151", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00152", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00153", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00154", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00155", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00156", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00158", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00159", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00160", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00161", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00163", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00164", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00165", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00166", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00167", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00168", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00169", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00170", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00171", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00173", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00175", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00176", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00181", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00182", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00184", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00186", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00187", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00188", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00189", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00190", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00191", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00192", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00194", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00195", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00196", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00197", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00198", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00199", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00200", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00202", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00205", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00206", "reason": "legacy: fails on an input: AxisError: axis 1 is out of bounds for array of dimension 1", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00207", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00209", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00210", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00211", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00212", "reason": "legacy: fails on an input: KeyError: 'Reg_4'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00213", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00215", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00217", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00218", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00220", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00221", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00223", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00225", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00227", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00228", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00229", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00230", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00232", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00233", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00234", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00235", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00236", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00237", "reason": "legacy: fails on an input: ValueError: operands could not be broadcast together with shapes (7,) (3,) ", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00238", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00239", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00241", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00246", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00247", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00249", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00250", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00251", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00253", "reason": "types: unknown breakage: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leadin", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00254", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00255", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00256", "reason": "legacy: fails on an input: KeyError: 'SKU_1'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00258", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00260", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00261", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00262", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00263", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00264", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00265", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00266", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00270", "reason": "legacy: fails on an input: TypeError: tuple indices must be integers or slices, not str", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00271", "reason": "legacy: fails on an input: KeyError: 'S4'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00272", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00273", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00275", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00276", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00277", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00278", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00280", "reason": "legacy: fails on an input: ParserError: day is out of range for month: 2023-01-32", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00281", "reason": "legacy: fails on an input: KeyError: 'ORD_0'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00283", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00284", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00285", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00287", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00288", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00289", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00290", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00291", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00293", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00295", "reason": "legacy: fails on an input: TypeError: calculate_weighted_revenue() got an unexpected keyword argument 'store_labels'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00296", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00299", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00300", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00301", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00302", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00303", "reason": "legacy: fails on an input: TypeError: object of type 'int' has no len()", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00304", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00305", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00306", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00307", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00309", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00310", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00312", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00313", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00314", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00315", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00318", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00319", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00320", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00321", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00322", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00323", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00324", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00325", "reason": "migration: generator's migration scores 0 (mismatch: output differs from legacy)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00327", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00328", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00329", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00330", "reason": "legacy: fails on an input: KeyError: 'Sub0'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00331", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00332", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00333", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00334", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00335", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00336", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00337", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00338", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00342", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00344", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00345", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00346", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00348", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00349", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00350", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00351", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00352", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00355", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00356", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00357", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00358", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00359", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00360", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00362", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00364", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00365", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00366", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00367", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00368", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00369", "reason": "gen: not deterministic for a given seed", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00371", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00372", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00375", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00377", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00378", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00380", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00381", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00382", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00383", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00384", "reason": "legacy: fails on an input: KeyError: 'One or more row labels was not found'", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00385", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00386", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00388", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00389", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00390", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00391", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00392", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00393", "reason": "duplicate: structurally identical to a kept task", "requested_types": ["mad"]}
+{"request_id": "heldout-20-00396", "reason": "gen: uses pd (inputs must be plain JSON data)", "requested_types": ["lookup"]}
+{"request_id": "heldout-20-00397", "reason": "legacy: fails on an input: AttributeError: Can only use .dt accessor with datetimelike values", "requested_types": ["dt_weekofyear"]}
+{"request_id": "heldout-20-00398", "reason": "legacy: fails on an input: ValueError: Row labels must have same size as column labels", "requested_types": ["lookup"]}

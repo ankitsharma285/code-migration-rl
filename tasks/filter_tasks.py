@@ -41,7 +41,8 @@ from tasks.check_seeds import object_holding_numbers
 HERE = Path(__file__).resolve().parent
 CATS = json.loads((HERE / "categories.json").read_text())
 TRAIN = set(CATS["train"]["behavior"]) | set(CATS["train"]["rename"])
-BEHAVIOR = set(CATS["train"]["behavior"])
+# all three held-out types are behavior-change (see verify_types.py kinds)
+BEHAVIOR = set(CATS["train"]["behavior"]) | set(CATS["held_out"])
 HELD_OUT = set(CATS["held_out"])
 SEEDS = VISIBLE_SEEDS + TRAIN_HIDDEN_SEEDS
 MIN_COVERAGE = 0.8

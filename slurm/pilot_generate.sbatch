@@ -30,6 +30,7 @@ fi
 N="${N:-50}"
 SEED="${SEED:-0}"
 SPLIT="${SPLIT:-train}"
+TYPES="${TYPES:-}"                       # held-out only, e.g. TYPES=lookup,dt_weekofyear
 PORT=$((8000 + SLURM_JOB_ID % 1000))
 RUN="${SPLIT}_s${SEED}_n${N}_${SLURM_JOB_ID}"
 
@@ -54,7 +55,7 @@ done
 
 # 2. Generate, then 3. filter (the sandbox runs on the CPU cores; the GPU is idle during filtering)
 envs/legacy/bin/python -m tasks.generate --base-url "http://localhost:$PORT/v1" --model gemma4 \
-  --n "$N" --seed "$SEED" --split "$SPLIT" --out "tasks/generated/raw_$RUN.jsonl"
+  --n "$N" --seed "$SEED" --split "$SPLIT" ${TYPES:+--types "$TYPES"} --out "tasks/generated/raw_$RUN.jsonl"
 kill $VLLM_PID 2>/dev/null || true
 envs/legacy/bin/python -m tasks.filter_tasks "tasks/generated/raw_$RUN.jsonl" --out "tasks/generated/$RUN"
 echo "done: tasks/generated/$RUN/{accepted.jsonl,rejected.jsonl,stats.json}"
