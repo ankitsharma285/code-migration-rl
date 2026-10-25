@@ -48,6 +48,9 @@ def make_policy(args):
         return ORACLE
     if args.policy == "legacy":
         return LEGACY
+    if args.policy == "codemod":
+        from harness.codemod import codemod
+        return ScriptedPolicy("codemod", lambda t: codemod(t["legacy"]))
     if args.policy.startswith("cheater:"):
         name = args.policy.split(":", 1)[1]
         return ScriptedPolicy(args.policy, CHEATERS[name])
@@ -80,6 +83,8 @@ def summarize(episodes, tasks):
         "mean_reward": round(sum(rewards) / len(rewards), 4),
         "reasons": dict(sorted(Counter(e.steps[-1].reason for e in episodes).items())),
         "per_task_pass": {k: rate(v) for k, v in sorted(per_task.items())},
+        # tasks whose samples include both a pass and a failure: what gives GRPO a learning signal
+        "mixed_task_frac": round(sum(0 < sum(v) < len(v) for v in per_task.values()) / max(len(per_task), 1), 4),
         "per_type_pass": {k: rate(v) for k, v in sorted(per_type.items())},
         "episode_rewards": [[e.task_id, e.sample_idx, e.reward] for e in episodes],
     }
@@ -106,7 +111,8 @@ def run(args):
         refs = dict(zip([x["id"] for x in tasks],
                         pool.map(lambda x: compute_references(x, vis[x["id"]] + hid[x["id"]], limits), tasks)))
     nv = len(VISIBLE_SEEDS)
-    prompts = {x["id"]: prompt_mod.build(x, vis[x["id"]], refs[x["id"]][:nv]) for x in tasks}
+    prompts = {x["id"]: prompt_mod.with_fewshot(prompt_mod.build(x, vis[x["id"]], refs[x["id"]][:nv]), x, args.fewshot)
+               for x in tasks}
     t["references_s"] = time.monotonic() - t0
 
     # 2. completions: from the policy, or from stored trajectories when re-scoring
@@ -119,7 +125,7 @@ def run(args):
             completions[e.task_id].append(e.steps[-1].action)
     else:
         policy = make_policy(args)
-        policy_name = policy.name
+        policy_name = policy.name + (f"+fewshot{args.fewshot}" if args.fewshot else "")
         with ThreadPoolExecutor(args.gen_workers) as pool:
             gens = pool.map(lambda x: policy.sample(prompts[x["id"]], args.samples, x), tasks)
             completions = dict(zip([x["id"] for x in tasks], gens))
@@ -146,6 +152,7 @@ def run(args):
     record["result"] = {"pass_at_1": metrics["pass_at_1"], "reasons": metrics["reasons"]}
     (out / "run.json").write_text(json.dumps(record, indent=1))
     print(f"{policy_name}: pass@1 {metrics['pass_at_1']:.3f} on {metrics['n_episodes']} episodes; "
+          f"mixed tasks {metrics['mixed_task_frac']:.3f}; "
           f"reasons {metrics['reasons']}; commit {(record['git']['commit'] or 'none')[:8]}"
           f"{' (DIRTY)' if record['git']['dirty'] else ''} -> {out}")
     return metrics
@@ -153,12 +160,13 @@ def run(args):
 
 def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--policy", default="oracle", help="oracle | legacy | cheater:<name> | openai")
+    p.add_argument("--policy", default="oracle", help="oracle | legacy | codemod | cheater:<name> | openai")
     p.add_argument("--rescore", help="trajectories.jsonl whose completions to re-score instead of sampling")
     p.add_argument("--tasks", default="seed", help="seed | train | heldout_id | heldout_cat | path/to/tasks.jsonl")
     p.add_argument("--limit", type=int, help="evaluate only the first N tasks (quick checks)")
     p.add_argument("--seeds", default="train", help="train | eval:<round>")
     p.add_argument("--samples", type=int, default=1)
+    p.add_argument("--fewshot", type=int, default=0, help="K hand-written demos as prior chat turns (baseline only)")
     p.add_argument("--model")
     p.add_argument("--base-url")
     p.add_argument("--api-key-env", default="OPENAI_API_KEY")

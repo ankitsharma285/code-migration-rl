@@ -34,3 +34,31 @@ def build(task, visible_inputs, visible_outputs):
                 + "\n\n".join(ex))
     user = TEMPLATE.format(legacy=task["legacy"].strip(), entry=task["entry"], examples=examples)
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
+
+
+# Few-shot baseline only (GRPO never sees demos). Hand-written seed tasks, training types only, ordered so
+# the first demos cover the migrations no rename fixes (append loops, positional indexing, apply on groups).
+FEWSHOT_ORDER = ["s01_group_summary", "s09_fill_and_ends", "s10_growth_factor", "s17_nested_totals",
+                 "s20_return_stats", "s02_column_totals"]
+DEMO_TEMPLATE = """Migrate this function so it runs on pandas 2.2 and NumPy 2.x with no DeprecationWarning or FutureWarning, and returns exactly what it returns today.
+
+```python
+{legacy}
+```
+
+Reply with the complete migrated function in a single ```python code block."""
+
+
+def with_fewshot(messages, task, k):
+    """Insert k (legacy -> modern) demo turns between the system and user messages. Demos are short (no
+    visible examples) to stay inside the 4096-token context; a task is never its own demo."""
+    if not k:
+        return messages
+    from tasks.seed_tasks import SEED_TASKS
+    by_id = {t["id"]: t for t in SEED_TASKS}
+    demos = [by_id[i] for i in FEWSHOT_ORDER if i != task["id"]][:k]
+    turns = []
+    for d in demos:
+        turns.append({"role": "user", "content": DEMO_TEMPLATE.format(legacy=d["legacy"].strip())})
+        turns.append({"role": "assistant", "content": f"```python\n{d['modern'].strip()}\n```"})
+    return messages[:1] + turns + messages[1:]
