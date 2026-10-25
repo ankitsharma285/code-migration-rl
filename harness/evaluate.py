@@ -111,7 +111,14 @@ def run(args):
         refs = dict(zip([x["id"] for x in tasks],
                         pool.map(lambda x: compute_references(x, vis[x["id"]] + hid[x["id"]], limits), tasks)))
     nv = len(VISIBLE_SEEDS)
-    prompts = {x["id"]: prompt_mod.with_fewshot(prompt_mod.build(x, vis[x["id"]], refs[x["id"]][:nv]), x, args.fewshot)
+    fb = {}
+    if args.feedback:                    # legacy code run on the VISIBLE inputs in the modern runtime
+        from env.feedback import feedback
+        with ThreadPoolExecutor(workers) as pool:
+            fb = dict(zip([x["id"] for x in tasks], pool.map(
+                lambda x: feedback(x, x["legacy"], vis[x["id"]], refs[x["id"]][:nv], limits)[0], tasks)))
+    prompts = {x["id"]: prompt_mod.with_fewshot(prompt_mod.build(x, vis[x["id"]], refs[x["id"]][:nv], fb.get(x["id"])),
+                                                x, args.fewshot)
                for x in tasks}
     t["references_s"] = time.monotonic() - t0
 
@@ -125,7 +132,7 @@ def run(args):
             completions[e.task_id].append(e.steps[-1].action)
     else:
         policy = make_policy(args)
-        policy_name = policy.name + (f"+fewshot{args.fewshot}" if args.fewshot else "")
+        policy_name = policy.name + (f"+fewshot{args.fewshot}" if args.fewshot else "") + ("+feedback" if args.feedback else "")
         with ThreadPoolExecutor(args.gen_workers) as pool:
             gens = pool.map(lambda x: policy.sample(prompts[x["id"]], args.samples, x), tasks)
             completions = dict(zip([x["id"] for x in tasks], gens))
@@ -166,6 +173,8 @@ def parser():
     p.add_argument("--limit", type=int, help="evaluate only the first N tasks (quick checks)")
     p.add_argument("--seeds", default="train", help="train | eval:<round>")
     p.add_argument("--samples", type=int, default=1)
+    p.add_argument("--feedback", action="store_true",
+                   help="add the legacy code's errors/warnings on the visible examples to the prompt")
     p.add_argument("--fewshot", type=int, default=0, help="K hand-written demos as prior chat turns (baseline only)")
     p.add_argument("--model")
     p.add_argument("--base-url")

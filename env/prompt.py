@@ -17,7 +17,14 @@ TEMPLATE = """Migrate this function so it runs on pandas 2.2 and NumPy 2.x with 
 
 {examples}
 
-Reply with the complete migrated function in a single ```python code block."""
+Reply with the complete migrated function in a single ```python code block. Do not call the function or add example usage."""
+
+FEEDBACK_TEMPLATE = """
+
+Running the current code on pandas 2.2 / NumPy 2.x with the examples above gives:
+```text
+{feedback}
+```"""
 
 
 def _show(value, limit=600):
@@ -25,14 +32,17 @@ def _show(value, limit=600):
     return s if len(s) <= limit else s[:limit] + " ...(truncated)"
 
 
-def build(task, visible_inputs, visible_outputs):
-    """visible_outputs: serialized legacy results for visible_inputs (from compute_references)."""
+def build(task, visible_inputs, visible_outputs, feedback=None):
+    """visible_outputs: serialized legacy results for visible_inputs (from compute_references).
+    feedback: optional env/feedback.py text for the legacy code, appended after the task."""
     ex = []
     for i, (inp, out) in enumerate(zip(visible_inputs, visible_outputs), 1):
         ex.append(f"Example {i}\n  arguments: {_show(inp)}\n  returns: {_show(out)}")
     examples = ("Arguments use {\"__df__\": ...} for a DataFrame and {\"__series__\": ...} for a Series.\n\n"
                 + "\n\n".join(ex))
     user = TEMPLATE.format(legacy=task["legacy"].strip(), entry=task["entry"], examples=examples)
+    if feedback is not None:
+        user += FEEDBACK_TEMPLATE.format(feedback=feedback)
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
 
 

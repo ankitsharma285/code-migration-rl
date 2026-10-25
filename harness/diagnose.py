@@ -19,11 +19,14 @@ from env.reward import extract_code
 from harness.evaluate import load_tasks
 
 
-def norm(code):
+def norm(code, entry):
+    """The entry function alone, normalized (imports or helpers added around it don't count as a change)."""
     try:
-        return ast.unparse(ast.parse(code))
+        tree = ast.parse(code)
     except SyntaxError:
         return None
+    fn = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == entry), None)
+    return ast.unparse(fn) if fn else None
 
 
 def error_key(detail):
@@ -50,10 +53,10 @@ def diagnose(run_dir):
         s = e["steps"][-1]
         t = by_id[e["task_id"]]
         code = extract_code(s["action"]) or ""
-        n = norm(code)
-        if n is not None and n == norm(t["legacy"]):
+        n = norm(code, t["entry"])
+        if n is not None and n == norm(t["legacy"], t["entry"]):
             unchanged += 1
-        if n is not None and f"def {t['entry']}(" not in code:
+        if n is None and code:
             renamed += 1
         if s["reason"] in ("crash", "warning", "define_error", "timeout"):
             k = error_key(s["detail"])
@@ -64,7 +67,7 @@ def diagnose(run_dir):
             per_type[ty]["n"] += 1
             per_type[ty][s["reason"]] += 1
 
-    print(f"returned the legacy code unchanged: {unchanged / len(eps):.1%}   "
+    print(f"entry function identical to legacy: {unchanged / len(eps):.1%}   "
           f"entry function missing/renamed: {renamed / len(eps):.1%}")
     for reason, c in errors.items():
         tot = sum(c.values())

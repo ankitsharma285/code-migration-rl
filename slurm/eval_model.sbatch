@@ -4,6 +4,7 @@
 #     sbatch slurm/eval_model.sbatch
 # MODEL can also be a checkpoint directory, e.g. results/grpo_s1/ckpt-00300
 # FEWSHOT=2 adds two hand-written demos to every prompt (few-shot baseline)
+# FEEDBACK=1 adds the legacy code's errors/warnings on the visible examples (execution-feedback test)
 #SBATCH --job-name=eval
 #SBATCH --gres=gpu:nvidia_h100_pcie:1
 #SBATCH --cpus-per-task=32
@@ -11,6 +12,8 @@
 #SBATCH --time=02:00:00
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail
+# --generation-config vllm: ignore the model's generation_config.json (top_k 20, top_p 0.8, repetition_penalty 1.1),
+# so evaluation samples exactly like training (plain temperature sampling, train/generation.py).
 cd "$SLURM_SUBMIT_DIR"
 mkdir -p logs results
 export HF_HOME="${HF_HOME:-$HOME/hf_cache}"
@@ -23,7 +26,8 @@ TASKS="${TASKS:-heldout_id}"; SAMPLES="${SAMPLES:-8}"; TEMP="${TEMP:-1.0}"; SEED
 PORT=$((8000 + SLURM_JOB_ID % 1000))
 
 envs/train/bin/vllm serve "$MODEL" --served-model-name policy --dtype bfloat16 --max-model-len 4096 \
-  --gpu-memory-utilization 0.85 --port "$PORT" > "logs/vllm-$SLURM_JOB_ID.log" 2>&1 &
+  --gpu-memory-utilization 0.85 --port "$PORT" \
+  --generation-config vllm > "logs/vllm-$SLURM_JOB_ID.log" 2>&1 &
 VLLM_PID=$!
 trap 'kill $VLLM_PID 2>/dev/null || true' EXIT
 for i in $(seq 1 120); do
@@ -34,5 +38,5 @@ done
 
 envs/legacy/bin/python -m harness.evaluate --policy openai --model policy --base-url "http://localhost:$PORT/v1" \
   --tasks "$TASKS" ${LIMIT:+--limit "$LIMIT"} --samples "$SAMPLES" --temperature "$TEMP" --seeds "$SEEDS" \
-  ${FEWSHOT:+--fewshot "$FEWSHOT"} \
+  ${FEWSHOT:+--fewshot "$FEWSHOT"} ${FEEDBACK:+--feedback} \
   --gen-workers 64 --workers 30 --out "$OUT"

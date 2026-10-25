@@ -22,16 +22,17 @@ from env.runner import REPO, envs_dir
 from harness.manifest import env_freeze
 
 CONFIG_FLAGS = ["policy", "tasks", "limit", "seeds", "samples", "model", "base_url", "api_key_env",
-                "temperature", "max_tokens", "workers", "gen_workers", "fewshot"]
+                "temperature", "max_tokens", "workers", "gen_workers", "fewshot", "feedback"]
 
 
 def to_argv(config, rescore_path=None):
     argv = []
     for k in CONFIG_FLAGS:
         v = config.get(k)
-        if v is None:
+        if v is None or v is False:
             continue
-        argv += [f"--{k.replace('_', '-')}", str(v)]
+        flag = f"--{k.replace('_', '-')}"
+        argv += [flag] if v is True else [flag, str(v)]
     if rescore_path:
         argv += ["--rescore", str(rescore_path)]
     return argv

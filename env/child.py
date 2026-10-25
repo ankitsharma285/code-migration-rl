@@ -24,7 +24,7 @@ import warnings
 
 DEPRECATIONS = (DeprecationWarning, FutureWarning, PendingDeprecationWarning)
 PRELUDE = "import io\nimport numpy as np\nimport pandas as pd\n"
-MAX_DETAIL = 200
+MAX_DETAIL = 600          # long enough for pandas' own fix-it hints (used as execution feedback)
 
 
 def set_limits(mem_mb):

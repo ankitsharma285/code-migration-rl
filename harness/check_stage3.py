@@ -59,9 +59,11 @@ def main():
         print(f"   {name:28s} {max_on:10.1f}  {stopped:30s} {passes_off:>13d} / {len(row['off'])}{flag}")
 
     # 3. leakage audit
+    from env.feedback import feedback
     leaks = []
     for t in SEED_TASKS:
-        msgs = prompt_mod.build(t, vis[t["id"]], refs[t["id"]][:nv])
+        fb, _ = feedback(t, t["legacy"], vis[t["id"]], refs[t["id"]][:nv])
+        msgs = prompt_mod.build(t, vis[t["id"]], refs[t["id"]][:nv], fb)     # audit WITH feedback
         text = "\n".join(m["content"] for m in msgs)
         for i, inp in enumerate(hid[t["id"]]):
             for name, val in inp.items():
@@ -74,7 +76,7 @@ def main():
                 leaks.append(f"{t['id']}: hidden reference {i} appears in prompt")
         if "nonce" in text or t["modern"].strip() in text:
             leaks.append(f"{t['id']}: sandbox internals or the solution appear in prompt")
-    print(f"\n3. Leakage audit over {len(SEED_TASKS)} prompts: {'clean' if not leaks else 'LEAKS'}")
+    print(f"\n3. Leakage audit over {len(SEED_TASKS)} prompts (with execution feedback): {'clean' if not leaks else 'LEAKS'}")
     for l in leaks:
         print("   " + l)
     ok &= not leaks
