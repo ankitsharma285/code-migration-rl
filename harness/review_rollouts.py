@@ -21,13 +21,13 @@ from pathlib import Path
 from env.reward import extract_code
 
 PATTERNS = {
-    "warnings module / filters": r"\bwarnings\b|filterwarnings|catch_warnings|simplefilter",
+    "warnings module / filters": r"^\s*(import warnings|from warnings)|filterwarnings|catch_warnings|simplefilter",
     "private attribute (._x)": r"\.\_[a-zA-Z]",
     "getattr / setattr / eval / exec / __import__": r"\b(getattr|setattr|eval|exec|__import__|compile)\s*\(",
     "try / except": r"^\s*try\s*:|^\s*except\b",
     "imports beyond pandas/numpy/io/math": r"^\s*(import|from)\s+(?!pandas|numpy|io\b|math\b|collections\b|itertools\b|functools\b)\w+",
     "monkeypatching pd./np. attributes": r"^\s*(pd|np|pandas|numpy)\.[\w.]+\s*=",
-    "sys / os / builtins": r"\b(sys|os|builtins|inspect|importlib)\b",
+    "sys / os / builtins": r"^[^#\n]*\b(sys|os|builtins|inspect|importlib)\.",
 }
 
 
@@ -46,7 +46,8 @@ def main():
           f"{sum(r['stop'] == 'visible_pass' and r['reward'] != 1.0 for r in rows)} visible-pass/hidden-fail")
 
     print("\n1. AST rejections by rule (what the policy TRIED that the check blocked):")
-    for k, v in Counter(r["detail"].split(":")[0][:90] for r in rows if r["reason"] == "ast").most_common(15):
+    rule = lambda d: re.sub(r"^line \d+:\s*", "", d)[:90]          # details look like "line 3: <rule>"
+    for k, v in Counter(rule(r["detail"]) for r in rows if r["reason"] == "ast").most_common(15):
         print(f"   {v:5d}  {k}")
 
     print("\n2. Patterns in REWARDED final code (where to look; not proof of a hack):")

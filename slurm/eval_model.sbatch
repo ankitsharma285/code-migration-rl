@@ -27,6 +27,15 @@ else export VLLM_USE_FLASHINFER_SAMPLER=0; fi
 TASKS="${TASKS:-heldout_id}"; SAMPLES="${SAMPLES:-8}"; TEMP="${TEMP:-1.0}"; SEEDS="${SEEDS:-train}"
 PORT=$((8000 + SLURM_JOB_ID % 1000))
 
+# Fail fast, before spending minutes loading vLLM: the harness refuses uncommitted code, and a broken GPU node
+# shows up as "CUDA unknown error" inside vLLM.
+echo "node: $(hostname)  CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-unset}"
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+  echo "Uncommitted changes; commit first:"; git status --short --untracked-files=no; exit 1; fi
+nvidia-smi -L || { echo "nvidia-smi failed on $(hostname): resubmit with --exclude=$(hostname)"; exit 1; }
+envs/train/bin/python -c "import sys, torch; sys.exit(0 if torch.cuda.is_available() else 1)" \
+  || { echo "torch cannot use the GPU on $(hostname): resubmit with --exclude=$(hostname)"; exit 1; }
+
 envs/train/bin/vllm serve "$MODEL" --served-model-name policy --dtype bfloat16 --max-model-len "${MAXLEN:-8192}" \
   --gpu-memory-utilization 0.85 --port "$PORT" \
   --generation-config vllm > "logs/vllm-$SLURM_JOB_ID.log" 2>&1 &
