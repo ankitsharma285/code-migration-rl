@@ -296,13 +296,15 @@ def main():
         for kv in args.set:
             k, v = kv.split("=", 1)
             cfg[k] = type(DEFAULTS[k])(json.loads(v)) if k in DEFAULTS else json.loads(v)
-        out.mkdir(parents=True, exist_ok=False)
-        (out / "config.json").write_text(json.dumps(cfg, indent=1))
         from harness.evaluate import load_tasks
         record = manifest.build(cfg, load_tasks(cfg["train_split"]))
-        if record["git"]["dirty"] and not args.allow_dirty:
+        if record["git"]["dirty"] and not args.allow_dirty:      # checked BEFORE creating --out
             raise SystemExit("Refusing to train from uncommitted code (results would not be reproducible). "
-                             "Commit first, or pass --allow-dirty.")
+                             "Commit first, or pass --allow-dirty.\n" + "\n".join(record["git"]["dirty_files"]))
+        if out.exists():
+            raise SystemExit(f"{out} already exists: pick a new --out, delete it, or pass --resume to continue it")
+        out.mkdir(parents=True)
+        (out / "config.json").write_text(json.dumps(cfg, indent=1))
         (out / "run.json").write_text(json.dumps(record, indent=1))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

@@ -10,7 +10,7 @@
  "beta": 0.02,
  "max_new_tokens": 1024,
  "max_model_len": 8192,
- "micro_tokens": 16384,
+ "micro_tokens": 12288,
  "micro_rows": 8,
  "logit_chunk": 512,
  "eval_tasks": 100,
