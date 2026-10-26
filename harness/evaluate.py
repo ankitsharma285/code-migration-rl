@@ -59,6 +59,42 @@ def make_policy(args):
     raise SystemExit(f"unknown policy {args.policy!r}")
 
 
+def policy_generate(policy, messages, task):
+    """One completion; an over-long conversation (HTTP 400 from the server) ends the episode."""
+    import urllib.error
+    from env.episode import ContextFull
+    try:
+        return policy.sample(messages, 1, task)[0]
+    except urllib.error.HTTPError as e:
+        if e.code == 400:
+            raise ContextFull() from e
+        raise
+
+
+def to_episode(x, i, res, policy_name, seeds, max_turns):
+    """env.episode.EpisodeResult -> harness Episode (one Step per turn; the last Step's reward is final)."""
+    steps = [Step(prompt=tr.messages, action=tr.completion, tool_output=tr.feedback,
+                  reward=tr.hidden.reward, reason=tr.hidden.reason, detail=tr.hidden.detail,
+                  timing={"visible_ok": tr.visible_ok}) for tr in res.turns]
+    if not steps:                                   # the first prompt alone did not fit the context
+        steps = [Step(prompt=[], action="", reward=0.0, reason="context")]
+    return Episode(task_id=x["id"], sample_idx=i, policy=policy_name, hidden_seeds=seeds, steps=steps,
+                   info={"stop": res.stop, "turns": len(res.turns), "max_turns": max_turns})
+
+
+def multiturn_summary(episodes, max_turns):
+    n = max(len(episodes), 1)
+    eff = lambda e, k: e.steps[min(k, len(e.steps)) - 1].reward == 1.0      # the attempt standing at turn k
+    return {
+        "pass_by_turn": [round(sum(eff(e, k) for e in episodes) / n, 4) for k in range(1, max_turns + 1)],
+        "mean_turns": round(sum(len(e.steps) for e in episodes) / n, 3),
+        "stop_reasons": dict(sorted(Counter(e.info.get("stop", "") for e in episodes).items())),
+        # passed the visible examples (so the episode stopped) but failed hidden: overfitting / hardcoding signal
+        "visible_pass_hidden_fail": round(sum(e.info.get("stop") == "visible_pass" and e.reward != 1.0
+                                              for e in episodes) / n, 4),
+    }
+
+
 def hidden_seeds(spec):
     if spec == "train":
         return TRAIN_HIDDEN_SEEDS
@@ -122,6 +158,9 @@ def run(args):
                for x in tasks}
     t["references_s"] = time.monotonic() - t0
 
+    if args.turns > 1 or (args.rescore and any(len(e.steps) > 1 or e.info for e in read_jsonl(args.rescore))):
+        return run_multiturn(args, tasks, seeds, vis, hid, refs, nv, limits, workers, record, out, t)
+
     # 2. completions: from the policy, or from stored trajectories when re-scoring
     t0 = time.monotonic()
     if args.rescore:
@@ -165,6 +204,69 @@ def run(args):
     return metrics
 
 
+def finish(args, episodes, tasks, policy_name, record, out, t, extra=None):
+    metrics = summarize(episodes, tasks)
+    metrics.update(extra or {})
+    write_jsonl(out / "trajectories.jsonl", episodes)
+    (out / "metrics.json").write_text(json.dumps(metrics, indent=1, sort_keys=True))
+    (out / "timing.json").write_text(json.dumps({k: round(v, 2) for k, v in t.items()}, indent=1))
+    record["policy"] = policy_name
+    record["result"] = {"pass_at_1": metrics["pass_at_1"], "reasons": metrics["reasons"]}
+    (out / "run.json").write_text(json.dumps(record, indent=1))
+    mt = f"; by turn {metrics['pass_by_turn']}; stops {metrics['stop_reasons']}" if "pass_by_turn" in metrics else ""
+    print(f"{policy_name}: pass@1 {metrics['pass_at_1']:.3f} on {metrics['n_episodes']} episodes; "
+          f"mixed tasks {metrics['mixed_task_frac']:.3f}{mt}; "
+          f"reasons {metrics['reasons']}; commit {(record['git']['commit'] or 'none')[:8]}"
+          f"{' (DIRTY)' if record['git']['dirty'] else ''} -> {out}")
+    return metrics
+
+
+def run_multiturn(args, tasks, seeds, vis, hid, refs, nv, limits, workers, record, out, t):
+    """v2: automatic-execution episodes (env/episode.py). Re-scoring re-scores EVERY stored turn."""
+    from env.episode import run_episode
+    from env.runner import set_max_concurrent
+    by_id = {x["id"]: x for x in tasks}
+    t0 = time.monotonic()
+    if args.rescore:
+        stored = read_jsonl(args.rescore)
+        policy_name = f"rescore:{stored[0].policy}" if stored else "rescore"
+        jobs = [(e, st) for e in stored for st in e.steps]
+        with ThreadPoolExecutor(workers) as pool:
+            rs = list(pool.map(lambda j: score(by_id[j[0].task_id], j[1].action, hid[j[0].task_id],
+                                               refs[j[0].task_id][nv:], limits), jobs))
+        it = iter(rs)
+        episodes = []
+        for e in stored:
+            steps = []
+            for st in e.steps:
+                r = next(it)
+                steps.append(Step(prompt=st.prompt, action=st.action, tool_output=st.tool_output,
+                                  reward=r.reward, reason=r.reason, detail=r.detail, timing=st.timing))
+            episodes.append(Episode(task_id=e.task_id, sample_idx=e.sample_idx, policy=policy_name,
+                                    hidden_seeds=seeds, steps=steps, info=e.info))
+        episodes.sort(key=lambda e: (e.task_id, e.sample_idx))
+        max_turns = max((e.info.get("max_turns", len(e.steps)) for e in episodes), default=1)
+    else:
+        policy = make_policy(args)
+        policy_name = policy.name + f"+mt{args.turns}"
+        set_max_concurrent(workers)                 # many episodes at once; cap the sandbox processes
+        from env.feedback import feedback
+        with ThreadPoolExecutor(workers) as pool:          # turn-1 feedback on the legacy code, once per task
+            first = dict(zip([x["id"] for x in tasks], pool.map(
+                lambda x: feedback(x, x["legacy"], vis[x["id"]], refs[x["id"]][:nv], limits)[0], tasks)))
+        jobs = [(x, i) for x in tasks for i in range(args.samples)]
+        run = lambda j: run_episode(j[0], lambda m: policy_generate(policy, m, j[0]), vis[j[0]["id"]],
+                                    refs[j[0]["id"]][:nv], hid[j[0]["id"]], refs[j[0]["id"]][nv:],
+                                    args.turns, limits, first_feedback=first[j[0]["id"]])
+        with ThreadPoolExecutor(args.gen_workers) as pool:
+            results = list(pool.map(run, jobs))
+        set_max_concurrent(None)
+        episodes = [to_episode(x, i, r, policy_name, seeds, args.turns) for (x, i), r in zip(jobs, results)]
+        max_turns = args.turns
+    t["episodes_s"] = time.monotonic() - t0
+    return finish(args, episodes, tasks, policy_name, record, out, t, multiturn_summary(episodes, max_turns))
+
+
 def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--policy", default="oracle", help="oracle | legacy | codemod | cheater:<name> | openai")
@@ -173,6 +275,8 @@ def parser():
     p.add_argument("--limit", type=int, help="evaluate only the first N tasks (quick checks)")
     p.add_argument("--seeds", default="train", help="train | eval:<round>")
     p.add_argument("--samples", type=int, default=1)
+    p.add_argument("--turns", type=int, default=1,
+                   help=">1: multi-turn episodes with automatic execution feedback (v2; turn 1 includes it)")
     p.add_argument("--feedback", action="store_true",
                    help="add the legacy code's errors/warnings on the visible examples to the prompt")
     p.add_argument("--fewshot", type=int, default=0, help="K hand-written demos as prior chat turns (baseline only)")

@@ -4,6 +4,7 @@
 #     sbatch slurm/eval_model.sbatch
 # MODEL can also be a checkpoint directory, e.g. results/grpo_s1/ckpt-00300
 # FEWSHOT=2 adds two hand-written demos to every prompt (few-shot baseline)
+# TURNS=3 runs multi-turn episodes with automatic execution feedback (v2); MAXLEN sets the context (default 8192)
 # FEEDBACK=1 adds the legacy code's errors/warnings on the visible examples (execution-feedback test)
 #SBATCH --job-name=eval
 #SBATCH --gres=gpu:nvidia_h100_pcie:1
@@ -25,7 +26,7 @@ else export VLLM_USE_FLASHINFER_SAMPLER=0; fi
 TASKS="${TASKS:-heldout_id}"; SAMPLES="${SAMPLES:-8}"; TEMP="${TEMP:-1.0}"; SEEDS="${SEEDS:-train}"
 PORT=$((8000 + SLURM_JOB_ID % 1000))
 
-envs/train/bin/vllm serve "$MODEL" --served-model-name policy --dtype bfloat16 --max-model-len 4096 \
+envs/train/bin/vllm serve "$MODEL" --served-model-name policy --dtype bfloat16 --max-model-len "${MAXLEN:-8192}" \
   --gpu-memory-utilization 0.85 --port "$PORT" \
   --generation-config vllm > "logs/vllm-$SLURM_JOB_ID.log" 2>&1 &
 VLLM_PID=$!
@@ -38,5 +39,5 @@ done
 
 envs/legacy/bin/python -m harness.evaluate --policy openai --model policy --base-url "http://localhost:$PORT/v1" \
   --tasks "$TASKS" ${LIMIT:+--limit "$LIMIT"} --samples "$SAMPLES" --temperature "$TEMP" --seeds "$SEEDS" \
-  ${FEWSHOT:+--fewshot "$FEWSHOT"} ${FEEDBACK:+--feedback} \
+  ${FEWSHOT:+--fewshot "$FEWSHOT"} ${FEEDBACK:+--feedback} ${TURNS:+--turns "$TURNS"} \
   --gen-workers 64 --workers 30 --out "$OUT"

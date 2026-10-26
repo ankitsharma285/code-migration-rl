@@ -31,7 +31,7 @@ def norm(code, entry):
 
 def error_key(detail):
     """Collapse an error message to its stable part: exception class + the API it names."""
-    d = (detail or "").strip().splitlines()[-1] if detail else ""
+    d = (detail or "").strip().splitlines()[0] if detail else ""     # first line names the API
     d = re.sub(r"'[^']{40,}'", "'...'", d)               # long quoted values
     d = re.sub(r"\b\d+(\.\d+)?\b", "N", d)                # numbers
     return d[:140]
@@ -58,7 +58,7 @@ def diagnose(run_dir):
             unchanged += 1
         if n is None and code:
             renamed += 1
-        if s["reason"] in ("crash", "warning", "define_error", "timeout"):
+        if s["reason"] in ("crash", "warning", "define_error", "timeout", "ast"):
             k = error_key(s["detail"])
             errors[s["reason"]][k] += 1
             if len(examples[k]) < 3:
@@ -67,6 +67,8 @@ def diagnose(run_dir):
             per_type[ty]["n"] += 1
             per_type[ty][s["reason"]] += 1
 
+    if any(e.get("info") for e in eps):
+        print("stop reasons:", dict(Counter(e["info"].get("stop") for e in eps)))
     print(f"entry function identical to legacy: {unchanged / len(eps):.1%}   "
           f"entry function missing/renamed: {renamed / len(eps):.1%}")
     for reason, c in errors.items():

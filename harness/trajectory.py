@@ -26,6 +26,7 @@ class Episode:
     policy: str
     hidden_seeds: list
     steps: list = field(default_factory=list)
+    info: dict = field(default_factory=dict)    # v2 multi-turn: {"stop": ..., "turns": ...}
 
     @property
     def reward(self):            # v1: the final step's reward is the episode's reward

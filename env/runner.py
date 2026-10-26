@@ -18,6 +18,7 @@ import shutil
 import signal
 import subprocess
 import tempfile
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -98,8 +99,24 @@ def network_mode():                     # kept for older callers
     return isolation_mode()
 
 
+_SLOTS = None
+
+
+def set_max_concurrent(n):
+    """Cap simultaneous sandbox processes across threads (multi-turn eval runs many episodes at once)."""
+    global _SLOTS
+    _SLOTS = threading.BoundedSemaphore(n) if n else None
+
+
 def run_job(runtime, code, entry, inputs, limits=None):
     """Run `code` in `runtime` ('legacy' or 'modern'), call `entry(**kw)` for each kw in `inputs`."""
+    if _SLOTS is None:
+        return _run_job(runtime, code, entry, inputs, limits)
+    with _SLOTS:
+        return _run_job(runtime, code, entry, inputs, limits)
+
+
+def _run_job(runtime, code, entry, inputs, limits=None):
     limits = limits or Limits()
     mode = isolation_mode()
     cmd = [python_for(runtime), "-I", str(CHILD), "--mem-mb", str(limits.mem_mb), "--cpu-s", str(limits.cpu_s),
