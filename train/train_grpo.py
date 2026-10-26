@@ -24,6 +24,7 @@ in this process), so this file runs in envs/train with torch and vLLM.
 """
 import argparse
 import json
+import warnings
 import math
 import os
 import random
@@ -171,6 +172,7 @@ class Trainer:
                "truncated_frac": sum(not d for d in replies) / max(len(replies), 1),
                **{k: round(v, 5) if isinstance(v, float) else v for k, v in stats.items()},
                **{k: round(v, 2) for k, v in t.items()}}
+        self.save_rollouts(eps)
         if self.step == 1:          # once: are turn boundaries tokenized exactly as the chat template does?
             checks = [c for c in (template_consistent(self.tok, e) for e in eps[:64]) if c is not None]
             rec["template_consistent"] = (sum(checks) / len(checks)) if checks else None
@@ -178,6 +180,19 @@ class Trainer:
             rec["peak_mem_gb"] = round(torch.cuda.max_memory_allocated() / 2**30, 2)
             torch.cuda.reset_peak_memory_stats()
         return rec
+
+    def save_rollouts(self, eps):
+        """Every rewarded episode, every AST-check rejection, and every visible-pass/hidden-fail episode, for
+        the red-team review (harness/review_rollouts.py): the places a reward hack would show up."""
+        with open(self.out / "rollouts.jsonl", "a") as f:
+            for e in eps:
+                vphf = e.stop == "visible_pass" and e.reward != 1.0
+                ast_hit = e.final is not None and e.final.reason == "ast"
+                if e.reward == 1.0 or ast_hit or vphf:
+                    f.write(json.dumps({"step": self.step, "task_id": e.item["task"]["id"], "reward": e.reward,
+                                        "reason": e.final.reason if e.final else "context",
+                                        "detail": e.final.detail if e.final else "", "turns": e.turns,
+                                        "stop": e.stop, "replies": e.texts, "feedback": e.feedbacks}) + "\n")
 
     # -- evaluation: sampled episodes on a fixed held-out sample, every turn scored on hidden inputs
     def evaluate(self):
@@ -229,6 +244,11 @@ class Trainer:
     def run(self, log=print):
         start, cfg = time.monotonic(), self.cfg
         logf = open(self.out / "log.jsonl", "a")
+        if self.step == 0 and self.eval_items:       # the untrained model on the SAME eval set and seed
+            ev = self.evaluate()
+            logf.write(json.dumps(ev) + "\n"); logf.flush()
+            log(f"eval  step 0  turn-1 {ev['eval_turn1_pass']:.3f}  by turn {ev['eval_pass_by_turn']}  "
+                f"feedback lift {ev['eval_feedback_lift']:+.3f}  vis-pass/hid-fail {ev['eval_vis_pass_hidden_fail']:.3f}")
         while self.step < cfg["max_steps"]:
             rec = self.train_step()
             logf.write(json.dumps(rec) + "\n"); logf.flush()
@@ -278,6 +298,7 @@ def build(cfg, out, device):
 
 
 def main():
+    warnings.filterwarnings("ignore", category=SyntaxWarning)   # from parsing model code (e.g. "\\." in strings)
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config")
     ap.add_argument("--out", required=True)
