@@ -20,9 +20,10 @@ def chat_ids(tokenizer, messages):
     return list(out)
 
 
-def prepare(split, hidden_seeds=TRAIN_HIDDEN_SEEDS, workers=8, limit=None):
-    """Returns a list of dicts: task, hidden inputs, hidden references, and the prompt messages.
-    Legacy references are expensive (one sandbox job per task), so they are cached per split hash."""
+def prepare(split, hidden_seeds=TRAIN_HIDDEN_SEEDS, workers=8, limit=None, feedback_prompt=True):
+    """Returns a list of dicts: task, visible/hidden inputs and legacy references, the turn-1 feedback on the
+    legacy code (v2), and the turn-1 prompt messages (with that feedback when feedback_prompt is on).
+    References and feedback are expensive (sandbox jobs per task), so both are cached per split hash."""
     tasks = load_tasks(split)[:limit] if limit else load_tasks(split)
     key = hashlib.sha256(json.dumps([tasks, hidden_seeds], sort_keys=True).encode()).hexdigest()[:16]
     path = CACHE / f"refs_{split if not split.endswith('.jsonl') else Path(split).stem}_{key}.json"
@@ -37,10 +38,23 @@ def prepare(split, hidden_seeds=TRAIN_HIDDEN_SEEDS, workers=8, limit=None):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(refs))
     nv = len(VISIBLE_SEEDS)
+    vis = {t["id"]: [make_inputs(t, s) for s in VISIBLE_SEEDS] for t in tasks}
+    fb = {}
+    if feedback_prompt:
+        from env.feedback import feedback
+        fpath = path.with_name(path.name.replace("refs_", "feedback_v1_"))
+        if fpath.exists():
+            fb = json.loads(fpath.read_text())
+        else:
+            with ThreadPoolExecutor(workers) as pool:
+                fb = dict(zip([t["id"] for t in tasks], pool.map(
+                    lambda t: feedback(t, t["legacy"], vis[t["id"]], refs[t["id"]][:nv])[0], tasks)))
+            fpath.write_text(json.dumps(fb))
     items = []
     for t in tasks:
-        vis = [make_inputs(t, s) for s in VISIBLE_SEEDS]
         hid = [make_inputs(t, s) for s in hidden_seeds]
         items.append({"task": t, "hidden_inputs": hid, "hidden_refs": refs[t["id"]][nv:],
-                      "messages": prompt_mod.build(t, vis, refs[t["id"]][:nv])})
+                      "visible_inputs": vis[t["id"]], "visible_refs": refs[t["id"]][:nv],
+                      "first_feedback": fb.get(t["id"]),
+                      "messages": prompt_mod.build(t, vis[t["id"]], refs[t["id"]][:nv], fb.get(t["id"]))})
     return items

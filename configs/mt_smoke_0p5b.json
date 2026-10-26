@@ -1,0 +1,17 @@
+{
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "seed": 1,
+ "turns": 3,
+ "feedback_prompt": true,
+ "prompts_per_step": 8,
+ "group_size": 4,
+ "max_steps": 3,
+ "max_new_tokens": 512,
+ "max_model_len": 8192,
+ "logit_chunk": 512,
+ "eval_tasks": 8,
+ "eval_samples": 3,
+ "eval_every": 3,
+ "ckpt_every": 3,
+ "score_workers": 30
+}

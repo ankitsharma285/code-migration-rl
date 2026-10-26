@@ -11,7 +11,7 @@ import torch
 from transformers import Qwen2Config, Qwen2ForCausalLM
 
 from train.grpo import (build_batch, completion_logprobs, group_advantages, grpo_loss, grpo_step,
-                        mixed_group_fraction)
+                        grpo_step_packed, mixed_group_fraction, pack)
 
 PAD = 0
 
@@ -136,6 +136,51 @@ def test_completion_logprobs_match_a_direct_computation():
     full = torch.log_softmax(model(input_ids=torch.tensor([[5, 6, 7, 10, 11, 12]])).logits[0], -1)
     direct = torch.stack([full[2, 10], full[3, 11], full[4, 12]])
     assert torch.allclose(lp, direct, atol=1e-5)
+
+
+# ---------------------------------------------------------------- multi-turn (v2)
+
+def test_chunked_logprobs_match_unchunked_values_and_gradients():
+    b = build_batch([[5, 6, 7], [8, 9]], [[10, 11, 12, 13, 14], [15, 16]], PAD)
+    m1, m2 = tiny_model(), tiny_model()
+    a, _ = completion_logprobs(m1, b)
+    c, _ = completion_logprobs(m2, b, chunk=2)
+    assert torch.allclose(a, c, atol=1e-5), "chunked log-probs must equal the full computation"
+    (a * b.completion_mask).sum().backward()
+    (c * b.completion_mask).sum().backward()
+    assert torch.allclose(grads(m1), grads(m2), atol=1e-5), "chunked backward must give the same gradient"
+
+
+def test_masked_feedback_tokens_carry_no_loss():
+    """Environment tokens (mask 0) inside an episode: the loss must equal a sum over the policy's tokens only."""
+    model = tiny_model()
+    prompt, cont, mask = [5, 6, 7], [10, 11, 20, 21, 22, 12, 13], [1, 1, 0, 0, 0, 1, 1]
+    b = build_batch([prompt], [cont], PAD, [mask])
+    lp = completion_logprobs(model, b)[0]
+    loss, st = grpo_loss(lp, lp.detach(), None, torch.tensor([1.0]), b.completion_mask, 4)
+    manual = -(lp[0, [0, 1, 5, 6]]).exp().div(lp[0, [0, 1, 5, 6]].detach().exp()).sum() / 4
+    assert st["tokens"] == 4 and torch.allclose(loss, manual, atol=1e-6), "feedback tokens must be excluded"
+
+
+def test_packed_step_matches_plain_step():
+    prompts = [[5, 6, 7], [8, 9], [3, 4, 5, 6], [7]]
+    comps = [[10, 11], [12, 13, 14], [15], [16, 17, 18, 19]]
+    adv = torch.tensor([1.0, -1.0, 0.5, -0.5])
+    m1, m2 = tiny_model(), tiny_model()
+    o1, o2 = torch.optim.SGD(m1.parameters(), lr=0.1), torch.optim.SGD(m2.parameters(), lr=0.1)
+    grpo_step(m1, o1, build_batch(prompts, comps, PAD), adv, micro_batch=4, max_grad_norm=1e9)
+    seqs = [(p, c, [1] * len(c)) for p, c in zip(prompts, comps)]
+    st = grpo_step_packed(m2, o2, seqs, adv, PAD, max_tokens=10, max_rows=8, max_grad_norm=1e9, logit_chunk=2)
+    assert st["micro_batches"] > 1, "the token budget should split this batch"
+    for p1, p2 in zip(m1.parameters(), m2.parameters()):
+        assert torch.allclose(p1, p2, atol=1e-6), "packing + chunking must not change the update"
+
+
+def test_pack_respects_token_budget():
+    lengths = [100, 900, 300, 50, 800, 400]
+    groups = pack(lengths, max_tokens=1000, max_rows=8)
+    assert sorted(i for g in groups for i in g) == list(range(6))
+    assert all(len(g) * max(lengths[i] for i in g) <= 1000 for g in groups)
 
 
 if __name__ == "__main__":

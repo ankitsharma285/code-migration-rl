@@ -37,7 +37,7 @@ class HFGenerator:
         self.model, self.tok, self.max_new_tokens = model, tokenizer, max_new_tokens
 
     @torch.no_grad()
-    def generate(self, prompt_ids, n, temperature=1.0, top_p=1.0, seed=None):
+    def generate(self, prompt_ids, n, temperature=1.0, top_p=1.0, seed=None, seeds=None):
         if seed is not None:
             torch.manual_seed(seed)
         out = []
@@ -75,9 +75,13 @@ class VLLMGenerator:
         self.max_new_tokens = max_new_tokens
         self.eos = self.llm.get_tokenizer().eos_token_id
 
-    def generate(self, prompt_ids, n, temperature=1.0, top_p=1.0, seed=None):
+    def generate(self, prompt_ids, n, temperature=1.0, top_p=1.0, seed=None, seeds=None):
+        """seeds: one seed per prompt (multi-turn: each episode's later turns get their own random stream;
+        a shared seed would correlate the samples of different episodes)."""
         from vllm import SamplingParams
-        sp = SamplingParams(n=n, temperature=temperature, top_p=top_p, max_tokens=self.max_new_tokens, seed=seed)
+        mk = lambda s: SamplingParams(n=n, temperature=temperature, top_p=top_p, max_tokens=self.max_new_tokens,
+                                      seed=s)
+        sp = [mk(s) for s in seeds] if seeds is not None else mk(seed)
         try:
             from vllm.inputs import TokensPrompt
             prompts = [TokensPrompt(prompt_token_ids=p) for p in prompt_ids]
