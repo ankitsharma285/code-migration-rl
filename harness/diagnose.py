@@ -69,6 +69,20 @@ def diagnose(run_dir):
 
     if any(e.get("info") for e in eps):
         print("stop reasons:", dict(Counter(e["info"].get("stop") for e in eps)))
+        # After a failed turn, does the next reply change the code at all? "repeat" = same entry function as the
+        # previous attempt; "back to legacy" = the reply is the original legacy function again.
+        follow = repeat = legacy_again = 0
+        for e in eps:
+            t = by_id[e["task_id"]]
+            legacy = norm(t["legacy"], t["entry"])
+            codes = [norm(extract_code(s["action"]) or "", t["entry"]) for s in e["steps"]]
+            for prev, nxt in zip(codes, codes[1:]):
+                follow += 1
+                repeat += nxt is not None and nxt == prev
+                legacy_again += nxt is not None and nxt == legacy
+        if follow:
+            print(f"after a failed turn: same code repeated {repeat / follow:.1%}, "
+                  f"legacy code returned {legacy_again / follow:.1%}  ({follow} follow-up turns)")
     print(f"entry function identical to legacy: {unchanged / len(eps):.1%}   "
           f"entry function missing/renamed: {renamed / len(eps):.1%}")
     for reason, c in errors.items():
