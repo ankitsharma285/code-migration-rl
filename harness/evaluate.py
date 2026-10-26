@@ -248,7 +248,7 @@ def run_multiturn(args, tasks, seeds, vis, hid, refs, nv, limits, workers, recor
         max_turns = max((e.info.get("max_turns", len(e.steps)) for e in episodes), default=1)
     else:
         policy = make_policy(args)
-        policy_name = policy.name + f"+mt{args.turns}"
+        policy_name = policy.name + f"+mt{args.turns}" + ("+placebo" if args.placebo else "")
         set_max_concurrent(workers)                 # many episodes at once; cap the sandbox processes
         from env.feedback import feedback
         with ThreadPoolExecutor(workers) as pool:          # turn-1 feedback on the legacy code, once per task
@@ -257,7 +257,7 @@ def run_multiturn(args, tasks, seeds, vis, hid, refs, nv, limits, workers, recor
         jobs = [(x, i) for x in tasks for i in range(args.samples)]
         run = lambda j: run_episode(j[0], lambda m: policy_generate(policy, m, j[0]), vis[j[0]["id"]],
                                     refs[j[0]["id"]][:nv], hid[j[0]["id"]], refs[j[0]["id"]][nv:],
-                                    args.turns, limits, first_feedback=first[j[0]["id"]])
+                                    args.turns, limits, first_feedback=first[j[0]["id"]], placebo=args.placebo)
         with ThreadPoolExecutor(args.gen_workers) as pool:
             results = list(pool.map(run, jobs))
         set_max_concurrent(None)
@@ -277,6 +277,8 @@ def parser():
     p.add_argument("--samples", type=int, default=1)
     p.add_argument("--turns", type=int, default=1,
                    help=">1: multi-turn episodes with automatic execution feedback (v2; turn 1 includes it)")
+    p.add_argument("--placebo", action="store_true",
+                   help="multi-turn control: later turns say only that the code failed, not why")
     p.add_argument("--feedback", action="store_true",
                    help="add the legacy code's errors/warnings on the visible examples to the prompt")
     p.add_argument("--fewshot", type=int, default=0, help="K hand-written demos as prior chat turns (baseline only)")

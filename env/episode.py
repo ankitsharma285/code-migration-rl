@@ -25,6 +25,10 @@ FOLLOWUP = """Running your code on pandas 2.2 / NumPy 2.x with the examples give
 
 Fix the problems and reply with the complete migrated function in a single ```python code block."""
 NO_CODE = "No ```python code block was found in your reply."
+# Placebo control: the same follow-up turn with the error content removed. The model still learns that its
+# attempt failed (the environment stops on a visible pass either way), but not WHY. If a trained agent does
+# as well with this as with real feedback, it is not using the feedback's content.
+PLACEBO = "Your code did not pass the checks on the examples."
 
 
 class ContextFull(Exception):
@@ -48,7 +52,7 @@ class EpisodeResult:
 
 
 def run_episode(task, generate, vis, vis_refs, hid, hid_refs, max_turns=3, limits=None, score_every_turn=True,
-                first_feedback=None):
+                first_feedback=None, placebo=False):
     """generate(messages) -> completion text (one sample). Raises ContextFull when out of context.
     first_feedback: the legacy code's feedback, if already computed (same for every sample of a task)."""
     first_fb = first_feedback if first_feedback is not None else feedback(task, task["legacy"], vis, vis_refs, limits)[0]
@@ -75,8 +79,9 @@ def run_episode(task, generate, vis, vis_refs, hid, hid_refs, max_turns=3, limit
         if code is None and len(res.turns) >= 2 and extract_code(res.turns[-2].completion) is None:
             res.stop = "no_code"
             break
+        shown = PLACEBO if placebo else fb
         messages = messages + [{"role": "assistant", "content": completion},
-                               {"role": "user", "content": FOLLOWUP.format(feedback=fb)}]
+                               {"role": "user", "content": FOLLOWUP.format(feedback=shown)}]
     else:
         res.stop = "max_turns"
     if res.turns:
