@@ -9,6 +9,7 @@ Each rule closes a concrete route to a reward of 1 without a real migration:
   private / internal submodules    -> pandas.core, numpy._core etc. expose removed APIs under new names
   attributes starting with "_"     -> df._append (removed API kept privately), __class__/__dict__ tricks
   getattr/eval/exec/open/...       -> string-built attribute access and dynamic code bypass the above
+  io.open / io.FileIO              -> the same file access as open() through an allowed module
   bare / broad except clauses      -> swallowing the error a removed API raises
   assigning to pd./np. attributes  -> monkeypatching a removed API back in, or flipping library modes
   set_option / option_context      -> changing global library behavior instead of migrating code
@@ -31,6 +32,7 @@ BROAD_EXCEPTIONS = {
     "Exception", "BaseException", "Warning", "DeprecationWarning", "FutureWarning",
     "PendingDeprecationWarning", "UserWarning", "RuntimeWarning",
 }
+FILE_ATTRS = {"open", "open_code", "FileIO"}
 OPTION_CALLS = {"set_option", "option_context", "reset_option", "seterr", "seterrcall"}
 LIBRARY_ROOTS = {"pandas", "numpy"}
 
@@ -72,6 +74,8 @@ class _Checker(ast.NodeVisitor):
     def visit_Attribute(self, node):
         if node.attr.startswith("_"):
             self.flag(node, f"access to private/dunder attribute {node.attr!r}")
+        if node.attr in FILE_ATTRS and self._root_name(node) == "io":
+            self.flag(node, f"file access via io.{node.attr}")
         if node.attr in OPTION_CALLS:
             self.flag(node, f"global library option change via {node.attr!r}")
         self.generic_visit(node)

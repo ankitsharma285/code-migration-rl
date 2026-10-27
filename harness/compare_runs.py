@@ -3,6 +3,9 @@
     python -m harness.compare_runs results/s1_mt3_heldout_id results/s1_mt3_placebo_heldout_id
     python -m harness.compare_runs results/s1_mt3_heldout_id results/st_s1_fb_heldout_id --b-best-of 3
 
+A or B can be several runs joined by commas (e.g. two seeds): each task's score is then the mean over those runs,
+so the interval pools seeds on that side.
+
 --b-best-of K scores run B by per-task pass@K (Chen et al.) instead of mean pass: for single-turn runs this equals
 visible-selected best-of-K, since a visible pass predicts a hidden pass >99% of the time (harness/bestofn.py).
 
@@ -44,9 +47,17 @@ def bootstrap(diffs, draws=10000, seed=0):
     return means[int(0.025 * draws)], means[int(0.975 * draws)]
 
 
+def load_many(dirs, best_of=1):
+    """Several runs (comma-separated) -> per-task mean over runs, keeping only tasks present in every run."""
+    loaded = [load(d, best_of) for d in dirs.split(",")]
+    common = set.intersection(*(set(r) for _, r in loaded))
+    out = {t: {k: sum(r[t][k] for _, r in loaded) / len(loaded) for k in ("final", "turn1")} for t in common}
+    return loaded[0][0], out
+
+
 def compare(a_dir, b_dir, b_best_of=1):
-    cfg_a, a = load(a_dir)
-    cfg_b, b = load(b_dir, b_best_of)
+    cfg_a, a = load_many(a_dir)
+    cfg_b, b = load_many(b_dir, b_best_of)
     common = sorted(set(a) & set(b))
     if len(common) < max(len(a), len(b)):
         print(f"warning: only {len(common)} tasks in common ({len(a)} vs {len(b)})")

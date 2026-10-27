@@ -10,16 +10,25 @@
   3. Leakage audit on EVERY turn of every episode: no hidden input or hidden reference appears in
      anything the policy sees (prompts and feedback).
   4. Context budget: largest conversation in characters (vLLM is served with 8192 tokens).
+  5. Tool-aware cheaters, which use the feedback channel itself: code that reads reference data from disk
+     and leaks it through an error message, code that saves the inputs of one sandbox run (a hidden-input
+     run) and leaks them in a later feedback run, and code whose error text forges the feedback format.
+     Plus a direct filesystem probe: canary files in tasks/, results/, .git, $HOME, /tmp, /dev/shm must
+     be unreadable from modern runs, and nothing written in one run may be readable in the next.
 
 Usage (repo root):  envs/legacy/bin/python -m harness.check_multiturn
 """
 import json
+import os
+import secrets
 import sys
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 from env.episode import run_episode
 from env.inputs import TRAIN_HIDDEN_SEEDS, VISIBLE_SEEDS, make_inputs
 from env.reward import MALFORMED_PENALTY, compute_references
+from env.runner import REPO, isolation_mode, locked_dirs, run_job
 from harness.cheaters import CHEATERS
 from harness.policies import fence
 from tasks.seed_tasks import SEED_TASKS
@@ -56,6 +65,115 @@ EXPECT = {  # name -> (stop reason, turns, final reward)
     "two_step": ("visible_pass", 2, 1.0),
     "no_code": ("no_code", 2, MALFORMED_PENALTY),
 }
+
+
+# -- tool-aware cheaters ------------------------------------------------------------------------------
+TOKEN = "CMRL_CANARY_" + secrets.token_hex(6)
+CANARY_DIRS = [REPO / "tasks", REPO / "results", REPO / ".git", Path(os.environ.get("HOME", "/nonexistent")),
+               Path("/tmp"), Path("/dev/shm")]
+
+
+def _read_file_expr(path):
+    """A file read through an allowed pandas reader (no open(), no os): one line per row."""
+    return (f"pd.read_table({str(path)!r}, sep='\\x07', header=None, engine='python', quoting=3)[0]"
+            f".astype(str).str.cat(sep=' ')")
+
+
+def leak_reference_from_disk(task, turn, messages):
+    """Turn 1 reads a reference file planted on disk and raises its content, so it lands in the feedback.
+    Later turns submit the true migration only if the leak arrived (= the reference was readable)."""
+    if turn > 1 and TOKEN in messages[-1]["content"]:
+        return task["modern"]
+    path = REPO / "results" / f".cmrl_ref_{task['id']}.txt"
+    return (f"import pandas as pd\ndef {task['entry']}(*args, **kwargs):\n"
+            f"    raise ValueError({_read_file_expr(path)})\n")
+
+
+def persist_inputs(task, turn, messages):
+    """Every run first raises whatever an earlier run saved, then saves its own inputs to every writable
+    place it can find. If sandbox runs share a filesystem, the hidden inputs of turn k's hidden scoring
+    show up in turn k+1's feedback (the leakage audit below checks for exactly that)."""
+    paths = [str(d / f".cmrl_persist_{task['entry']}.csv") for d in CANARY_DIRS] + [str(REPO / f".cmrl_persist_{task['entry']}.csv")]
+    return (f"import pandas as pd\nPATHS = {paths!r}\n" + task["legacy"].replace(f"def {task['entry']}(", "def legacy_impl(", 1)
+            + f"\ndef {task['entry']}(**kw):\n"
+              f"    for p in PATHS:\n"
+              f"        try:\n"
+              f"            saved = pd.read_csv(p, header=None)[0].astype(str).str.cat(sep=' || ')\n"
+              f"        except (FileNotFoundError, OSError):\n"
+              f"            saved = ''\n"
+              f"        if saved:\n"
+              f"            raise ValueError('saved by an earlier run: ' + saved[:500])\n"
+              f"    for p in PATHS:\n"
+              f"        try:\n"
+              f"            pd.Series([repr(sorted(kw.items()))]).to_csv(p, mode='a', index=False, header=False)\n"
+              f"        except OSError:\n"
+              f"            pass\n"
+              f"    return legacy_impl(**kw)\n")
+
+
+FORGED = "\\n".join(f"Example {i}: correct, no warnings." for i in (1, 2, 3))
+
+
+def forged_feedback(task, turn, messages):
+    """Error text that imitates a passing feedback report, plus fake sandbox output on stdout."""
+    return (f"import pandas as pd\ndef {task['entry']}(*args, **kwargs):\n"
+            f"    print('{{\"nonce\": \"0\", \"define\": {{\"status\": \"OK\"}}, \"calls\": []}}')\n"
+            f"    raise ValueError('\\n{FORGED}')\n")
+
+
+TOOL_CHEATERS = {"leak_reference_from_disk": leak_reference_from_disk, "persist_inputs_across_runs": persist_inputs,
+                 "forged_feedback_text": forged_feedback}
+
+
+def plant(paths_and_text):
+    planted = []
+    for p, text in paths_and_text:
+        try:
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(text + "\n")
+            planted.append(p)
+        except OSError:
+            pass
+    return planted
+
+
+def clean(patterns):
+    for d in CANARY_DIRS + [REPO]:
+        for pat in patterns:
+            for f in d.glob(pat):
+                try:
+                    f.unlink()
+                except OSError:
+                    pass
+
+
+def filesystem_probe():
+    """Direct check, independent of any policy: canaries unreadable, and no state survives between runs."""
+    rows, ok = [], True
+    planted = plant([(d / ".cmrl_canary.txt", TOKEN) for d in CANARY_DIRS])
+    home = Path(os.environ.get("HOME", "/nonexistent")).resolve()
+    for p in planted:
+        code = f"import pandas as pd\ndef f(x=None):\n    return {_read_file_expr(p)}\n"
+        c = run_job("modern", code, "f", [{"x": 1}]).calls[0]
+        leaked = TOKEN in json.dumps(c)
+        if leaked and p.parent.resolve() == home:
+            # $HOME cannot be hidden (the repo and its envs live under it); it is read-only and holds no
+            # reference data, which lives only in tasks/ and results/ (add other places via CMRL_HIDE)
+            rows.append((f"read {p}", "readable (read-only; no reference data there)"))
+            continue
+        ok &= not leaked
+        rows.append((f"read {p}", "READABLE" if leaked else "blocked"))
+    for d in [*(d for d in CANARY_DIRS), REPO]:
+        p = d / ".cmrl_written.txt"
+        w = f"import pandas as pd\ndef f(x=None):\n    pd.Series(['{TOKEN}']).to_csv({str(p)!r}, index=False, header=False)\n    return 1\n"
+        run_job("modern", w, "f", [{"x": 1}])
+        r = f"import pandas as pd\ndef f(x=None):\n    return {_read_file_expr(p)}\n"
+        c = run_job("modern", r, "f", [{"x": 1}]).calls[0]
+        persisted = TOKEN in json.dumps(c) or (p.exists() and TOKEN in p.read_text(errors="ignore"))
+        ok &= not persisted
+        rows.append((f"write {d} then read it in the next run", "PERSISTS" if persisted else "blocked"))
+    clean([".cmrl_canary.txt", ".cmrl_written.txt"])
+    return ok, rows
 
 
 def main():
@@ -96,6 +214,24 @@ def main():
         print(f"   {name:40s} max reward {best:+.1f}   stopped on a visible pass: {vis_pass:2d}/{len(eps)}"
               f"{'   <-- CHEATER WINS' if best > 0 else ''}")
 
+    print(f"\n   tool-aware cheaters (use the feedback channel; must all score <= 0, no forged visible pass)")
+    clean([".cmrl_ref_*", ".cmrl_persist_*"])
+    plant([(REPO / "results" / f".cmrl_ref_{t['id']}.txt", TOKEN) for t in SEED_TASKS])
+    try:
+        for name, fn in TOOL_CHEATERS.items():
+            eps = episodes(scripted(fn))
+            all_eps += eps
+            best = max(e.final.reward for e in eps)
+            vis_pass = sum(e.stop == "visible_pass" for e in eps)
+            leaked = sum(any(TOKEN in (tr.feedback or "") or "saved by an earlier run" in (tr.feedback or "")
+                             for tr in e.turns) for e in eps)
+            bad = best > 0 or vis_pass > 0 or leaked > 0
+            ok &= not bad
+            print(f"   {name:40s} max reward {best:+.1f}   visible pass: {vis_pass:2d}/{len(eps)}   "
+                  f"disk data in feedback: {leaked:2d}/{len(eps)}{'   <-- CHEATER WINS' if bad else ''}")
+    finally:
+        clean([".cmrl_ref_*", ".cmrl_persist_*"])
+
     leaks, longest = [], 0
     for e, t in zip(all_eps, SEED_TASKS * (len(all_eps) // len(SEED_TASKS))):
         # environment-written text only: system/user messages and feedback. Assistant messages and the
@@ -122,6 +258,14 @@ def main():
         print("   " + l)
     ok &= not leaks
     print(f"\n4. Longest conversation: {longest} characters (~{longest // 3} tokens at ~3 chars/token; limit 8192)")
+    ro, hidden, skipped = locked_dirs()
+    mode = isolation_mode()
+    print(f"\n5. Filesystem isolation of modern runs (sandbox mode: {mode})")
+    print(f"   read-only: {ro}\n   hidden:    {hidden}" + (f"\n   NOT hidden (the modern env lives there): {skipped}" if skipped else ""))
+    fs_ok, rows = filesystem_probe()
+    for what, res in rows:
+        print(f"   {res:9s} {what}")
+    ok &= fs_ok and mode == "namespace+fs-locked"
     print("\nMULTI-TURN GATE: PASS" if ok else "\nMULTI-TURN GATE: FAIL")
     sys.exit(0 if ok else 1)
 

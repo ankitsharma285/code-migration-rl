@@ -6,8 +6,13 @@ Isolation per job:
   - wall-clock timeout; on expiry the whole process group is killed
   - no network: a user+network namespace (`unshare -rn`) when the machine allows it,
     otherwise a socket block inside the child (weaker; the AST check covers the gap)
-  - in MODERN runs, the legacy env is hidden behind an empty tmpfs (mount namespace), so code
-    cannot load the old pandas from disk even if it slips past the AST check
+  - in MODERN runs (the only runs that execute policy code), a mount namespace locks the filesystem:
+      * the legacy env, tasks/ (reference migrations), results/ (cached hidden references), and .git
+        are hidden behind empty tmpfs mounts, so code cannot read reference data and leak it through
+        an error message into the next turn's feedback
+      * /tmp, /dev/shm and the temp root are fresh tmpfs per job, and the repo and the real home are
+        read-only, so code cannot persist data from one job (e.g. a hidden-input run) to the next
+      * the legacy env stays hidden, so code cannot load the old pandas from disk
   - single-threaded math libraries (multithreaded BLAS in many parallel children exceeds
     per-user process limits and slows everything through contention)
 """
@@ -68,6 +73,49 @@ def python_for(runtime):
 
 _HIDE = 'mount -t tmpfs tmpfs "$1" && shift && exec "$@"'
 
+# args: WORKDIR  RO_DIR... --  HIDE_DIR... --  CMD...
+_LOCK = r"""set -e
+w=$1; shift
+while [ "$1" != "--" ]; do if [ -d "$1" ]; then mount --bind "$1" "$1"; mount -o remount,bind,ro "$1"; fi; shift; done
+shift
+while [ "$1" != "--" ]; do if [ -d "$1" ]; then mount -t tmpfs -o size=256m tmpfs "$1"; fi; shift; done
+shift
+mkdir -p "$w"; cd "$w"; exec "$@"
+"""
+
+
+def _dedupe(paths):
+    out = []
+    for p in paths:
+        p = str(Path(p).resolve())
+        if p not in out:
+            out.append(p)
+    return out
+
+
+def _needed_by_modern():
+    """Real paths the modern interpreter lives under (its env and, through symlinks, the base Python)."""
+    env = envs_dir() / "modern"
+    return [str(env.resolve()), str(Path(python_for("modern")).resolve().parent.parent)]
+
+
+@lru_cache(maxsize=1)
+def locked_dirs():
+    """(read-only dirs, hidden dirs, skipped) for MODERN runs. CMRL_HIDE adds hidden dirs (colon-separated).
+    A dir the modern interpreter itself lives under cannot be hidden; it is skipped and reported."""
+    ro = _dedupe([REPO, Path(os.environ.get("HOME", REPO)), envs_dir()])
+    want = _dedupe([envs_dir() / "legacy", REPO / "tasks", REPO / "results", REPO / ".git",
+                    "/tmp", "/dev/shm", tempfile.gettempdir()]
+                   + [d for d in os.environ.get("CMRL_HIDE", "").split(":") if d])
+    needed = _needed_by_modern()
+    blocks = lambda h: any(n == h or n.startswith(h.rstrip("/") + "/") for n in needed)
+    return ro, [h for h in want if not blocks(h)], [h for h in want if blocks(h)]
+
+
+def _lock_cmd(workdir, cmd):
+    ro, hidden, _ = locked_dirs()
+    return ["unshare", "-rmn", "sh", "-c", _LOCK, "sh", workdir, *ro, "--", *hidden, "--", *cmd]
+
 
 def _works(cmd):
     try:
@@ -79,15 +127,22 @@ def _works(cmd):
 @lru_cache(maxsize=1)
 def isolation_mode():
     """Strongest isolation this machine allows, checked once:
+      'namespace+fs-locked'    no network; in MODERN runs reference data is hidden, the repo and home are
+                               read-only, and temp dirs are fresh per job (see the module docstring)
       'namespace+hide-legacy'  no network, and the legacy env is invisible inside MODERN runs
                                (blocks loading the old pandas from disk, independent of the AST check)
       'namespace'              no network only
       'socket-block'           socket calls blocked inside the child (weakest; the AST check covers it)
     """
+    forced = os.environ.get("CMRL_SANDBOX")      # e.g. to show what an older, weaker sandbox lets through
+    if forced in ("namespace+fs-locked", "namespace+hide-legacy", "namespace", "socket-block"):
+        return forced
     if not shutil.which("unshare"):
         return "socket-block"
     probe_dir = tempfile.mkdtemp(prefix="sbx_probe_")
     try:
+        if _works(_lock_cmd(probe_dir, [python_for("modern"), "-I", "-c", "pass"])):
+            return "namespace+fs-locked"
         if _works(["unshare", "-rmn", "sh", "-c", _HIDE, "sh", probe_dir, "true"]):
             return "namespace+hide-legacy"
     finally:
@@ -121,7 +176,10 @@ def _run_job(runtime, code, entry, inputs, limits=None):
     mode = isolation_mode()
     cmd = [python_for(runtime), "-I", str(CHILD), "--mem-mb", str(limits.mem_mb), "--cpu-s", str(limits.cpu_s),
            "--exec-s", str(limits.exec_s)]
-    if mode == "namespace+hide-legacy" and runtime == "modern":
+    workdir = tempfile.mkdtemp(prefix="sbx_")
+    if mode == "namespace+fs-locked" and runtime == "modern":
+        cmd = _lock_cmd(workdir, cmd)
+    elif mode == "namespace+hide-legacy" and runtime == "modern":
         legacy_dir = str((envs_dir() / "legacy").resolve())
         cmd = ["unshare", "-rmn", "sh", "-c", _HIDE, "sh", legacy_dir] + cmd
     elif mode.startswith("namespace"):
@@ -129,7 +187,6 @@ def _run_job(runtime, code, entry, inputs, limits=None):
     else:
         cmd.append("--block-socket")
 
-    workdir = tempfile.mkdtemp(prefix="sbx_")
     env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": workdir, "TMPDIR": workdir,
            "LANG": "C.UTF-8", "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1", **SINGLE_THREAD}
     nonce = secrets.token_hex(16)

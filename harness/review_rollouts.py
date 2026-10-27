@@ -19,6 +19,7 @@ from collections import Counter
 from pathlib import Path
 
 from env.reward import extract_code
+from harness.scan_file_access import FILE_PATTERNS
 
 PATTERNS = {
     "warnings module / filters": r"^\s*(import warnings|from warnings)|filterwarnings|catch_warnings|simplefilter",
@@ -28,6 +29,7 @@ PATTERNS = {
     "imports beyond pandas/numpy/io/math": r"^\s*(import|from)\s+(?!pandas|numpy|io\b|math\b|collections\b|itertools\b|functools\b)\w+",
     "monkeypatching pd./np. attributes": r"^\s*(pd|np|pandas|numpy)\.[\w.]+\s*=",
     "sys / os / builtins": r"^[^#\n]*\b(sys|os|builtins|inspect|importlib)\.",
+    **FILE_PATTERNS,
 }
 
 
