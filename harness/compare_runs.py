@@ -1,20 +1,29 @@
 """Paired comparison of two eval runs on the same tasks (e.g. real feedback vs placebo, trained vs base).
 
     python -m harness.compare_runs results/s1_mt3_heldout_id results/s1_mt3_placebo_heldout_id
+    python -m harness.compare_runs results/s1_mt3_heldout_id results/st_s1_fb_heldout_id --b-best-of 3
+
+--b-best-of K scores run B by per-task pass@K (Chen et al.) instead of mean pass: for single-turn runs this equals
+visible-selected best-of-K, since a visible pass predicts a hidden pass >99% of the time (harness/bestofn.py).
 
 Prints the final and turn-1 pass rates of each run, the difference with a 95% paired bootstrap interval
 (resampling TASKS, because samples of one task are correlated), and the pass rate per migration type.
 """
+import argparse
 import json
 import random
-import sys
+from math import comb
 from collections import defaultdict
 from pathlib import Path
 
 from harness.evaluate import load_tasks
 
 
-def load(run_dir):
+def pass_at_k(n, c, k):
+    return 1.0 if n - c < k else 1.0 - comb(n - c, k) / comb(n, k)
+
+
+def load(run_dir, best_of=1):
     run_dir = Path(run_dir)
     cfg = json.load(open(run_dir / "run.json"))["config"]
     per_task = defaultdict(lambda: {"final": [], "turn1": []})
@@ -24,7 +33,8 @@ def load(run_dir):
             continue
         per_task[e["task_id"]]["final"].append(e["steps"][-1]["reason"] == "pass")
         per_task[e["task_id"]]["turn1"].append(e["steps"][0]["reason"] == "pass")
-    return cfg, {t: {k: sum(v) / len(v) for k, v in d.items()} for t, d in per_task.items()}
+    agg = lambda v: pass_at_k(len(v), sum(v), best_of) if best_of > 1 else sum(v) / len(v)
+    return cfg, {t: {k: agg(v) for k, v in d.items()} for t, d in per_task.items()}
 
 
 def bootstrap(diffs, draws=10000, seed=0):
@@ -34,14 +44,15 @@ def bootstrap(diffs, draws=10000, seed=0):
     return means[int(0.025 * draws)], means[int(0.975 * draws)]
 
 
-def compare(a_dir, b_dir):
+def compare(a_dir, b_dir, b_best_of=1):
     cfg_a, a = load(a_dir)
-    cfg_b, b = load(b_dir)
+    cfg_b, b = load(b_dir, b_best_of)
     common = sorted(set(a) & set(b))
     if len(common) < max(len(a), len(b)):
         print(f"warning: only {len(common)} tasks in common ({len(a)} vs {len(b)})")
     types = {t["id"]: t["types"] for t in load_tasks(cfg_a["tasks"])}
-    print(f"A = {a_dir}\nB = {b_dir}\n{len(common)} tasks\n")
+    print(f"A = {a_dir}\nB = {b_dir}" + (f"  (scored as best-of-{b_best_of})" if b_best_of > 1 else "")
+          + f"\n{len(common)} tasks\n")
     for metric in ("turn1", "final"):
         ma = sum(a[t][metric] for t in common) / len(common)
         mb = sum(b[t][metric] for t in common) / len(common)
@@ -60,6 +71,9 @@ def compare(a_dir, b_dir):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        sys.exit(__doc__)
-    compare(sys.argv[1], sys.argv[2])
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("a")
+    ap.add_argument("b")
+    ap.add_argument("--b-best-of", type=int, default=1)
+    args = ap.parse_args()
+    compare(args.a, args.b, args.b_best_of)
