@@ -1,0 +1,22 @@
+{
+ "source": "filter rejections at the migration check only",
+ "threshold": 0.7,
+ "hard_id": {
+  "n": 238,
+  "sha256": "14bff02b1fb922d39c1d014027ffeed49acdf86ac0143a18fed7e10661e311c5",
+  "reference_failure": {
+   "crash": 5,
+   "mismatch": 216,
+   "warning": 17
+  }
+ },
+ "hard_cat": {
+  "n": 21,
+  "sha256": "56783dc091623bab7c9b93318b7b6486d24d601ce46f9bd7dba2c4018cf4ad10",
+  "reference_failure": {
+   "crash": 3,
+   "mismatch": 15,
+   "warning": 3
+  }
+ }
+}
