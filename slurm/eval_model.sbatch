@@ -6,6 +6,7 @@
 # FEWSHOT=2 adds two hand-written demos to every prompt (few-shot baseline)
 # TURNS=3 runs multi-turn episodes with automatic execution feedback (v2); MAXLEN sets the context (default 8192)
 # PLACEBO=1 (with TURNS) replaces later-turn feedback with "your code did not pass" (control)
+# MBPP=1 runs the MBPP regression check instead (harness/mbpp_eval.py; greedy, 1 sample per problem)
 # FEEDBACK=1 adds the legacy code's errors/warnings on the visible examples (execution-feedback test)
 #SBATCH --job-name=eval
 #SBATCH --gres=gpu:nvidia_h100_pcie:1
@@ -47,6 +48,10 @@ for i in $(seq 1 120); do
   sleep 10
 done
 
+if [ -n "${MBPP:-}" ]; then
+  envs/legacy/bin/python -m harness.mbpp_eval --base-url "http://localhost:$PORT/v1" --model policy --out "$OUT"
+  exit 0
+fi
 envs/legacy/bin/python -m harness.evaluate --policy openai --model policy --base-url "http://localhost:$PORT/v1" \
   --tasks "$TASKS" ${LIMIT:+--limit "$LIMIT"} --samples "$SAMPLES" --temperature "$TEMP" --seeds "$SEEDS" \
   ${FEWSHOT:+--fewshot "$FEWSHOT"} ${FEEDBACK:+--feedback} ${TURNS:+--turns "$TURNS"} ${PLACEBO:+--placebo} \

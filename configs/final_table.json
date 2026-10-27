@@ -1,0 +1,200 @@
+{
+ "splits": [
+  "heldout_id",
+  "heldout_cat",
+  "hard_id",
+  "hard_cat"
+ ],
+ "rows": [
+  {
+   "label": "Codemod (rules, no model)",
+   "runs": {
+    "heldout_id": "codemod_heldout_id",
+    "heldout_cat": "codemod_heldout_cat",
+    "hard_id": "codemod_hard_id",
+    "hard_cat": "codemod_hard_cat"
+   }
+  },
+  {
+   "label": "Base, 1 attempt + feedback",
+   "runs": {
+    "heldout_id": "base_fb_heldout_id",
+    "heldout_cat": "base_fb_heldout_cat"
+   }
+  },
+  {
+   "label": "Base, best of 3 attempts",
+   "best_of": 3,
+   "runs": {
+    "heldout_id": "base_fb_heldout_id",
+    "heldout_cat": "base_fb_heldout_cat"
+   }
+  },
+  {
+   "label": "Base, 3 turns",
+   "runs": {
+    "heldout_id": "base_mt3_heldout_id",
+    "heldout_cat": "base_mt3_heldout_cat",
+    "hard_id": "base_mt3_hard_id",
+    "hard_cat": "base_mt3_hard_cat"
+   }
+  },
+  {
+   "label": "Base, 3 turns placebo",
+   "runs": {
+    "heldout_id": "base_mt3_placebo_heldout_id",
+    "heldout_cat": "base_mt3_placebo_heldout_cat"
+   }
+  },
+  {
+   "label": "Single-turn GRPO, 1 attempt",
+   "runs": {
+    "heldout_id": "st_s1_fb_heldout_id,st_s2_fb_heldout_id",
+    "heldout_cat": "st_s1_fb_heldout_cat,st_s2_fb_heldout_cat",
+    "hard_id": "st_s1_fb_hard_id,st_s2_fb_hard_id",
+    "hard_cat": "st_s1_fb_hard_cat,st_s2_fb_hard_cat"
+   }
+  },
+  {
+   "label": "Single-turn GRPO, best of 3",
+   "best_of": 3,
+   "runs": {
+    "heldout_id": "st_s1_fb_heldout_id,st_s2_fb_heldout_id",
+    "heldout_cat": "st_s1_fb_heldout_cat,st_s2_fb_heldout_cat",
+    "hard_id": "st_s1_fb_hard_id,st_s2_fb_hard_id",
+    "hard_cat": "st_s1_fb_hard_cat,st_s2_fb_hard_cat"
+   }
+  },
+  {
+   "label": "Single-turn GRPO, 3 turns",
+   "runs": {
+    "heldout_id": "st_s1_mt3_heldout_id,st_s2_mt3_heldout_id",
+    "heldout_cat": "st_s1_mt3_heldout_cat,st_s2_mt3_heldout_cat"
+   }
+  },
+  {
+   "label": "Multi-turn GRPO, step 150",
+   "runs": {
+    "heldout_id": "s1_ck00150_mt3_heldout_id,s2_ck00150_mt3_heldout_id",
+    "heldout_cat": "s1_ck00150_mt3_heldout_cat,s2_ck00150_mt3_heldout_cat",
+    "hard_id": "s1_ck00150_mt3_hard_id,s2_ck00150_mt3_hard_id",
+    "hard_cat": "s1_ck00150_mt3_hard_cat,s2_ck00150_mt3_hard_cat"
+   }
+  },
+  {
+   "label": "Multi-turn GRPO, step 150, placebo",
+   "runs": {
+    "heldout_id": "s1_ck00150_mt3_placebo_heldout_id,s2_ck00150_mt3_placebo_heldout_id"
+   }
+  },
+  {
+   "label": "Multi-turn GRPO, step 300 (seed 1)",
+   "runs": {
+    "heldout_id": "s1_mt3_heldout_id",
+    "heldout_cat": "s1_mt3_heldout_cat"
+   }
+  },
+  {
+   "label": "Multi-turn GRPO + turn penalty",
+   "runs": {
+    "heldout_id": "tp_ck00150_mt3_heldout_id,tp2_ck00150_mt3_heldout_id",
+    "heldout_cat": "tp_ck00150_mt3_heldout_cat,tp2_ck00150_mt3_heldout_cat",
+    "hard_id": "tp_ck00150_mt3_hard_id,tp2_ck00150_mt3_hard_id",
+    "hard_cat": "tp_ck00150_mt3_hard_cat,tp2_ck00150_mt3_hard_cat"
+   }
+  },
+  {
+   "label": "Multi-turn GRPO + turn penalty, placebo",
+   "runs": {
+    "heldout_id": "tp_ck00150_mt3_placebo_heldout_id,tp2_ck00150_mt3_placebo_heldout_id"
+   }
+  }
+ ],
+ "comparisons": [
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Multi-turn GRPO, step 150"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Codemod (rules, no model)"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO, step 150",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO, step 150",
+   "b": "Multi-turn GRPO, step 150, placebo"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Multi-turn GRPO + turn penalty, placebo"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Single-turn GRPO, 3 turns",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Single-turn GRPO, 3 turns"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO, step 150",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO, step 300 (seed 1)",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "hard_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "hard_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "hard_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Base, 3 turns"
+  },
+  {
+   "split": "hard_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Single-turn GRPO, best of 3"
+  }
+ ]
+}

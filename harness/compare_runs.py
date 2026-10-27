@@ -23,6 +23,8 @@ from harness.evaluate import load_tasks
 
 
 def pass_at_k(n, c, k):
+    """Chen et al. estimator; with fewer than k samples it falls back to k = n (all samples)."""
+    k = min(k, n)
     return 1.0 if n - c < k else 1.0 - comb(n - c, k) / comb(n, k)
 
 

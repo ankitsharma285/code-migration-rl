@@ -184,7 +184,8 @@ def detect_types(legacy, messages):
     return found, unknown
 
 
-def verify(rec, split):
+def verify(rec, split, require_migration=True):
+    """require_migration=False keeps a task whose generator-written migration fails (tasks/build_hard_split.py)."""
     task = rec.get("task")
     if not task:
         raise Reject(f"parse: {rec.get('parse_error') or 'unparseable'}")
@@ -270,13 +271,14 @@ def verify(rec, split):
 
     nv = len(VISIBLE_SEEDS)
     r = score(task, fence(task["modern"]), inputs[nv:], refs[nv:])
-    if r.reward != 1.0:
+    if r.reward != 1.0 and require_migration:
         raise Reject(f"migration: generator's migration scores 0 ({r.reason}: {r.detail})"[:200])
 
     return {"id": task["id"], "types": sorted(types), "entry": task["entry"], "legacy": task["legacy"],
             "modern": task["modern"], "gen": task["gen"], "split": split, "domain": rec.get("domain"),
             "requested_types": rec.get("requested_types"), "model": rec.get("model"),
-            "coverage": round(coverage, 2), "behavior": bool(types & BEHAVIOR)}
+            "coverage": round(coverage, 2), "behavior": bool(types & BEHAVIOR),
+            **({} if require_migration else {"reference_ok": r.reward == 1.0, "reference_reason": r.reason})}
 
 
 def main():
