@@ -1,0 +1,23 @@
+{
+ "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+ "seed": 1,
+ "turns": 3,
+ "feedback_prompt": true,
+ "turn_penalty": 0.1,
+ "prompts_per_step": 32,
+ "group_size": 8,
+ "max_steps": 150,
+ "lr": 1e-06,
+ "beta": 0.02,
+ "clip_eps": 0.2,
+ "max_new_tokens": 1024,
+ "max_model_len": 8192,
+ "micro_tokens": 12288,
+ "micro_rows": 8,
+ "logit_chunk": 512,
+ "eval_tasks": 100,
+ "eval_samples": 4,
+ "eval_every": 25,
+ "ckpt_every": 25,
+ "score_workers": 30
+}
