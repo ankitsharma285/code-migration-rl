@@ -24,7 +24,7 @@ from pathlib import Path
 
 from env import prompt as prompt_mod
 from env.inputs import TRAIN_HIDDEN_SEEDS, VISIBLE_SEEDS, eval_seeds, make_inputs
-from env.reward import compute_references, score
+from env.reward import compute_references, references_on_valid_inputs, score
 from env.runner import Limits
 from harness import manifest
 from harness.cheaters import CHEATERS
@@ -142,11 +142,29 @@ def run(args):
     # 1. inputs and legacy references (visible + hidden in one legacy job per task)
     t0 = time.monotonic()
     vis = {x["id"]: [make_inputs(x, s) for s in VISIBLE_SEEDS] for x in tasks}
-    hid = {x["id"]: [make_inputs(x, s) for s in seeds] for x in tasks}
-    with ThreadPoolExecutor(workers) as pool:
-        refs = dict(zip([x["id"] for x in tasks],
-                        pool.map(lambda x: compute_references(x, vis[x["id"]] + hid[x["id"]], limits), tasks)))
     nv = len(VISIBLE_SEEDS)
+    if args.seeds.startswith("eval:"):
+        # spare seeds replace eval inputs on which the legacy code itself fails (env/reward.py explains)
+        spare = eval_seeds(args.seeds.split(":", 1)[1] + "-spare", 20)
+        def prep(x):
+            cand = [make_inputs(x, s) for s in seeds + spare]
+            vr, kept, kr, bad = references_on_valid_inputs(x, vis[x["id"]], cand, len(seeds), limits)
+            return kept, vr + kr, bad
+        with ThreadPoolExecutor(workers) as pool:
+            out_ = dict(zip([x["id"] for x in tasks], pool.map(prep, tasks)))
+        hid = {k: v[0] for k, v in out_.items()}
+        refs = {k: v[1] for k, v in out_.items()}
+        replaced = {k: v[2] for k, v in out_.items() if v[2]}
+        short = {k: len(v[0]) for k, v in out_.items() if len(v[0]) < len(seeds)}
+        record["eval_inputs"] = {"tasks_with_replaced_inputs": replaced, "tasks_short_of_inputs": short}
+        if replaced or short:
+            print(f"eval seeds: {len(replaced)} tasks had legacy-failing inputs replaced by spare seeds"
+                  f"{f'; {len(short)} still short: {short}' if short else ''}", flush=True)
+    else:
+        hid = {x["id"]: [make_inputs(x, s) for s in seeds] for x in tasks}
+        with ThreadPoolExecutor(workers) as pool:
+            refs = dict(zip([x["id"] for x in tasks],
+                            pool.map(lambda x: compute_references(x, vis[x["id"]] + hid[x["id"]], limits), tasks)))
     fb = {}
     if args.feedback:                    # legacy code run on the VISIBLE inputs in the modern runtime
         from env.feedback import feedback

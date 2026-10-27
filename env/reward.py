@@ -57,6 +57,23 @@ def compute_references(task, inputs, limits=None):
     return [c["result"] for c in res.calls]
 
 
+def references_on_valid_inputs(task, visible, candidates, n, limits=None):
+    """Evaluation seeds are new inputs the task filter never ran, and a few produce inputs on which the LEGACY
+    code itself fails (e.g. a NaN pattern the generator rarely makes). Such an input has no reference and
+    cannot be scored. Keeps the first n candidate inputs on which the legacy code succeeds, in order (so a task
+    with no bad input keeps exactly its first n seeds). Returns (visible refs, kept inputs, kept refs, n dropped)."""
+    res = run_job("legacy", task["legacy"], task["entry"], visible + candidates, limits)
+    if res.status != "ok" or res.define.get("status") == "FAIL":
+        raise RuntimeError(f"{task['id']}: legacy run failed: {res.status} {res.detail} {res.define}")
+    calls = res.calls
+    nv = len(visible)
+    if any(c["status"] == "FAIL" for c in calls[:nv]):
+        raise RuntimeError(f"{task['id']}: legacy fails on a visible input")
+    kept = [(inp, c["result"]) for inp, c in zip(candidates, calls[nv:]) if c["status"] != "FAIL"][:n]
+    first_n_failures = sum(c["status"] == "FAIL" for c in calls[nv:nv + n])
+    return [c["result"] for c in calls[:nv]], [i for i, _ in kept], [r for _, r in kept], first_n_failures
+
+
 def score(task, completion, inputs, references, limits=None, check_ast=True):
     """check_ast=False exists only to test the sandbox and to measure what the AST check prevents."""
     code = extract_code(completion)
