@@ -90,22 +90,25 @@ def leak_reference_from_disk(task, turn, messages):
 
 
 def persist_inputs(task, turn, messages):
-    """Every run first raises whatever an earlier run saved, then saves its own inputs to every writable
-    place it can find. If sandbox runs share a filesystem, the hidden inputs of turn k's hidden scoring
-    show up in turn k+1's feedback (the leakage audit below checks for exactly that)."""
+    """Every sandbox job tags itself with a run id, raises anything an EARLIER job saved, then saves its own
+    inputs to every writable place it can find. If jobs share a filesystem, the hidden inputs of turn k's
+    hidden scoring show up in turn k+1's feedback. (Rows saved by the same job, i.e. an earlier example of
+    this run, do not count: those are the inputs this run was already given.)"""
     paths = [str(d / f".cmrl_persist_{task['entry']}.csv") for d in CANARY_DIRS] + [str(REPO / f".cmrl_persist_{task['entry']}.csv")]
-    return (f"import pandas as pd\nPATHS = {paths!r}\n" + task["legacy"].replace(f"def {task['entry']}(", "def legacy_impl(", 1)
+    return (f"import pandas as pd\nPATHS = {paths!r}\nRUN = str(pd.Timestamp.now().value)\n"
+            + task["legacy"].replace(f"def {task['entry']}(", "def legacy_impl(", 1)
             + f"\ndef {task['entry']}(**kw):\n"
               f"    for p in PATHS:\n"
               f"        try:\n"
-              f"            saved = pd.read_csv(p, header=None)[0].astype(str).str.cat(sep=' || ')\n"
-              f"        except (FileNotFoundError, OSError):\n"
-              f"            saved = ''\n"
-              f"        if saved:\n"
-              f"            raise ValueError('saved by an earlier run: ' + saved[:500])\n"
+              f"            rows = pd.read_csv(p, header=None, sep='\\t')[0].astype(str)\n"
+              f"        except (FileNotFoundError, OSError, ValueError):\n"
+              f"            continue\n"
+              f"        foreign = rows[~rows.str.startswith(RUN + '|')]\n"
+              f"        if len(foreign):\n"
+              f"            raise ValueError('saved by an earlier run: ' + foreign.str.cat(sep=' || ')[:500])\n"
               f"    for p in PATHS:\n"
               f"        try:\n"
-              f"            pd.Series([repr(sorted(kw.items()))]).to_csv(p, mode='a', index=False, header=False)\n"
+              f"            pd.Series([RUN + '|' + repr(sorted(kw.items())).replace(chr(9), ' ')]).to_csv(p, mode='a', index=False, header=False, sep='\\t')\n"
               f"        except OSError:\n"
               f"            pass\n"
               f"    return legacy_impl(**kw)\n")
