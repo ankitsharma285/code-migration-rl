@@ -77,6 +77,8 @@ DEFAULTS = {
     "eval_every": 25,
     "ckpt_every": 50,
     "time_budget_min": 225,
+    "profile_step": 0,                    # >0: torch.profiler trace of the update at this step (<out>/profile/)
+    "save_ckpts": True,                   # False for profiling runs (a checkpoint is ~6 GB)
 }
 
 
@@ -131,9 +133,12 @@ class Trainer:
             keep = [g * G + k for g in informative for k in range(G)]
 
         stats = {}
+        prof = self.profiler() if cfg["profile_step"] and self.step + 1 == cfg["profile_step"] and keep else None
         t0 = time.monotonic()
         if keep:
             seqs = [(eps[i].prompt_ids, eps[i].cont_ids, eps[i].cont_mask) for i in keep]
+            if prof:
+                prof.__enter__()
             stats = grpo_step_packed(self.policy, self.opt, seqs, adv[keep], self.tok.pad_token_id,
                                      ref_model=self.ref, beta=cfg["beta"], clip_eps=cfg["clip_eps"],
                                      max_tokens=cfg["micro_tokens"], max_rows=cfg["micro_rows"],
@@ -142,6 +147,11 @@ class Trainer:
                                      logit_chunk=cfg["logit_chunk"] or None)
             self.sched.step()
         t["train_s"] = time.monotonic() - t0
+        if prof:
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
+            prof.__exit__(None, None, None)
+            self.write_profile(prof, len(keep), stats)
 
         t0 = time.monotonic()
         if keep:
@@ -180,6 +190,28 @@ class Trainer:
             rec["peak_mem_gb"] = round(torch.cuda.max_memory_allocated() / 2**30, 2)
             torch.cuda.reset_peak_memory_stats()
         return rec
+
+    def profiler(self):
+        from torch.profiler import ProfilerActivity, profile
+        acts = [ProfilerActivity.CPU] + ([ProfilerActivity.CUDA] if torch.cuda.is_available() else [])
+        if torch.cuda.is_available():
+            torch.cuda.reset_peak_memory_stats()
+        return profile(activities=acts, record_shapes=True, profile_memory=True)
+
+    def write_profile(self, prof, n_seqs, stats):
+        """Chrome/Perfetto trace of one GRPO update (old/ref log-probs, forward+backward per micro-batch,
+        optimizer step) and the top ops by GPU time. Generation (vLLM) and scoring are not in the trace;
+        their wall-clock share is in log.jsonl (harness/profile_report.py)."""
+        d = self.out / "profile"
+        d.mkdir(exist_ok=True)
+        prof.export_chrome_trace(str(d / f"train_step_{self.step + 1:05d}.json"))
+        key = "cuda_time_total" if torch.cuda.is_available() else "cpu_time_total"
+        (d / "top_ops.txt").write_text(prof.key_averages().table(sort_by=key, row_limit=40))
+        info = {"step": self.step + 1, "sequences": n_seqs, "micro_batches": stats.get("micro_batches"),
+                "completion_tokens": stats.get("completion_tokens"),
+                "peak_mem_gb_update": round(torch.cuda.max_memory_allocated() / 2**30, 2) if torch.cuda.is_available() else None}
+        (d / "profile.json").write_text(json.dumps(info, indent=1))
+        print(f"profile written to {d}: {info}", flush=True)
 
     def save_rollouts(self, eps):
         """Every rewarded episode, every AST-check rejection, and every visible-pass/hidden-fail episode, for
@@ -262,7 +294,7 @@ class Trainer:
                 logf.write(json.dumps(ev) + "\n"); logf.flush()
                 log(f"eval  step {ev['step']}  turn-1 {ev['eval_turn1_pass']:.3f}  by turn {ev['eval_pass_by_turn']}  "
                     f"feedback lift {ev['eval_feedback_lift']:+.3f}  vis-pass/hid-fail {ev['eval_vis_pass_hidden_fail']:.3f}")
-            if self.step % cfg["ckpt_every"] == 0 or self.step == cfg["max_steps"]:
+            if cfg["save_ckpts"] and (self.step % cfg["ckpt_every"] == 0 or self.step == cfg["max_steps"]):
                 self.save(f"ckpt-{self.step:05d}")
                 self.save_resume()
             if (time.monotonic() - start) / 60 > cfg["time_budget_min"]:
