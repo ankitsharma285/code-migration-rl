@@ -195,6 +195,26 @@
    "split": "hard_cat",
    "a": "Multi-turn GRPO + turn penalty",
    "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "Base, best of 3 attempts"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Single-turn GRPO, best of 3",
+   "b": "Base, best of 3 attempts"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Base, 3 turns",
+   "b": "Base, best of 3 attempts"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Base, 3 turns",
+   "b": "Base, best of 3 attempts"
   }
  ]
 }
