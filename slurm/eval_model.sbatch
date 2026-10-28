@@ -42,13 +42,13 @@ envs/train/bin/vllm serve "$MODEL" --served-model-name policy --dtype bfloat16 -
   --generation-config vllm > "logs/vllm-$SLURM_JOB_ID.log" 2>&1 &
 VLLM_PID=$!
 trap 'kill $VLLM_PID 2>/dev/null || true' EXIT
-for i in $(seq 1 240); do
+for i in $(seq 1 540); do
   if curl -sf "http://localhost:$PORT/health" > /dev/null; then echo "vLLM ready after ~$((i * 10))s"; break; fi
   if ! kill -0 $VLLM_PID 2>/dev/null; then echo "vLLM exited; see logs/vllm-$SLURM_JOB_ID.log"; exit 1; fi
   sleep 10
 done
 curl -sf "http://localhost:$PORT/health" > /dev/null \
-  || { echo "vLLM not healthy after 40 min on $(hostname): resubmit with --exclude=$(hostname)"; exit 1; }
+  || { echo "vLLM not healthy after 90 min on $(hostname): resubmit with --exclude=$(hostname)"; exit 1; }
 
 if [ -n "${MBPP:-}" ]; then
   envs/legacy/bin/python -m harness.mbpp_eval --base-url "http://localhost:$PORT/v1" --model policy --out "$OUT"
