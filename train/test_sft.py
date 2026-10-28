@@ -62,6 +62,31 @@ def test_nonfinite_step_is_skipped():
     after = m.state_dict()
     assert all(torch.equal(before[k], after[k]) or torch.isnan(before[k]).any() for k in before)
     assert torch.equal(before["model.embed_tokens.weight"], after["model.embed_tokens.weight"])
+    assert st["fp32_retry"] == 1
+
+
+def test_bf16_nan_gradient_recomputed_in_fp32():
+    """A NaN that appears only in the bf16-autocast backward: the step is redone in fp32 and applied."""
+    m = tiny_model()
+    seen = {}
+    def note(module, args, out):                       # was this forward run under autocast?
+        seen["bf16"] = torch.is_autocast_enabled("cpu")
+    def poison(module, grad_in, grad_out):            # then poison its backward
+        if seen.get("bf16"):
+            return tuple(torch.full_like(g, float("nan")) if g is not None else None for g in grad_in)
+    mlp = m.model.layers[0].mlp
+    mlp.register_forward_hook(note)
+    mlp.register_full_backward_hook(poison)
+    ref = tiny_model()
+    opt = torch.optim.SGD(m.parameters(), lr=1e-2)
+    opt_ref = torch.optim.SGD(ref.parameters(), lr=1e-2)
+    st = sft_step(m, opt, seqs(), PAD, 4096, 8, 1.0, "cpu", autocast_dtype=torch.bfloat16)
+    st_ref = sft_step(ref, opt_ref, seqs(), PAD, 4096, 8, 1.0, "cpu")      # plain fp32 step
+    assert st["fp32_retry"] == 1 and st["skipped"] == 0, st
+    assert st["nan_at"] is not None and st["nan_at"]["micro"] == 0
+    assert all(torch.isfinite(p).all() for p in m.parameters())
+    for (n, a), b in zip(m.named_parameters(), ref.parameters()):
+        assert torch.allclose(a, b, atol=1e-6), n
 
 
 def test_nll_decreases_when_fitting_one_batch():

@@ -103,33 +103,67 @@ def sequence_logprobs(model, ids, attn, chunk=None):
     return torch.cat(out, 1)
 
 
-def sft_step(model, optimizer, sequences, pad_id, max_tokens, max_rows, max_grad_norm, device,
-             autocast_dtype=None, logit_chunk=None):
-    """One optimizer step over `sequences` (list of (prompt_ids, completion_ids)). Returns stats.
-    A step whose loss or gradient is not finite is skipped (no weight update) and reported as skipped=1:
-    clip_grad_norm_ would otherwise turn every weight into NaN."""
-    lengths = [len(p) + len(c) for p, c in sequences]
-    micro = [right_padded([sequences[i] for i in idx], pad_id) for idx in pack(lengths, max_tokens, max_rows)]
-    total = sum(m.sum().item() for _, _, m in micro) or 1.0
-    ctx = (lambda: torch.autocast(device_type=device.split(":")[0], dtype=autocast_dtype)) if autocast_dtype \
-        else (lambda: torch.autocast(device_type="cpu", enabled=False))
-    model.train()
-    optimizer.zero_grad(set_to_none=True)
-    nll = 0.0
-    for ids, attn, m in micro:
+def _grads_finite(model):
+    gs = [p.grad for p in model.parameters() if p.grad is not None]
+    return bool(torch.isfinite(torch.stack(torch._foreach_norm(gs))).all()) if gs else True
+
+
+def _nan_params(model, k=5):
+    return [n for n, p in model.named_parameters() if p.grad is not None and not torch.isfinite(p.grad).all()][:k]
+
+
+def _accumulate(model, micro, total, ctx, device, logit_chunk, watch):
+    """Forward + backward over every micro-batch. With watch=True, also report the first micro-batch after
+    which the accumulated gradient stops being finite (its shape and the parameters affected)."""
+    nll, first_bad = 0.0, None
+    for k, (ids, attn, m) in enumerate(micro):
         ids, attn, m = ids.to(device), attn.to(device), m.to(device)
         with ctx():
             lp = sequence_logprobs(model, ids, attn, logit_chunk)
             loss = -torch.where(m > 0, lp, torch.zeros_like(lp)).sum() / total
         loss.backward()
         nll += loss.item()
+        if watch and first_bad is None and not _grads_finite(model):
+            first_bad = {"micro": k, "rows": ids.shape[0], "len": ids.shape[1],
+                         "real_lens": attn.sum(1).tolist(), "params": _nan_params(model)}
+    return nll, first_bad
+
+
+def sft_step(model, optimizer, sequences, pad_id, max_tokens, max_rows, max_grad_norm, device,
+             autocast_dtype=None, logit_chunk=None):
+    """One optimizer step over `sequences` (list of (prompt_ids, completion_ids)). Returns stats.
+
+    Non-finite gradients: the first rft_s1 runs got a NaN gradient on ~2% of steps with a finite loss,
+    under both left and right padding, so it is a numerical event in the bf16 backward, not bad data.
+    Such a step is recomputed once in fp32 (no autocast; same data, same weights) and the fp32 gradient
+    is used (fp32_retry=1). Only if that is non-finite too is the step skipped (skipped=1): applying it
+    would turn every weight into NaN through clip_grad_norm_. `nan_at` records where the bf16 pass broke."""
+    lengths = [len(p) + len(c) for p, c in sequences]
+    micro = [right_padded([sequences[i] for i in idx], pad_id) for idx in pack(lengths, max_tokens, max_rows)]
+    total = sum(m.sum().item() for _, _, m in micro) or 1.0
+    ctx = (lambda: torch.autocast(device_type=device.split(":")[0], dtype=autocast_dtype)) if autocast_dtype \
+        else (lambda: torch.autocast(device_type="cpu", enabled=False))
+    fp32 = lambda: torch.autocast(device_type=device.split(":")[0], enabled=False)
+    model.train()
+    optimizer.zero_grad(set_to_none=True)
+    nll, _ = _accumulate(model, micro, total, ctx, device, logit_chunk, watch=False)
     gn = torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm).item()
-    skipped = int(not (math.isfinite(gn) and math.isfinite(nll)))
-    if skipped:
+    st = {"tokens": total, "micro_batches": len(micro), "fp32_retry": 0, "skipped": 0}
+    if not (math.isfinite(gn) and math.isfinite(nll)):
+        st.update(bf16_nll=nll, bf16_grad_norm=gn)
+        optimizer.zero_grad(set_to_none=True)          # locate the break (bf16 again), then redo in fp32
+        _, st["nan_at"] = _accumulate(model, micro, total, ctx, device, logit_chunk, watch=True)
         optimizer.zero_grad(set_to_none=True)
-    else:
+        nll, _ = _accumulate(model, micro, total, fp32 if autocast_dtype else ctx, device, logit_chunk, watch=False)
+        gn = torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm).item()
+        st["fp32_retry"] = 1
+        if not (math.isfinite(gn) and math.isfinite(nll)):
+            st["skipped"] = 1
+            optimizer.zero_grad(set_to_none=True)
+    if not st["skipped"]:
         optimizer.step()
-    return {"nll": nll, "grad_norm": gn, "tokens": total, "micro_batches": len(micro), "skipped": skipped}
+    st.update(nll=nll, grad_norm=gn)
+    return st
 
 
 def main():
@@ -197,7 +231,7 @@ def main():
     print(f"{cfg['epochs']} epochs x {steps_per_epoch} steps = {total} steps, batch {bs}, lr {cfg['lr']}")
 
     logf = open(out / "log.jsonl", "a")
-    step, skips, t0 = 0, 0, time.monotonic()
+    step, skips, retries, t0 = 0, 0, 0, time.monotonic()
     for epoch in range(1, cfg["epochs"] + 1):
         order = list(range(len(seqs)))
         random.shuffle(order)
@@ -208,11 +242,14 @@ def main():
             st = sft_step(model, opt, [seqs[i] for i in batch_idx], tok.pad_token_id, cfg["micro_tokens"],
                           cfg["micro_rows"], cfg["max_grad_norm"], device, autocast, cfg["logit_chunk"])
             step += 1
+            retries += st["fp32_retry"]
+            if st["fp32_retry"]:
+                outcome = "failed, step skipped" if st["skipped"] else f"ok (gn {st['grad_norm']:.2f})"
+                print(f"step {step}: bf16 gradient non-finite (nll {st['bf16_nll']:.4f}); fp32 recompute {outcome}; "
+                      f"bf16 broke at {st['nan_at']}", flush=True)
             if st["skipped"]:
                 skips += 1
                 st["skipped_tasks"] = [task_ids[i] for i in batch_idx]
-                print(f"step {step}: non-finite loss/grad (nll {st['nll']}, gn {st['grad_norm']}); step skipped",
-                      flush=True)
                 if skips > cfg["max_skips"]:
                     logf.write(json.dumps(st) + "\n")
                     raise SystemExit(f"{skips} non-finite steps: stopping (see {out / 'log.jsonl'})")
@@ -221,7 +258,7 @@ def main():
             logf.flush()
             if step % 10 == 0 or step == total:
                 print(f"step {step}/{total} epoch {epoch} nll {st['nll']:.4f} gn {st['grad_norm']:.2f} "
-                      f"lr {st['lr']:.2e} skipped {skips} {st['elapsed_s']}s", flush=True)
+                      f"lr {st['lr']:.2e} fp32-retries {retries} skipped {skips} {st['elapsed_s']}s", flush=True)
         d = out / ("ckpt-final" if epoch == cfg["epochs"] else f"ckpt-epoch{epoch}")
         model.save_pretrained(d, safe_serialization=True)
         tok.save_pretrained(d)
