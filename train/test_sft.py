@@ -5,7 +5,7 @@ import torch
 
 from train.grpo import build_batch, completion_logprobs
 from train.test_grpo import PAD, tiny_model
-from train.train_sft import lr_at, sft_step
+from train.train_sft import lr_at, right_padded, sequence_logprobs, sft_step
 
 
 def seqs(seed=0, n=6):
@@ -27,17 +27,41 @@ def test_loss_is_token_mean_over_completions():
     want = -(lp * b.completion_mask).sum().item() / b.completion_mask.sum().item()
     opt = torch.optim.SGD(m.parameters(), lr=0.0)
     got = sft_step(m, opt, s, PAD, max_tokens=24, max_rows=2, max_grad_norm=1e9, device="cpu")
+    assert got["skipped"] == 0
     assert got["micro_batches"] > 1, "test should exercise packing"
     assert abs(got["nll"] - want) < 1e-4, (got["nll"], want)
     assert got["tokens"] == sum(len(c) for _, c in s)
 
 
-def test_prompt_tokens_not_trained():
-    """Changing a prompt token's target never enters the loss: only completion positions are scored."""
+def test_right_padding_matches_left_padded_grpo_logprobs():
+    """The SFT path (right padding) scores each completion token exactly as GRPO's left-padded path does."""
     m = tiny_model()
-    s = seqs(n=1)
-    b1 = build_batch([s[0][0]], [s[0][1]], PAD)
-    assert b1.completion_mask.sum().item() == len(s[0][1])
+    s = seqs()
+    b = build_batch([p for p, _ in s], [c for _, c in s], PAD)
+    ids, attn, mask = right_padded(s, PAD)
+    with torch.no_grad():
+        left, _ = completion_logprobs(m, b)
+        for chunk in (None, 3):
+            right = sequence_logprobs(m, ids, attn, chunk)
+            for i, (p, c) in enumerate(s):
+                a = left[i, :len(c)]
+                r = right[i, len(p) - 1:len(p) + len(c) - 1]
+                assert torch.allclose(a, r, atol=1e-5), (i, a, r)
+                assert mask[i].sum().item() == len(c)
+                assert mask[i, len(p) - 1].item() == 1 and (len(p) < 2 or mask[i, len(p) - 2].item() == 0)
+
+
+def test_nonfinite_step_is_skipped():
+    m = tiny_model()
+    with torch.no_grad():
+        m.lm_head.weight[3, 0] = float("nan")
+    before = {k: v.clone() for k, v in m.state_dict().items()}
+    opt = torch.optim.AdamW(m.parameters(), lr=1e-2)
+    st = sft_step(m, opt, seqs(), PAD, 4096, 8, 1.0, "cpu")
+    assert st["skipped"] == 1
+    after = m.state_dict()
+    assert all(torch.equal(before[k], after[k]) or torch.isnan(before[k]).any() for k in before)
+    assert torch.equal(before["model.embed_tokens.weight"], after["model.embed_tokens.weight"])
 
 
 def test_nll_decreases_when_fitting_one_batch():
