@@ -49,29 +49,29 @@
   {
    "label": "RFT (SFT on base successes), 1 attempt",
    "runs": {
-    "heldout_id": "rft_s1_fb_heldout_id",
-    "heldout_cat": "rft_s1_fb_heldout_cat",
-    "hard_id": "rft_s1_fb_hard_id",
-    "hard_cat": "rft_s1_fb_hard_cat"
+    "heldout_id": "rft_s1_fb_heldout_id,rft_s2_fb_heldout_id",
+    "heldout_cat": "rft_s1_fb_heldout_cat,rft_s2_fb_heldout_cat",
+    "hard_id": "rft_s1_fb_hard_id,rft_s2_fb_hard_id",
+    "hard_cat": "rft_s1_fb_hard_cat,rft_s2_fb_hard_cat"
    }
   },
   {
    "label": "RFT, best of 3",
    "best_of": 3,
    "runs": {
-    "heldout_id": "rft_s1_fb_heldout_id",
-    "heldout_cat": "rft_s1_fb_heldout_cat",
-    "hard_id": "rft_s1_fb_hard_id",
-    "hard_cat": "rft_s1_fb_hard_cat"
+    "heldout_id": "rft_s1_fb_heldout_id,rft_s2_fb_heldout_id",
+    "heldout_cat": "rft_s1_fb_heldout_cat,rft_s2_fb_heldout_cat",
+    "hard_id": "rft_s1_fb_hard_id,rft_s2_fb_hard_id",
+    "hard_cat": "rft_s1_fb_hard_cat,rft_s2_fb_hard_cat"
    }
   },
   {
    "label": "RFT, 3 turns",
    "runs": {
-    "heldout_id": "rft_s1_mt3_heldout_id",
-    "heldout_cat": "rft_s1_mt3_heldout_cat",
-    "hard_id": "rft_s1_mt3_hard_id",
-    "hard_cat": "rft_s1_mt3_hard_cat"
+    "heldout_id": "rft_s1_mt3_heldout_id,rft_s2_mt3_heldout_id",
+    "heldout_cat": "rft_s1_mt3_heldout_cat,rft_s2_mt3_heldout_cat",
+    "hard_id": "rft_s1_mt3_hard_id,rft_s2_mt3_hard_id",
+    "hard_cat": "rft_s1_mt3_hard_cat,rft_s2_mt3_hard_cat"
    }
   },
   {
