@@ -1,0 +1,13 @@
+{
+ "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+ "data": "results/rft/sft_data.jsonl",
+ "seed": 1,
+ "epochs": 2,
+ "lr": 1e-05,
+ "warmup_frac": 0.03,
+ "batch_size": 32,
+ "max_len": 8192,
+ "micro_tokens": 12288,
+ "micro_rows": 8,
+ "logit_chunk": 512
+}
