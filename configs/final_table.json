@@ -47,6 +47,34 @@
    }
   },
   {
+   "label": "RFT (SFT on base successes), 1 attempt",
+   "runs": {
+    "heldout_id": "rft_s1_fb_heldout_id",
+    "heldout_cat": "rft_s1_fb_heldout_cat",
+    "hard_id": "rft_s1_fb_hard_id",
+    "hard_cat": "rft_s1_fb_hard_cat"
+   }
+  },
+  {
+   "label": "RFT, best of 3",
+   "best_of": 3,
+   "runs": {
+    "heldout_id": "rft_s1_fb_heldout_id",
+    "heldout_cat": "rft_s1_fb_heldout_cat",
+    "hard_id": "rft_s1_fb_hard_id",
+    "hard_cat": "rft_s1_fb_hard_cat"
+   }
+  },
+  {
+   "label": "RFT, 3 turns",
+   "runs": {
+    "heldout_id": "rft_s1_mt3_heldout_id",
+    "heldout_cat": "rft_s1_mt3_heldout_cat",
+    "hard_id": "rft_s1_mt3_hard_id",
+    "hard_cat": "rft_s1_mt3_hard_cat"
+   }
+  },
+  {
    "label": "Single-turn GRPO, 1 attempt",
    "runs": {
     "heldout_id": "st_s1_fb_heldout_id,st_s2_fb_heldout_id",
@@ -215,6 +243,41 @@
    "split": "heldout_id",
    "a": "Base, 3 turns",
    "b": "Base, best of 3 attempts"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Single-turn GRPO, 1 attempt",
+   "b": "RFT (SFT on base successes), 1 attempt"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Single-turn GRPO, best of 3",
+   "b": "RFT, best of 3"
+  },
+  {
+   "split": "heldout_id",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "RFT, 3 turns"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "Multi-turn GRPO + turn penalty",
+   "b": "RFT, 3 turns"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "RFT, 3 turns",
+   "b": "Base, best of 3 attempts"
+  },
+  {
+   "split": "heldout_cat",
+   "a": "RFT, best of 3",
+   "b": "Single-turn GRPO, best of 3"
+  },
+  {
+   "split": "hard_id",
+   "a": "Single-turn GRPO, best of 3",
+   "b": "RFT, best of 3"
   }
  ]
 }

@@ -47,6 +47,8 @@ for i in $(seq 1 120); do
   if ! kill -0 $VLLM_PID 2>/dev/null; then echo "vLLM exited; see logs/vllm-$SLURM_JOB_ID.log"; exit 1; fi
   sleep 10
 done
+curl -sf "http://localhost:$PORT/health" > /dev/null \
+  || { echo "vLLM not healthy after 20 min on $(hostname): resubmit with --exclude=$(hostname)"; exit 1; }
 
 if [ -n "${MBPP:-}" ]; then
   envs/legacy/bin/python -m harness.mbpp_eval --base-url "http://localhost:$PORT/v1" --model policy --out "$OUT"
