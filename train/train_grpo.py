@@ -55,6 +55,7 @@ DEFAULTS = {
     "beta": 0.02,
     "clip_eps": 0.2,
     "ppo_epochs": 1,
+    "reuse_old_logp": False,              # True: skip the separate old-log-prob forward (ppo_epochs=1 only)
     "micro_batch": 4,
     "max_grad_norm": 1.0,
     "temperature": 1.0,
@@ -144,7 +145,8 @@ class Trainer:
                                      max_tokens=cfg["micro_tokens"], max_rows=cfg["micro_rows"],
                                      ppo_epochs=cfg["ppo_epochs"], max_grad_norm=cfg["max_grad_norm"],
                                      device=self.device, autocast_dtype=self.autocast,
-                                     logit_chunk=cfg["logit_chunk"] or None)
+                                     logit_chunk=cfg["logit_chunk"] or None,
+                                     reuse_old_logp=cfg["reuse_old_logp"])
             self.sched.step()
         t["train_s"] = time.monotonic() - t0
         if prof:

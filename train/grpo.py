@@ -186,7 +186,7 @@ def pack(lengths, max_tokens, max_rows):
 
 def grpo_step_packed(model, optimizer, sequences, advantages, pad_id, ref_model=None, beta=0.0, clip_eps=0.2,
                      max_tokens=16384, max_rows=8, ppo_epochs=1, max_grad_norm=1.0, device="cpu",
-                     autocast_dtype=None, logit_chunk=None):
+                     autocast_dtype=None, logit_chunk=None, reuse_old_logp=False):
     """Multi-turn version of grpo_step. sequences: list of (prompt_ids, continuation_ids, continuation_mask):
     the continuation holds every turn's completion AND the feedback in between, and the mask is 1 only
     on the policy's own tokens. Micro-batches are packed by a token budget (episodes vary from a few
@@ -198,11 +198,17 @@ def grpo_step_packed(model, optimizer, sequences, advantages, pad_id, ref_model=
                         [sequences[i][2] for i in idx])
         micro.append((b, advantages[idx]))
     return _update(model, optimizer, micro, ref_model, beta, clip_eps, ppo_epochs, max_grad_norm, device,
-                   autocast_dtype, logit_chunk)
+                   autocast_dtype, logit_chunk, reuse_old_logp)
 
 
 def _update(model, optimizer, micro, ref_model, beta, clip_eps, ppo_epochs, max_grad_norm, device,
-            autocast_dtype, logit_chunk):
+            autocast_dtype, logit_chunk, reuse_old_logp=False):
+    """reuse_old_logp (only with ppo_epochs=1): skip the separate no-grad forward that computes the "old"
+    log-probs. With one pass over the batch the old policy IS the current one, so old_logp = logp.detach()
+    from the training forward gives the same loss value (ratio exactly 1) and the same gradient, and saves
+    one of the four forward passes per micro-batch (old, ref, train, checkpoint recompute). Entropy is then
+    taken from the training forward."""
+    reuse = reuse_old_logp and ppo_epochs == 1
     total_tokens = sum(b.completion_mask.sum().item() for b, _ in micro) or 1.0
     ctx = (lambda: torch.autocast(device_type=device.split(":")[0], dtype=autocast_dtype)) if autocast_dtype \
         else (lambda: torch.autocast(device_type="cpu", enabled=False))
@@ -212,9 +218,10 @@ def _update(model, optimizer, micro, ref_model, beta, clip_eps, ppo_epochs, max_
     with torch.no_grad(), ctx():
         for b, _ in micro:
             mb = b.to(device)
-            lp, ent = completion_logprobs(model, mb, with_entropy=True, chunk=logit_chunk)
-            old.append(lp)
-            ent_sum += (ent * mb.completion_mask).sum().item()
+            if not reuse:
+                lp, ent = completion_logprobs(model, mb, with_entropy=True, chunk=logit_chunk)
+                old.append(lp)
+                ent_sum += (ent * mb.completion_mask).sum().item()
             if ref_model is not None and beta > 0:
                 ref.append(completion_logprobs(ref_model, mb, chunk=logit_chunk)[0])
     model.train()
@@ -225,9 +232,11 @@ def _update(model, optimizer, micro, ref_model, beta, clip_eps, ppo_epochs, max_
         for k, (b, adv) in enumerate(micro):
             mb = b.to(device)
             with ctx():
-                lp, _ = completion_logprobs(model, mb, chunk=logit_chunk)
-                loss, st = grpo_loss(lp, old[k], ref[k] if ref else None, adv.to(device),
-                                     mb.completion_mask, total_tokens, clip_eps, beta)
+                lp, ent = completion_logprobs(model, mb, with_entropy=reuse, chunk=logit_chunk)
+                if reuse:
+                    ent_sum += (ent.detach() * mb.completion_mask).sum().item()
+                loss, st = grpo_loss(lp, lp.detach() if reuse else old[k], ref[k] if ref else None,
+                                     adv.to(device), mb.completion_mask, total_tokens, clip_eps, beta)
             loss.backward()
             agg["loss"] += loss.item()
             for key in ("kl_sum", "clip_sum", "tokens"):

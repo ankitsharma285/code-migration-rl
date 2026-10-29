@@ -176,6 +176,27 @@ def test_packed_step_matches_plain_step():
         assert torch.allclose(p1, p2, atol=1e-6), "packing + chunking must not change the update"
 
 
+def test_reusing_old_logp_gives_the_same_update():
+    """ppo_epochs=1: old log-probs taken from the training forward (one fewer forward pass) must give the same
+    loss, KL, entropy and parameter update as the separate no-grad pass, with and without a reference model."""
+    prompts = [[5, 6, 7], [8, 9], [3, 4, 5, 6], [7]]
+    comps = [[10, 11], [12, 13, 14], [15], [16, 17, 18, 19]]
+    adv = torch.tensor([1.0, -1.0, 0.5, -0.5])
+    seqs = [(p, c, [1] * len(c)) for p, c in zip(prompts, comps)]
+    for beta, chunk in [(0.0, None), (0.05, 2)]:
+        ref = tiny_model(seed=7) if beta else None
+        m1, m2 = tiny_model(), tiny_model()
+        o1, o2 = torch.optim.AdamW(m1.parameters(), lr=1e-2), torch.optim.AdamW(m2.parameters(), lr=1e-2)
+        kw = dict(ref_model=ref, beta=beta, max_tokens=10, max_rows=8, logit_chunk=chunk)
+        s1 = grpo_step_packed(m1, o1, seqs, adv, PAD, **kw)
+        s2 = grpo_step_packed(m2, o2, seqs, adv, PAD, reuse_old_logp=True, **kw)
+        for k in ("loss", "kl", "entropy", "grad_norm", "clip_frac"):
+            assert abs(s1[k] - s2[k]) < 1e-5, (k, s1[k], s2[k])
+        assert s2["ratio_max"] == 1.0
+        for p1, p2 in zip(m1.parameters(), m2.parameters()):
+            assert torch.allclose(p1, p2, atol=1e-6), "reusing old log-probs must not change the update"
+
+
 def test_pack_respects_token_budget():
     lengths = [100, 900, 300, 50, 800, 400]
     groups = pack(lengths, max_tokens=1000, max_rows=8)
