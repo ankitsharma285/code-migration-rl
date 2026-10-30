@@ -53,7 +53,11 @@ def main(run_dir):
         if now != record["envs"][rt]["sha256"]:
             print(f"WARNING: the {rt} env's packages differ from the record (results may differ)")
 
-    work = Path(tempfile.mkdtemp(prefix="repro_"))
+    # The worktree must NOT live under /tmp: the locked sandbox hides /tmp (and the temp root) inside every
+    # modern run, so a worktree there makes the sandbox child itself (env/child.py) invisible and every
+    # candidate fails. Inside the repo it is read-only to the sandbox, exactly like the main checkout.
+    (REPO / ".repro").mkdir(exist_ok=True)
+    work = Path(tempfile.mkdtemp(prefix="repro_", dir=REPO / ".repro"))
     tree = work / "tree"
     subprocess.run(["git", "worktree", "add", "--detach", str(tree), commit], cwd=REPO, check=True,
                    capture_output=True)
@@ -76,6 +80,9 @@ def main(run_dir):
     print(f"task set hash: {'match' if same_tasks else 'DIFFERENT'}")
     print(f"metrics: {'identical' if not diffs else 'DIFFER in ' + ', '.join(diffs)}")
     print(f"pass@1 recorded {old_m['pass_at_1']:.4f}, reproduced {new_m['pass_at_1']:.4f}")
+    if diffs and "reasons" in diffs:
+        print(f"reasons recorded   {old_m.get('reasons')}\nreasons reproduced {new_m.get('reasons')}")
+    print(f"rerun output: {out}")
     ok = same_tasks and not diffs
     print("REPRODUCED" if ok else "NOT REPRODUCED")
     sys.exit(0 if ok else 1)
