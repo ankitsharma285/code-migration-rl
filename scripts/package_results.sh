@@ -14,5 +14,5 @@ files=$(
   for f in results/rft/sft_data.jsonl results/rft/sft_data.stats.json results/rft2/sft_data.jsonl results/rft2/sft_data.stats.json; do
     [ -f "$f" ] && echo "$f"; done
 )
-tar czf "$OUT" $files
+tar czf "$OUT" --owner=0 --group=0 --numeric-owner $files
 echo "$OUT: $(du -h "$OUT" | cut -f1), $(echo "$files" | wc -w) files"
